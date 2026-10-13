@@ -2,14 +2,14 @@
 
 Private, local kanji SRS web app (radicals → kanji → vocabulary, JLPT N5 to N3). Built from free open data and original mnemonics.
 
-**Read first:** [docs/superpowers/specs/2026-10-13-kanji-srs-design.md](docs/superpowers/specs/2026-10-13-kanji-srs-design.md). It is the source of truth. If the code and the spec disagree, follow the spec and flag the difference.
+**Read first:** [docs/scope/scope.md](docs/scope/scope.md) (what to build, in order) and [docs/specs/0001-kanji-srs-app/index.md](docs/specs/0001-kanji-srs-app/index.md) (the product contract). Each feature has its own spec in `docs/specs/` with a `## Build plan`. If code and a spec disagree, follow the spec and flag the difference. If a feature spec and 0001 disagree, 0001 wins.
 
 ## Ground rules
 
 1. **No WaniKani content, ever.** Do not scrape, copy, paraphrase, or import mnemonics, radical names, sentences, audio, or level lists from WaniKani or any paid course. Do not call the WaniKani API.
 2. **No WaniKani branding.** Not the name, logo, colors, or UI. Use this app's own SRS stage names (Seed, Sprout, Bloom, Harvest, Retired).
-3. **Mnemonics and radical names are original.** Invent them. Follow the writing rules in spec §5.4.
-4. **Only the data sources in spec §5.1.** Record any new source and its license in `pipeline/raw/SOURCES.json` and on the Credits page.
+3. **Mnemonics and radical names are original.** Invent them. Follow the writing rules in 0001 §5.4.
+4. **Only the data sources in 0001 §5.1.** Record any new source and its license in `pipeline/raw/SOURCES.json` and on the Credits page.
 5. **Keep `src/lib/srs` and `src/lib/answer` pure.** No DB, framework, `Date.now()`, or env access. Pass `now` in.
 6. **Never write to content tables from app code.** Content only changes through the pipeline + `npm run db:seed`.
 7. **Never renumber subject IDs.**
