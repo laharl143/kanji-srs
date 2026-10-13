@@ -1,0 +1,11 @@
+node_modules/
+.next/
+data/
+pipeline/raw/
+pipeline/work/*
+!pipeline/work/README.md
+public/audio/
+.env*
+!.env.example
+test-results/
+playwright-report/
