@@ -32,4 +32,4 @@ npm run db:seed
 
 ## Skills
 
-Project skills live in `.bob/skills/`. `/scope` keeps the feature scope in `docs/scope/`.
+Project skills live in `.bob/skills/`: `/scope` (what to build, `docs/scope/`), `/architect` (design specs, `docs/specs/`), `/develop` (build), `/check` (verify and review), `/test` (tests), `/sync` (keep AGENTS.md and scope current).
