@@ -16,7 +16,7 @@ This is the foundation spec for a private kanji app that teaches Japanese up to 
 
 **Acceptance criteria**:
 - **AC-1**: `npm run dev` on Windows starts the Expo dev server, and the app opens in Expo Go on your Android phone with no external services beyond Expo's own tooling.
-- **AC-2**: No WaniKani content, API, name, logo, colors, or UI copy is used anywhere (rules in "Non negotiable rules" below).
+- **AC-2**: No WaniKani content, API, name, or logo is used anywhere (the colorway is allowed, changed 2026-11-01) (rules in "Non negotiable rules" below).
 - **AC-3**: All ~650 N5 to N3 kanji, their components, and matching vocab are placed in levels with no item before its parts.
 - **AC-4**: SRS logic, answer checking, reminder scheduling, and content validation have passing unit tests (Vitest); the core loop passes a Maestro flow on an Android device or emulator.
 - **AC-5**: Adding sync later needs no rewrite of existing rows: every progress row has `user_id`, review rows have UUID ids, and notes carry `updated_at`.
@@ -71,7 +71,7 @@ _Sections below are the approved design (2026-10-13, revised 2026-11-01 for Andr
 ### §1 Non negotiable rules
 
 1. **No WaniKani content.** Do not scrape, copy, paraphrase, or import WaniKani's (or any paid course's) mnemonics, radical names, example sentences, audio, or level lists. Do not use its API.
-2. **No WaniKani branding.** Do not use the name, logo, colors, or a copy of its UI. SRS stage names are this app's own (see §6).
+2. **No WaniKani name or logo.** The pink / blue / purple colorway and a similar layout are allowed (owner's choice, 2026-11-01; see `docs/references/ui-inspiration.md`). SRS stage names are this app's own (see §6).
 3. **Original mnemonics only.** Radical names and every mnemonic are invented from scratch.
 4. **Credit the open data sources** (and the bundled font) on a Credits screen.
 

@@ -58,7 +58,7 @@ Typed schema, migrations, database client, and query layer for content and progr
 Spec [0002](../specs/0002-data-model/index.md) · code in `src/lib/db/`, `src/lib/auth/`, `drizzle/`
 
 ### 4. UI foundation · in-progress · spec stale for Android
-Own color palette (not WaniKani's), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.
+Pink / blue / purple colorway (see `docs/references/ui-inspiration.md`), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.
 **Done when:** every base component renders on the development preview page at 375px and 1280px with visible keyboard focus.
 **Before building:** spec 0003 was written for Next.js. Update it for Android first with `/architect UI foundation` (0001 `## Follow-up`), then `/develop`.
 - [ ] Design it (spec, update 0003 for Android): `/architect UI foundation`

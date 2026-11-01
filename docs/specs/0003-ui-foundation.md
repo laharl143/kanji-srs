@@ -5,13 +5,13 @@
 
 ## Summary
 
-The look and the base components every page uses. The style is calm and readable, with its own colors so it does not look like WaniKani. It works on a phone width from day one and follows your system's light or dark mode.
+The look and the base components every page uses. The style is calm and readable, using the pink / blue / purple colorway from `docs/references/ui-inspiration.md` (owner's choice, 2026-11-01). It works on a phone width from day one and follows your system's light or dark mode.
 
 ## Requirements
 
 **Acceptance criteria**:
 - **AC-1**: Design tokens (colors, radius, spacing) live in `src/app/globals.css` as CSS variables and are mapped in the Tailwind config; light and dark values both defined (`prefers-color-scheme`).
-- **AC-2**: Subject type colors are distinct and not WaniKani's (WaniKani uses blue / pink / purple; we use the palette below).
+- **AC-2**: Subject type colors follow the palette below: blue radicals, pink kanji, purple vocabulary, with a pink primary (app bar).
 - **AC-3**: Japanese text renders with Noto Sans JP (via `next/font/google`), falling back to `"Hiragino Sans", "Yu Gothic", sans-serif`.
 - **AC-4**: App shell: top nav with Dashboard, Lessons, Reviews, Levels, Settings; collapses to a compact bar at 375px width with no horizontal scroll.
 - **AC-5**: Base components exist in `src/components/ui/` and handle keyboard focus visibly.
@@ -29,9 +29,10 @@ The look and the base components every page uses. The style is calm and readable
 | `--surface` | `#ffffff` | `#292524` | cards |
 | `--text` | `#1c1917` | `#f5f5f4` | body |
 | `--muted` | `#78716c` | `#a8a29e` | secondary text |
-| `--radical` | `#0f766e` (teal) | `#2dd4bf` | radical chips |
-| `--kanji` | `#c2410c` (orange) | `#fb923c` | kanji chips |
-| `--vocab` | `#4d7c0f` (olive green) | `#a3e635` | vocab chips |
+| `--primary` | `#e91e63` (pink) | `#f06292` | app bar, headings, primary buttons |
+| `--radical` | `#009dec` (blue) | `#4fc3f7` | radical chips |
+| `--kanji` | `#e91e63` (pink) | `#f06292` | kanji chips |
+| `--vocab` | `#aa00ff` (purple) | `#ce93d8` | vocab chips |
 | `--correct` | `#15803d` | `#4ade80` | answer feedback |
 | `--wrong` | `#b91c1c` | `#f87171` | answer feedback |
 

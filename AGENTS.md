@@ -23,7 +23,7 @@ Tracer Bullet: get one thin real thread working through every layer first, then 
 ## Ground rules
 
 1. **No WaniKani content, ever.** Do not scrape, copy, paraphrase, or import mnemonics, radical names, sentences, audio, or level lists from WaniKani or any paid course. Do not call the WaniKani API.
-2. **No WaniKani branding.** Not the name, logo, colors, or UI. Use this app's own SRS stage names (Seed, Sprout, Bloom, Harvest, Retired).
+2. **No WaniKani name or logo.** The pink, blue, and purple colorway and a similar layout are allowed (owner's choice, 2026-11-01; see [docs/references/ui-inspiration.md](docs/references/ui-inspiration.md)). Use this app's own SRS stage names (Seed, Sprout, Bloom, Harvest, Retired).
 3. **Mnemonics and radical names are original.** Invent them. Follow the writing rules in 0001 §5.4.
 4. **Only the data sources in 0001 §5.1.** Record any new source and its license in `pipeline/raw/SOURCES.json` and on the Credits page.
 5. **Keep `src/lib/srs` and `src/lib/answer` pure.** No DB, framework, `Date.now()`, or env access. Pass `now` in.
