@@ -15,7 +15,6 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 |---|---------|-------|--------|
 | 1 | Stack & architecture | Foundation | done |
 | 2 | Coding standards & tooling | Foundation | done |
-| 13 | Patch Next.js security advisory | Foundation | dropped |
 | 3 | Data model | Foundation | in-progress |
 | 4 | UI foundation | Foundation | in-progress |
 | 5 | Core study loop | Slice 1 | in-progress |
@@ -27,15 +26,15 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 11 | Settings & credits | Slice 7 | in-progress |
 | 14 | Review reminders | Slice 8 | planned |
 | 12 | Mnemonic waves | Slice 9 | planned |
+| 13 | Patch Next.js security advisory | Dropped | dropped |
 
 ## Foundations
 
 ### 1. Stack & architecture · done
 Pick the stack and fix the product contract (data model, pipeline, SRS rules, screens), then scaffold a runnable Expo Android project. Reopened 2026-11-01: spec 0001 replaced Next.js with Expo, so the scaffold is redone (pipeline, `content/`, docs, Husky, ESLint, Prettier, and Vitest carry over).
 **Done when:** `npm run dev` on Windows starts the Expo dev server and the empty app opens in Expo Go on your Android phone, and a `preview` APK from EAS Build installs and opens (0001 AC-1, AC-6).
-- [x] Decide the stack (spec): `/architect stack & architecture`
-- [x] Scaffold from the decision (Next.js, superseded 2026-11-01): `/develop stack & architecture`
-- [x] Verified the Next.js scaffold (superseded 2026-11-01): `/check verify stack & architecture`
+History: the first Next.js scaffold was built and verified, then superseded on 2026-11-01.
+- [x] Design it (spec, revised 2026-11-01 for Expo): `/architect stack & architecture`
 - [x] Build it (re scaffold on Expo from the revised Proposed stack, built 2026-11-01; Expo SDK 58, expo-router, `app.json`, `eas.json`): `/develop stack & architecture`
 - [x] Verify it (the Expo scaffold, passed 2026-11-01: preview APK opens offline in airplane mode): `/check verify stack & architecture`
 Spec 0001 · code in `/` (root)
@@ -47,19 +46,11 @@ Capture conventions from the real scaffolded project, then install lint, format,
 - [x] Install the tooling: `/develop tooling`
 - [x] Verify it: `/check verify coding standards & tooling`
 
-### 13. Patch Next.js security advisory · dropped
-The build warns that Next.js 16.4.0 has a known security vulnerability. Move to the patched release before more code builds on it.
-Dropped 2026-11-01: superseded by the Expo change in spec 0001 (the Next.js scaffold goes away). The patch was built and verified; kept here for history.
-**Done when:** `npm audit` shows no advisory for `next`, and typecheck, lint, test, and build still pass.
-- [x] Upgrade it: `/develop patch Next.js security advisory`
-- [x] Verify it: `/check verify patch Next.js security advisory`
-code in `package.json`
-
 ### 3. Data model · in-progress · spec stale for Android
 Typed schema, migrations, database client, and query layer for content and progress tables, with a user id on every progress row.
 **Done when:** migrations create every table in 0001 §4, rerun cleanly, and the query layer passes its tests.
 **Before building:** spec 0002 was written for Next.js. Update it for Android first with `/architect data model` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect data model`
+- [ ] Design it (spec, update 0002 for Android): `/architect data model`
 - [ ] Build it: `/develop data model`
    - [ ] Drizzle setup, schema, first migration (AC-1, AC-2, AC-6)
    - [ ] Client and current user helper (AC-3, AC-4)
@@ -71,7 +62,7 @@ Spec 0002
 Own color palette (not WaniKani's), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.
 **Done when:** every base component renders on the development preview page at 375px and 1280px with visible keyboard focus.
 **Before building:** spec 0003 was written for Next.js. Update it for Android first with `/architect UI foundation` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect UI foundation`
+- [ ] Design it (spec, update 0003 for Android): `/architect UI foundation`
 - [ ] Build it: `/develop UI foundation`
    - [ ] Tokens, palette, Japanese font (AC-1 to AC-3)
    - [ ] App shell and nav (AC-4)
@@ -85,7 +76,7 @@ Spec 0003
 The walking skeleton: real open data becomes level 1, you take a lesson, and a review moves the item up a stage. Narrow, but real in every layer.
 **Done when:** on a fresh database you can learn level 1 radicals, review them 4 hours later, and see them reach stage 2 (proven by the Maestro flow, 0001 AC-4).
 **Before building:** spec 0004 was written for Next.js. Update it for Android first with `/architect core study loop` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect core study loop`
+- [ ] Design it (spec, update 0004 for Android): `/architect core study loop`
 - [ ] Build it: `/develop core study loop`
    - [ ] Download, parse, and build levels (AC-1, AC-2)
    - [ ] Level 1 mnemonics and seed (AC-3, AC-4)
@@ -115,7 +106,7 @@ Spec 0005
 Kanji unlock when their radicals pass, vocab when its kanji pass, level up at 90%, plus wrap up and a session summary.
 **Done when:** finishing level 1 radicals unlocks its kanji, passing 90% of level 1 kanji opens level 2, and wrap up works.
 **Before building:** spec 0006 was written for Next.js. Update it for Android first with `/architect SRS progression` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect SRS progression`
+- [ ] Design it (spec, update 0006 for Android): `/architect SRS progression`
 - [ ] Build it: `/develop SRS progression`
    - [ ] Unlock and level up rules with tests (AC-1 to AC-4)
    - [ ] After review routine in a transaction (AC-5)
@@ -129,7 +120,7 @@ Spec 0006
 Forgiving answers: typo tolerance, synonyms, katakana treated as hiragana, and a hint (not a penalty) for the wrong kind of kanji reading.
 **Done when:** a small meaning typo is accepted as close, and a kun'yomi typed for an on'yomi question shakes with a hint.
 **Before building:** spec 0007 was written for Next.js. Update it for Android first with `/architect answer checking` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect answer checking`
+- [ ] Design it (spec, update 0007 for Android): `/architect answer checking`
 - [ ] Build it: `/develop answer checking`
    - [ ] Meaning normalizer and typo tolerance (AC-1, AC-2)
    - [ ] Reading rules: kana, wrong kind, invalid (AC-3 to AC-5)
@@ -155,7 +146,7 @@ Spec 0008
 A page per item with used in, your notes and synonyms, spoken audio for vocab, and a level browser colored by stage.
 **Done when:** a synonym added on an item page is accepted in reviews, and every level shows its items by stage.
 **Before building:** spec 0009 was written for Next.js. Update it for Android first with `/architect item pages & level browser` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect item pages & level browser`
+- [ ] Design it (spec, update 0009 for Android): `/architect item pages & level browser`
 - [ ] Build it: `/develop item pages & level browser`
    - [ ] Item page and used in (AC-1, AC-2, AC-7)
    - [ ] Notes and synonyms everywhere (AC-3, AC-4)
@@ -169,7 +160,7 @@ Spec 0009
 Lesson batch size, skip ahead to a level, reset progress, and the credits page the data licenses require.
 **Done when:** skipping to level 3 retires levels 1 and 2 and opens level 3, and credits list every source.
 **Before building:** spec 0010 was written for Next.js. Update it for Android first with `/architect settings & credits` (0001 `## Follow-up`), then `/develop`.
-- [x] Design it (spec): `/architect settings & credits`
+- [ ] Design it (spec, update 0010 for Android): `/architect settings & credits`
 - [ ] Build it: `/develop settings & credits`
    - [ ] Batch size setting (AC-1)
    - [ ] Skip ahead and reset (AC-2, AC-3)
@@ -194,6 +185,16 @@ Write original radical names and mnemonics for levels 4 to the last level, a few
 - [ ] Write and enable the next wave: `/develop mnemonic waves`
 - [ ] Verify it: `/check verify mnemonic waves`
 
+## Dropped
+
+### 13. Patch Next.js security advisory · dropped
+The build warns that Next.js 16.4.0 has a known security vulnerability. Move to the patched release before more code builds on it.
+Dropped 2026-11-01: superseded by the Expo change in spec 0001 (the Next.js scaffold goes away). The patch was built and verified; kept here for history.
+**Done when:** `npm audit` shows no advisory for `next`, and typecheck, lint, test, and build still pass.
+- [x] Upgrade it: `/develop patch Next.js security advisory`
+- [x] Verify it: `/check verify patch Next.js security advisory`
+code in `package.json`
+
 ## Deferred
 Out of scope for the current build pass, kept so the plan stays honest.
 - **VOICEVOX audio**: generated audio files for vocab, with credit per VOICEVOX terms · needs a decision
@@ -209,7 +210,7 @@ Out of scope for the current build pass, kept so the plan stays honest.
 
 - **Next step** = the first unticked box (always a command or a tracked milestone).
 - **needs a decision** = run `/architect` first; otherwise straight to `/develop` (or `/audit` for standards & tooling).
-- **spec stale for Android** = the feature's spec predates the 2026-11-01 Expo change; run `/architect <feature>` to update it before `/develop`. The tag drops once the spec is updated.
+- **spec stale for Android** = the feature's spec predates the 2026-11-01 Expo change; run `/architect <feature>` to update it before `/develop`. Its Design box is unticked until then; the tag drops and the box is ticked again once the spec is updated.
 - **Atomic build tasks live in the spec's `## Build plan`, not here**: the scope carries only the milestone rollup.
 - **Status** `planned` → `in-progress` → `done`, plus `existing` (pre workflow) and `dropped` (de scoped, kept for history). Designed features show `in-progress` because their spec is captured.
 - **Workflow** (header line) is the project default, what runs after `/develop`: **Prototype** = nothing; **Alpha** = `/check verify`; **Beta** = `/check verify` then `/test`; **GA** = adds a fresh model `/check review` then `/document`.
