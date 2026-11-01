@@ -1,38 +1,98 @@
 # 0002. Data model and database access
 
-**Date**: 2026-10-13
+**Date**: 2026-10-13 (revised 2026-11-01: `expo-sqlite` on the phone, replacing libSQL on a server)
 **Status**: In Progress
 
 ## Summary
 
-This spec turns the tables in 0001 §4 into a Drizzle schema with migrations, a database client, and a small query layer. Content tables hold the course (radicals, kanji, vocab); progress tables hold your SRS state. Every progress row carries a user id so a login can be added later without changing tables.
+This spec turns the tables in 0001 §4 into a Drizzle schema (typed table definitions) with SQL migrations, a database client for the phone, and a small query layer. The app keeps everything in one SQLite file on the phone through `expo-sqlite`, and runs its migrations on launch. The same queries run in Node tests against `better-sqlite3`, so the data layer is tested without a device. Every progress row carries a user id and every review gets a UUID (a random unique id), so sync can be added later without reshaping data.
+
+## Context
+
+The 2026-11-01 revision of 0001 moved the app from a Next.js server with libSQL to an offline Android app. The original 0002 assumed a server process, a `DATABASE_URL`, and a `db:migrate` command run by hand. None of that exists on a phone: the database is a file the app opens itself, migrations must ship inside the APK and run on launch, and a failed migration must not silently lose progress.
+
+Two forces shape the access layer. First, the pure SRS and answer modules are tested in Node (0001 §10), and the query layer should be too, but `expo-sqlite` only runs inside the React Native runtime. Second, 0001 §3 Boundaries says Drizzle transactions are synchronous on `better-sqlite3` and asynchronous on `expo-sqlite`. The 0002 cross check believes the Expo driver is in fact synchronous too (it wraps `openDatabaseSync`), but this is unconfirmed. Either way, Drizzle's own `transaction()` on a synchronous driver does not wait for an async callback, so the app needs one transaction helper whose behavior does not depend on the driver mode.
+
+The data also has to stay sync shaped (0001 Deferred decisions): reviews are the future source of truth, so their ids must be safe to merge across devices, and notes need an `updated_at` for last write wins. Content is rebuilt by a reseed that upserts by id (0001 §5.6), so nothing in progress may depend on content rows through a cascading foreign key.
 
 ## Requirements
 
 **User stories**:
-- As the builder, I want a typed schema and one place for queries so that features never write raw SQL in pages.
+- As the builder, I want one typed schema and one place for queries, so that screens and services never write raw SQL.
+- As the learner, I want my progress to survive app updates and content releases, so that a new APK never wipes my reviews.
 
 **Acceptance criteria**:
-- **AC-1**: `npm run db:migrate` creates `data/app.db` with tables `subjects`, `assignments`, `reviews`, `user_notes`, `user_settings` matching 0001 §4.
-- **AC-2**: Re-running `npm run db:migrate` is a no-op (idempotent).
-- **AC-3**: `DATABASE_URL` overrides the default `file:./data/app.db`; the `data/` folder is created if missing.
-- **AC-4**: `getCurrentUserId()` in `src/lib/auth/current-user.ts` returns `"local"` and is the only place the user id comes from.
-- **AC-5**: Query functions listed below exist, are typed, and are covered by a Vitest suite that runs against a temporary SQLite file.
-- **AC-6**: Deleting content rows never deletes progress rows (no cascading FK from progress to subjects).
+- **AC-1**: `npm run db:generate` writes the first SQL migration and `drizzle/migrations.js` into `drizzle/`. On launch the app runs it and creates `subjects`, `app_meta`, `assignments`, `reviews`, `user_notes`, and `user_settings` with the columns of 0001 §4 and the keys and indexes named in `## Feature design`.
+- **AC-2**: Relaunching the app after migrations ran applies nothing again (Drizzle's migration journal records it), and existing rows are unchanged.
+- **AC-3**: If opening the database or running a migration fails on launch, the app stays on a blocking error screen that shows the error message and does not open any study screen.
+- **AC-4**: `getCurrentUserId()` in `src/lib/auth/current-user.ts` returns `"local"` and is the only place app code gets a user id.
+- **AC-5**: Every query function listed below exists, is typed, takes the database as its first parameter, and is covered by a Vitest suite that runs against `better-sqlite3` in memory with the same schema and migrations.
+- **AC-6**: No progress table has a foreign key to `subjects`, and `upsertSubjects` never deletes a subject or touches a progress row.
+- **AC-7**: `withTransaction(db, fn)` commits all of `fn`'s writes or none of them (an error inside rolls everything back) on both drivers, and two calls started at the same time run one after the other, never interleaved.
+
+## Options considered
+
+### Option 1: `expo-sqlite` with Drizzle ORM
+
+Drizzle's `expo-sqlite` driver in the app, its `better-sqlite3` driver in tests, drizzle-kit for migrations, bundled and run with `useMigrations`.
+
+**Pros**:
+- Typed schema and queries; the same schema file drives the app, the tests, and migration generation.
+- Plain SQL migration files, the same SQLite dialect a later Cloudflare D1 sync backend uses.
+
+**Cons**:
+- The Expo driver was on pre release tags at the 0001 landscape check, so versions must be pinned and some churn is expected.
+- Needs Metro and Babel config so `.sql` files can be bundled.
+
+### Option 2: `expo-sqlite` with hand written SQL
+
+Call `expo-sqlite` directly, keep SQL strings in a query module, and write migrations as numbered SQL strings run by a small custom runner.
+
+**Pros**:
+- No ORM dependency and no pre release driver.
+
+**Cons**:
+- No types between SQL and TypeScript; every column rename is a runtime bug.
+- Node tests need a second hand written adapter, and the custom migration runner is code to maintain.
+
+### Option 3: `op-sqlite` with Drizzle
+
+A faster third party SQLite binding with its own Drizzle driver.
+
+**Pros**:
+- Faster on large reads.
+
+**Cons**:
+- Not part of the Expo SDK, so it needs a development build instead of Expo Go, and the data set (about 4,500 subjects) gives no speed problem to solve.
 
 ## Decision
 
-**Chosen option**: Drizzle schema in `src/lib/db/schema.ts`, migrations generated by drizzle-kit into `drizzle/`, queries in `src/lib/db/queries/*.ts`.
+**Chosen option**: Option 1: `expo-sqlite` with Drizzle ORM.
+
+The schema lives in `src/lib/db/schema.ts`, migrations are generated by drizzle-kit into `drizzle/` and run on launch, queries live in `src/lib/db/queries/*.ts` and take the database as a parameter, and every write goes through `withTransaction`.
+
+**Implementation skills**: `expo-overview` (`expo/skills`, `.agents/skills/expo-overview/`) · `react-native-best-practices` (`callstackincubator/agent-skills`, `.agents/skills/react-native-best-practices/`)
+
+## Rationale
+
+0001 already chose the stack; this spec settles how it is wired. Option 1 is the only one that gives typed queries and Node testable data code without extra adapters, which matters because the query layer carries the SRS state the whole app depends on. The pre release risk is real but contained: versions are pinned, and the schema plus SQL migrations would survive a driver swap.
+
+`withTransaction` uses explicit `BEGIN` / `COMMIT` / `ROLLBACK` statements on the one connection instead of Drizzle's `db.transaction()`. On a synchronous driver, `db.transaction()` commits as soon as its callback returns, before any awaited statement inside it runs, so `await` style code would escape the transaction. The explicit form is correct whether the Expo driver turns out sync or async, so build step 1 only has to confirm the mode, not pick a design. A promise chain (a simple lock, one per connection) inside the helper serializes calls, because two async callers on one connection would otherwise interleave their statements. Plain `BEGIN` is enough: with one connection there is no other writer for `IMMEDIATE` to guard against. The runner up was writing every query in the synchronous `.all()` / `.run()` form and using Drizzle's native `transaction()`. That is simpler if both drivers are sync, but it ties every query to the driver mode, which the landscape check could not confirm.
+
+Review ids come from the caller rather than the query module, so the query layer stays free of `expo-crypto` and runs in Node.
 
 ## Feature design
 
-**Data model sketch** (types are SQLite; JSON columns use Drizzle `text({ mode: "json" })` with a TypeScript type):
+**Data model sketch** (SQLite column names in snake_case; the TypeScript properties Drizzle maps them to are camelCase, e.g. `srs_stage` → `srsStage`; JSON columns use Drizzle `text({ mode: "json" }).$type<T>()`; every timestamp is a unix ms number, `integer({ mode: "number" })`, never `timestamp_ms`; 0/1 flags use `integer({ mode: "boolean" })`). Single column primary keys are declared on the column and left unnamed (Drizzle cannot reliably name them, and SQLite ignores the name); composite keys and indexes carry the names below. No SQL `CHECK` constraints: enums and ranges are enforced by TypeScript types and the content validator (0001 §5.5).
 
-- `subjects`: `id` int PK (not autoincrement; ids come from content), `type` text (`radical|kanji|vocab`), `characters` text, `level` int, `position` int, `meanings` json `Meaning[]`, `readings` json `Reading[]`, `component_ids` json `number[]`, `meaning_mnemonic` text, `reading_mnemonic` text null, `jlpt` int null, `frequency` int null. Index `(level, type, position)`. Unique `(type, characters)`.
-- `assignments`: PK `(user_id, subject_id)`; `srs_stage` int not null default 0; `unlocked_at` int not null; `started_at`, `available_at`, `passed_at`, `burned_at` int null (unix ms). Index `(user_id, available_at)`, `(user_id, srs_stage)`.
-- `reviews`: `id` int PK autoincrement; `user_id`, `subject_id`, `created_at`, `starting_stage`, `ending_stage`, `incorrect_meaning_count`, `incorrect_reading_count`. Index `(user_id, created_at)`.
-- `user_notes`: PK `(user_id, subject_id)`; `meaning_note` text null, `reading_note` text null, `synonyms` json `string[]` default `[]`.
-- `user_settings`: `user_id` PK; `current_level` int default 1; `lesson_batch_size` int default 5; `created_at` int.
+- `subjects` (content): `id` integer primary key (not autoincrement; ids come from content); `type` text (`radical|kanji|vocab`) not null; `characters` text not null; `level` integer not null; `position` integer not null; `meanings` json `Meaning[]` not null; `readings` json `Reading[]` not null; `component_ids` json `number[]` not null; `meaning_mnemonic` text not null; `reading_mnemonic` text null; `jlpt` integer null; `frequency` integer null. Unique index `subjects_type_characters_uq (type, characters)`. Index `subjects_level_type_position_idx (level, type, position)`.
+- `app_meta` (content and app state): `key` text primary key; `value` text not null. Keys: `content_version`, `notif_permission_asked`, and `clock_offset_ms` (E2E builds only).
+- `assignments` (progress): primary key `assignments_pk (user_id, subject_id)`; `user_id` text not null; `subject_id` integer not null; `srs_stage` integer not null default 0; `unlocked_at` integer not null; `started_at`, `available_at`, `passed_at`, `burned_at` integer null. Index `assignments_user_available_idx (user_id, available_at)`. Index `assignments_user_stage_idx (user_id, srs_stage)`.
+- `reviews` (progress, append only except `resetProgress`): `id` text (UUID v4) primary key; `user_id` text not null; `subject_id` integer not null; `created_at` integer not null; `starting_stage`, `ending_stage`, `incorrect_meaning_count`, `incorrect_reading_count` integer not null. Index `reviews_user_created_idx (user_id, created_at)`.
+- `user_notes` (progress): primary key `user_notes_pk (user_id, subject_id)`; `meaning_note` text null; `reading_note` text null; `synonyms` json `string[]` not null default `[]`; `updated_at` integer not null.
+- `user_settings` (progress): `user_id` text primary key; `current_level` integer not null default 1; `lesson_batch_size` integer not null default 5; `reminder_daily_enabled` boolean (0/1) not null default true; `reminder_daily_time` text `HH:MM` not null default `'08:00'`; `reminder_due_enabled` boolean (0/1) not null default true; `quiet_hours_start` text not null default `'22:00'`; `quiet_hours_end` text not null default `'08:00'`; `created_at` integer not null.
+- No foreign keys anywhere in this schema (progress never references `subjects` by constraint).
+- Which query each index serves: `subjects_level_type_position_idx` for level lists; `assignments_user_available_idx` for due reviews, counts, and the forecast; `assignments_user_stage_idx` for the lesson queue and stage counts; `reviews_user_created_idx` for review history and a future sync replay.
 
 Shared TS types in `src/lib/types.ts`:
 ```ts
@@ -41,33 +101,124 @@ export type Meaning = { text: string; primary: boolean };
 export type Reading = { text: string; primary: boolean; kind?: "onyomi" | "kunyomi" };
 ```
 
-**Query layer** (`src/lib/db/queries/`), all take `userId` explicitly:
-- `subjects.ts`: `getSubject(id)`, `getSubjectsByLevel(level)`, `getSubjectsByIds(ids)`, `getUsedIn(subjectId)`, `replaceAllSubjects(rows)` (seed only).
-- `assignments.ts`: `getAssignments(userId, subjectIds?)`, `getLessonQueue(userId, limit)`, `getDueReviews(userId, now)`, `countDue(userId, now)`, `countLessons(userId)`, `upsertAssignments(userId, rows)`, `getForecast(userId, from, to)`.
-- `reviews.ts`: `insertReview(row)`.
-- `settings.ts`: `getOrCreateSettings(userId, now)`, `updateSettings(userId, patch)`.
-- `notes.ts`: `getNote(userId, subjectId)`, `upsertNote(userId, subjectId, patch)`.
+**Files**:
+- `src/lib/db/schema.ts`: the tables above. Imports only `drizzle-orm/sqlite-core`.
+- `src/lib/db/types.ts`: `Db`, the shared database type both drivers satisfy (Drizzle's `BaseSQLiteDatabase` over the schema, for sync or async).
+- `src/lib/db/client.ts`: app only. Exports `getDb()`, which opens the database lazily on first call (not at module import), so a failure to open is caught by the startup gate and shown on the error screen. It runs `openDatabaseSync("kanji-srs.db")`, then `PRAGMA journal_mode = WAL` and `PRAGMA foreign_keys = ON` (a guard in case a foreign key is ever added; the current schema has none), then `drizzle(sqlite, { schema })`. The instance is kept on `globalThis` so Fast Refresh (the reload on code save) never opens a second connection with its own lock.
+- `src/lib/db/migrate.ts`: app only. `useDbMigrations()` calls `getDb()` inside a try/catch, then wraps Drizzle's `useMigrations(db, migrations)`, and returns `{ ready, error }` where `error` covers both a failed open and a failed migration.
+- `src/lib/db/transaction.ts`: `withTransaction<T>(db: Db, fn: (tx: Db) => Promise<T>): Promise<T>`. It passes the same connection as `tx`, and callers make every write inside `fn` through `tx`. Behavior:
+  - Waits on a per connection promise chain (a `WeakMap` keyed by `db`), then runs `BEGIN`, awaits `fn(tx)`, and runs `COMMIT`. Statements go through ``db.run(sql`BEGIN`)`` and the like.
+  - On error, runs `ROLLBACK` inside its own try/catch (SQLite may already have rolled back, for example on a full disk) and rethrows the original error, never the rollback error.
+  - The chain continues after a failure (`tail = run.catch(() => {})`), so one failed transaction never blocks later ones.
+  - A call made while a transaction is already open on that connection throws `"nested withTransaction"` instead of waiting on itself forever.
+- `src/lib/db/queries/*.ts`: the query modules below. Never import `client.ts` or any Expo module.
+- `src/lib/auth/current-user.ts`: `LOCAL_USER_ID = "local"`, `getCurrentUserId()`.
+- `drizzle.config.ts`: `dialect: "sqlite"`, `driver: "expo"`, `schema: "./src/lib/db/schema.ts"`, `out: "./drizzle"`.
+- `metro.config.js`: Expo's default config with `sql` added to `resolver.sourceExts`. `babel.config.js`: `babel-preset-expo` plus `babel-plugin-inline-import` for `.sql`.
+- `tests/unit/db/harness.ts`: opens `better-sqlite3` in memory, wraps it with `drizzle-orm/better-sqlite3`, and runs `migrate(db, { migrationsFolder: fileURLToPath(new URL("../../../drizzle", import.meta.url)) })` (an absolute path, so the tests do not depend on the working directory).
 
-**Key invariants**: subject ids never change; progress tables never FK cascade; all timestamps are unix ms numbers.
+**Query layer** (`src/lib/db/queries/`, every function takes `db: Db` first and progress functions take `userId` explicitly; every `now`, `from`, and `to` is a unix ms number, and the calling service converts the pure modules' `Date` with `getTime()`). "Subject summary" below means every subject column except `meaningMnemonic` and `readingMnemonic`. Later feature specs may add query functions here; they follow the same rules.
+- `subjects.ts`:
+  - `getSubject(db, id)`: the full subject, or `undefined`.
+  - `getSubjectsByLevel(db, level)`: subject summaries, ordered by type (radical, kanji, vocab) then `position`. The caller combines them with `getAssignments` to show locked items (no assignment row).
+  - `getSubjectsByIds(db, ids)`: subject summaries in id order; returns `[]` for an empty `ids` without running SQL.
+  - `getUsedIn(db, subjectId)`: summaries of subjects whose `component_ids` contain the id, written as raw `sql` with `EXISTS (SELECT 1 FROM json_each(component_ids) WHERE value = ?)`, ordered by level, type, `position`.
+  - `getUnlockInputs(db, maxLevel)`: `id`, `type`, `level`, `componentIds` of every subject with `level <= maxLevel`, the input `computeUnlocks` needs (0001 §6.4).
+  - `getLevelSummaries(db, userId)`: per level, the subject count and passed count (assignment `srs_stage >= 5`), for the levels screen.
+  - `upsertSubjects(db, rows)`: reseed only. `INSERT ... ON CONFLICT(id) DO UPDATE SET <col> = excluded.<col>` for every column except `id`, in batches of 200 rows (about 2,400 parameters, well under SQLite's 32,766 limit). A clash on `subjects_type_characters_uq` throws, which fails the reseed transaction and shows the startup error screen; the content validator (0001 §5.5) is meant to stop that before a build.
+- `meta.ts`: `getMeta(db, key)` (the value or `undefined`), `setMeta(db, key, value)` (insert or replace).
+- `assignments.ts`:
+  - `getAssignments(db, userId, subjectIds?)`: assignment rows, all or for the given ids (`[]` for an empty list).
+  - `getLessonQueue(db, userId, limit)`: assignment joined with subject summary, where `srs_stage = 0`, ordered by level, then `CASE type WHEN 'radical' THEN 0 WHEN 'kanji' THEN 1 ELSE 2 END`, then `position`, capped by `limit`.
+  - `getDueReviews(db, userId, now)`: assignment inner joined with subject summary, where `srs_stage BETWEEN 1 AND 8 AND available_at <= now`, ordered by `available_at, subject_id`, no limit (0004 decides session order and size).
+  - `countDue(db, userId, now)`: the same filter and the same inner join as `getDueReviews`, so the count always matches the queue (progress rows whose subject is gone are counted by neither).
+  - `countLessons(db, userId)`: count of `srs_stage = 0`, inner joined to `subjects`.
+  - `getOrphanAssignments(db, userId)`: assignment rows with no matching subject, so the caller can log and skip them (0001 §9).
+  - `getForecast(db, userId, from, to)`: the raw `available_at` values of stage 1 to 8 assignments with `from <= available_at < to`, ascending. Bucketing into local hours belongs to the pure caller, which knows the time zone.
+  - `getScheduledAssignments(db, userId)`: `subjectId`, `srsStage`, `availableAt` of every stage 1 to 8 assignment with `available_at` not null, the input `src/lib/reminders` needs (0001 §6.5).
+  - `getStageCounts(db, userId)`: `{ stage, count }` for each `srs_stage` present; the dashboard groups them (0001 §8).
+  - `getLevelProgress(db, userId, level)`: per type at that level, total subjects and passed count (`srs_stage >= 5`), for the dashboard and level up (0001 §6.4).
+  - `insertAssignmentsIfMissing(db, userId, rows)`: unlock only. `ON CONFLICT DO NOTHING`, so it can never reset an existing stage.
+  - `updateAssignment(db, userId, subjectId, patch)`: updates only the columns in `patch` (lesson done, review result).
+  - `raiseAssignmentsBelowLevel(db, userId, level, values)`: skip ahead. For subjects below `level`, inserts missing assignments with `values` and updates existing ones only where `values.srsStage` is higher than the current stage; never lowers a stage.
+- `reviews.ts`: `insertReview(db, row)` (the caller supplies `row.id`); history reads order by `created_at, id` so ties are stable for a later sync replay.
+- `settings.ts`: `getOrCreateSettings(db, userId, now)` inserts the defaults with `ON CONFLICT DO NOTHING`, then reads the row back. `updateSettings(db, userId, patch)` writes only the fields in `patch`; checking value bounds (such as batch size) belongs to 0010, not here.
+- `notes.ts`: `getNote(db, userId, subjectId)` (the row or `undefined`). `upsertNote(db, userId, subjectId, patch, now)`: a field left out of `patch` keeps its value, `null` clears a note, `synonyms` is always replaced as a whole list, and `updated_at` is set to `now`. A note row is never deleted when it becomes empty.
+- `progress.ts`: `resetProgress(db, userId, now)` deletes the user's `assignments`, `reviews`, and `user_notes`, sets `current_level` back to 1, and keeps every other setting and `app_meta` (including `notif_permission_asked`). This is the one allowed delete from `reviews`; the caller runs it in `withTransaction` and then reruns unlocks.
 
-**Configuration required**:
-- `DATABASE_URL`: libSQL URL, default `file:./data/app.db`.
+**Value sourcing**:
+| Action | Value produced / displayed | Source |
+|---|---|---|
+| `insertReview` | `id` | input; the service calls `expo-crypto` `randomUUID()` (0001 Proposed stack) |
+| `insertReview` | `created_at` | input `now`, from `src/lib/clock` |
+| `upsertNote` | `updated_at` | input `now` |
+| `getOrCreateSettings` | `created_at` and every default | input `now`; column defaults above |
+| `getDueReviews`, `countDue` | which rows are due | `srs_stage BETWEEN 1 AND 8 AND available_at <= now` (input `now`), inner joined to `subjects` |
+| `getDueReviews` | order | `available_at, subject_id` |
+| `getForecast` | which times fall in the window | `assignments.available_at` in `[from, to)`, inputs `from` and `to`; hour buckets are made by the caller |
+| `getLessonQueue` | order | `srs_stage = 0`, ordered by `subjects.level`, then the `CASE` on `type` (radical 0, kanji 1, vocab 2), then `subjects.position`, capped by `limit` |
+| `getUsedIn` | the subjects that use one | rows whose `component_ids` contain the id (`json_each`), ordered by level, type, `position` |
+| `getStageCounts`, `getLevelProgress`, `getLevelSummaries` | counts | `assignments.srs_stage`; passed means `srs_stage >= 5` (0001 §6.1) |
+| `insertAssignmentsIfMissing` | every column | input rows from `computeUnlocks`; existing rows are left as they are |
+| `raiseAssignmentsBelowLevel` | new stage and times | input `values`; applied only where it raises the stage |
+| `resetProgress` | `current_level` | the constant 1; every other setting keeps its value |
+| `upsertNote` | each note field | input `patch`; left out means unchanged, `null` means cleared |
+| every progress query | `user_id` | input `userId`, which callers get from `getCurrentUserId()` |
+| `upsertSubjects` | every subject column | input rows from `content/bundle.json` (0001 §5.6) |
+
+**Key invariants**:
+- Subject ids never change and are never reused; `upsertSubjects` never deletes.
+- No foreign keys from progress to content.
+- Only `src/lib/db` talks to the database; only `src/lib/content` calls `upsertSubjects`.
+- Query modules import neither `client.ts` nor any Expo or React Native module, so they run in Node.
+- Every write path goes through `withTransaction` and writes through its `tx`; transactions do not nest (a nested call throws).
+- Reads and writes both use the awaited builder form only (`await db.select()...`, `await db.insert()...onConflictDoUpdate()`), never the sync `.all()` / `.run()` form, so queries do not depend on the driver mode.
+- `reviews` rows are never updated, and are deleted only by `resetProgress`.
+
+**Security model**: Single local user on one phone. The database file lives in the app's private storage; there are no network reads or writes. `user_id` is stored on every progress row for later sync, not for access control.
 
 **Critical test scenarios**:
-- Happy path: migrate a temp DB, insert subjects, upsert assignments, read due reviews at a given `now`, verifies **AC-1**, **AC-5**
-- Failure case: `replaceAllSubjects` with progress present leaves progress untouched, verifies **AC-6**
+- Happy path: migrate an in memory DB, upsert subjects, upsert assignments, read due reviews at a given `now`, verifies **AC-1**, **AC-5**
+- Idempotent migrations: run `migrate` twice on the same DB, the second run applies nothing and rows survive, verifies **AC-2**
+- Reseed safety: with assignments and reviews present, `upsertSubjects` with changed mnemonics updates the subjects and leaves every progress row untouched; the schema has no foreign keys (`PRAGMA foreign_key_list` is empty for each table), verifies **AC-6**
+- Rollback: `withTransaction` with a function that writes then throws leaves no rows and rethrows the original error; two overlapping calls produce writes in call order; a call after a failed one still runs; a nested call throws, verifies **AC-7**
+- Unlock safety: `insertAssignmentsIfMissing` over an existing stage 4 row leaves it at stage 4; `raiseAssignmentsBelowLevel` never lowers a stage, verifies **AC-5**
+- Queue and count agree: with an assignment whose subject is missing, `countDue` equals `getDueReviews(...).length` and `getOrphanAssignments` returns it; lesson queue order is radical, kanji, vocab within a level, verifies **AC-5**
+- Reset: `resetProgress` empties assignments, reviews, and notes, sets level 1, and keeps reminder settings, verifies **AC-5**
+- Duplicate review id: inserting the same `id` twice fails, verifies **AC-5**
+- Current user: `getCurrentUserId()` returns `"local"`, verifies **AC-4**
+- Device check: launch in Expo Go, then relaunch (tables exist, nothing reapplied); a deliberately broken migration shows the error screen; a development only button runs a `withTransaction` that writes then throws, and the row is absent afterward, verifies **AC-1**, **AC-2**, **AC-3**, **AC-7**
 
 ## Build plan
 
-1. Install `drizzle-orm`, `@libsql/client`, `drizzle-kit`; add `drizzle.config.ts`; scripts `db:generate`, `db:migrate`, satisfies **AC-1**, **AC-2**
-2. Write `src/lib/db/schema.ts` and `src/lib/types.ts` per the sketch; generate the first migration, satisfies **AC-1**, **AC-6**
-3. Write `src/lib/db/client.ts` (reads `DATABASE_URL`, creates `data/`), satisfies **AC-3**
+Tracer Bullet: the first two steps put one real thread through every layer (schema, generated migration, bundling, the phone, the test harness) before the query layer thickens.
+
+1. Install `drizzle-orm` and `expo-sqlite` (`npx expo install expo-sqlite`), plus dev dependencies `drizzle-kit`, `better-sqlite3`, `@types/better-sqlite3`, `babel-plugin-inline-import`; pin exact Drizzle versions. Add `drizzle.config.ts`, `metro.config.js`, `babel.config.js`, and the `db:generate` script. Write `src/lib/types.ts`, `src/lib/db/types.ts`, and the full `src/lib/db/schema.ts`, then generate the first migration. Confirm two things before moving on, and note the answers in the PR: whether `drizzle-orm/expo-sqlite` is the sync or async mode, and that a type only test assigns both the Expo and the `better-sqlite3` database to `Db` (fall back to `any` for the run result generic if the variance fails), satisfies **AC-1**, **AC-6**
+2. Write `client.ts` and `migrate.ts`, and call `useDbMigrations()` in `src/app/_layout.tsx` at the marked startup spot: keep the splash up until `ready`, show a blocking error screen on `error`. Check it on the phone in Expo Go, satisfies **AC-1**, **AC-2**, **AC-3**
+3. Write `tests/unit/db/harness.ts` and `src/lib/db/transaction.ts`, with tests for idempotent migrations, no foreign keys, rollback, serialization, recovery after a failure, and the nested call guard, plus the development only rollback check on the phone, satisfies **AC-2**, **AC-6**, **AC-7**
 4. Write `src/lib/auth/current-user.ts`, satisfies **AC-4**
-5. Write the query modules, satisfies **AC-5**
-6. Vitest suite `src/lib/db/queries/*.test.ts` using a temp file DB per test file, satisfies **AC-5**, **AC-6**
+5. Write the query modules with their Vitest suites (`src/lib/db/queries/*.test.ts`), satisfies **AC-5**, **AC-6**
 
 ## Consequences
 
-**Positive**: one typed access layer; phone upgrade is a URL and a login.
-**Negative / tradeoffs**: JSON columns cannot be indexed or queried deeply (fine at this size, ~4,500 subjects).
-**Neutral**: `drizzle/` migration folder is committed.
+**Positive**:
+- One typed data layer that runs the same on the phone and in Node tests.
+- Migrations ship inside the APK and apply themselves; a content release or app update never needs a manual step.
+- Review UUIDs and `updated_at` on notes keep the data ready for sync.
+
+**Negative / tradeoffs**:
+- The Drizzle Expo driver is pre release; an upgrade may need small changes.
+- JSON columns cannot be indexed or queried deeply (fine at about 4,500 subjects); `getUsedIn` scans with `json_each`.
+- `better-sqlite3` is a native module; on Windows it needs a prebuilt binary for the installed Node version.
+- A failed migration blocks the app until a fixed APK ships, by design (no silent data loss).
+
+**Neutral**:
+- `drizzle/` (SQL files, the journal, and `migrations.js`) is committed.
+- The old `DATABASE_URL`, `data/app.db`, and `db:migrate` / `db:seed` commands are gone; there is no live data to move, since nothing was built on the old design.
+
+## Follow-up
+
+- [ ] If `better-sqlite3` will not install on Windows, switch the test harness to Node's built in `node:sqlite` (0001 Proposed stack), and first confirm that Drizzle has a driver for it; if it does not, use a driver Drizzle already supports in Node (for example libSQL in memory) and update 0001.
+- [ ] Once build step 1 confirms the Expo driver mode, correct 0001 §3 Boundaries if it says "asynchronous on `expo-sqlite`" and the driver is sync.
+- [ ] Root `AGENTS.md` still lists `db:migrate` / `db:seed` and ground rule 6 mentions `db:seed`; replace them with `db:generate` and the bundled reseed after the build (`/sync`).
+- [ ] Record the pinned Drizzle versions in root `AGENTS.md` (0001 Proposed stack asks for it).

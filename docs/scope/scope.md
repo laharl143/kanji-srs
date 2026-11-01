@@ -46,17 +46,16 @@ Capture conventions from the real scaffolded project, then install lint, format,
 - [x] Install the tooling: `/develop tooling`
 - [x] Verify it: `/check verify coding standards & tooling`
 
-### 3. Data model · in-progress · spec stale for Android
+### 3. Data model · in-progress
 Typed schema, migrations, database client, and query layer for content and progress tables, with a user id on every progress row.
 **Done when:** migrations create every table in 0001 §4, rerun cleanly, and the query layer passes its tests.
-**Before building:** spec 0002 was written for Next.js. Update it for Android first with `/architect data model` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0002 for Android): `/architect data model`
+- [x] Design it (spec, update 0002 for Android): `/architect data model`
 - [ ] Build it: `/develop data model`
-   - [ ] Drizzle setup, schema, first migration (AC-1, AC-2, AC-6)
-   - [ ] Client and current user helper (AC-3, AC-4)
-   - [ ] Query modules with tests (AC-5, AC-6)
+   - [ ] Drizzle setup, schema, first migration, driver mode confirmed (AC-1, AC-6)
+   - [ ] Startup migrations, error screen, and `withTransaction` (AC-1, AC-2, AC-3, AC-7)
+   - [ ] Current user helper and query modules with tests (AC-4, AC-5, AC-6)
 - [ ] Verify it: `/check verify data model`
-Spec 0002
+Spec [0002](../specs/0002-data-model.md)
 
 ### 4. UI foundation · in-progress · spec stale for Android
 Own color palette (not WaniKani's), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.
