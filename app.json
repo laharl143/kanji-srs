@@ -33,6 +33,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "58b6d031-b8b9-47c3-b61f-d5c72391964e"
+      }
+    },
+    "owner": "edduenas-apps"
   }
 }
