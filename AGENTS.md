@@ -1,17 +1,18 @@
 # AGENTS.md
 
-Private, local kanji SRS web app (radicals → kanji → vocabulary, JLPT N5 to N3). Built from free open data and original mnemonics.
+Private, offline kanji SRS Android app built with Expo, installed as a sideloaded APK (radicals → kanji → vocabulary, JLPT N5 to N3). Built from free open data and original mnemonics.
 
 **Read first:** [docs/scope/scope.md](docs/scope/scope.md) (what to build, in order) and [docs/specs/0001-kanji-srs-app/index.md](docs/specs/0001-kanji-srs-app/index.md) (the product contract). Each feature has its own spec in `docs/specs/` with a `## Build plan`. If code and a spec disagree, follow the spec and flag the difference. If a feature spec and 0001 disagree, 0001 wins.
 
 ## Stack
 
-- **Language / Runtime**: TypeScript on Node
-- **Framework**: Next.js 16 (App Router), React 19, Tailwind CSS 4
-- **Tooling installed**: ESLint (Next config plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
-- **Planned, not installed yet** (see 0001 `## Proposed stack`): libSQL via `@libsql/client`, Drizzle ORM and drizzle-kit, Playwright
+- **Language / Runtime**: TypeScript (strict); Node 22+ for the pipeline and tooling
+- **Framework**: Expo SDK 58 with React Native 0.88 and React 19.3, Android only; Expo Router with routes in `src/app/`
+- **Build and install**: EAS Build (`eas.json` profiles `preview` and `e2e`, both APK); project owner `edduenas-apps`, Android package `com.edduenas.kanjisrs`
+- **Tooling installed**: ESLint (`eslint-config-expo` plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-sqlite` with Drizzle ORM and drizzle-kit, NativeWind v4 (Tailwind CSS 3.4), `expo-notifications`, `expo-speech`, `wanakana`, Noto Sans JP via `expo-font`, Maestro
 - **Package manager**: npm
-- **Scripts that exist today**: `dev`, `build`, `start`, `lint`, `typecheck`, `format`, `format:check`, `test`
+- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`
 - **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
 
 ## Build approach
@@ -32,9 +33,11 @@ Tracer Bullet: get one thin real thread working through every layer first, then 
 ## Commands (once set up)
 
 ```
-npm run dev                 # app at http://localhost:3000
+npm run dev                 # expo start; scan the QR code with Expo Go (npx expo start --tunnel if the firewall blocks the phone)
 npm test                    # Vitest
-npm run test:e2e            # Playwright
+npm run doctor              # expo-doctor, expect 20/20
+npx eas-cli@latest build -p android --profile preview   # sideloadable APK on EAS (uses free build quota)
+npm run test:e2e            # Maestro flows in maestro/
 npm run pipeline:download   # fetch open data into pipeline/raw
 npm run pipeline:build      # build content/subjects.json
 npm run pipeline:batch -- --levels 1-3   # write mnemonic batches to pipeline/work
@@ -43,6 +46,8 @@ npm run pipeline:validate   # content checks
 npm run db:migrate
 npm run db:seed
 ```
+
+Keep `.easignore` in step with `.gitignore`: EAS reads it instead of `.gitignore`. It also keeps `.agents/`, `.bob/` and `.claude/` out of EAS uploads, because the symlinks in `.bob/skills/` make the upload fail on Windows (EPERM).
 
 ## Skills
 
