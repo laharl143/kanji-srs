@@ -57,17 +57,17 @@ Typed schema, migrations, database client, and query layer for content and progr
 - [x] Verify it (verified 2026-11-01): `/check verify data model`
 Spec [0002](../specs/0002-data-model/index.md) · code in `src/lib/db/`, `src/lib/auth/`, `drizzle/`
 
-### 4. UI foundation · in-progress · spec stale for Android
-Pink / blue / purple colorway (see `docs/references/ui-inspiration.md`), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.
-**Done when:** every base component renders on the development preview page at 375px and 1280px with visible keyboard focus.
-**Before building:** spec 0003 was written for Next.js. Update it for Android first with `/architect UI foundation` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0003 for Android): `/architect UI foundation`
+### 4. UI foundation · in-progress
+Pink / blue / purple colorway (see `docs/references/ui-inspiration.md`), Japanese font, bottom tab shell with a pink app bar, and base components, working at phone width and in dark mode.
+**Done when:** every base component renders on the development preview screen at 360dp, in light and dark mode and at a 1.3 font scale, reads correctly with TalkBack, and the preview is unreachable in the `preview` APK.
+- [x] Design it (spec, updated 2026-11-01 for Android): `/architect UI foundation`
 - [ ] Build it: `/develop UI foundation`
-   - [ ] Tokens, palette, Japanese font (AC-1 to AC-3)
-   - [ ] App shell and nav (AC-4)
-   - [ ] Base components and preview page (AC-5)
+   - [x] NativeWind thread, tokens, stage colors, Japanese font (AC-1 to AC-3) (built 2026-11-01; checked 2026-11-02: Expo Go on the emulator in light and live dark mode with Japanese glyphs and Bold, and `preview` APK e6487fe5 opens on the phone with no developer card)
+   - [x] App shell: tabs, AppBar, Screen, placeholders (AC-4) (built 2026-11-01, phone check pending)
+   - [x] Base components, toast, confirm dialog (AC-5, AC-6) (built 2026-11-01, phone check pending)
+   - [ ] Dev preview screen and on device checks (AC-7) (screen built 2026-11-01; emulator checks passed 2026-11-02 at 360dp, 1.3 font scale, light and dark; fixed the md chip height and the `/dev/ui` release redirect, which landed on "Unmatched Route" in APK e6487fe5; still owed: a new `preview` APK to prove the redirect fix, TalkBack checks, keyboard autofocus on a real phone)
 - [ ] Verify it: `/check verify UI foundation`
-Spec 0003
+Spec [0003](../specs/0003-ui-foundation/index.md) · code in `src/global.css`, `src/theme/`, `src/components/ui/`, `src/app/`
 
 ## Slice 1: Core study loop
 
