@@ -1,0 +1,53 @@
+/* Design tokens (spec 0003). Space separated RGB channels so Tailwind opacity modifiers work.
+   Must match src/theme/colors.ts exactly; colors.test.ts fails if they drift. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 250 250 249;
+  --surface: 255 255 255;
+  --border: 231 229 228;
+  --text: 28 25 23;
+  --muted: 120 113 108;
+  --primary: 216 27 96;
+  --on-primary: 255 255 255;
+  --appbar: 233 30 99;
+  --radical: 0 157 236;
+  --kanji: 233 30 99;
+  --vocab: 170 0 255;
+  --correct: 21 128 61;
+  --wrong: 185 28 28;
+  --stage-locked: 214 211 209;
+  --stage-lesson: 120 113 108;
+  --stage-seed: 161 98 7;
+  --stage-sprout: 101 163 13;
+  --stage-bloom: 13 148 136;
+  --stage-harvest: 124 58 237;
+  --stage-retired: 87 83 78;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: 28 25 23;
+    --surface: 41 37 36;
+    --border: 68 64 60;
+    --text: 245 245 244;
+    --muted: 168 162 158;
+    --primary: 240 98 146;
+    --on-primary: 28 25 23;
+    --appbar: 173 20 87;
+    --radical: 0 157 236;
+    --kanji: 233 30 99;
+    --vocab: 170 0 255;
+    --correct: 74 222 128;
+    --wrong: 248 113 113;
+    --stage-locked: 68 64 60;
+    --stage-lesson: 168 162 158;
+    --stage-seed: 202 138 4;
+    --stage-sprout: 132 204 22;
+    --stage-bloom: 45 212 191;
+    --stage-harvest: 167 139 250;
+    --stage-retired: 231 229 228;
+  }
+}

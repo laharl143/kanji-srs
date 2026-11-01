@@ -47,6 +47,8 @@ npm run pipeline:validate   # content checks
 npm run db:generate         # after a schema change: write a new SQL migration into drizzle/ (it runs on app launch)
 ```
 
+Android emulator: follow [docs/references/android-emulator.md](docs/references/android-emulator.md) (boot `Medium_Phone_API_37.0` with `NO_PROXY` set for localhost, or it hangs `offline` behind the corporate proxy).
+
 Keep `.easignore` in step with `.gitignore`: EAS reads it instead of `.gitignore`. It also keeps `.agents/`, `.bob/` and `.claude/` out of EAS uploads, because the symlinks in `.bob/skills/` make the upload fail on Windows (EPERM).
 
 ## Skills

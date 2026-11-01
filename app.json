@@ -23,13 +23,15 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#fafaf9",
+          "dark": { "backgroundColor": "#1c1917" },
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
       ],
       "expo-status-bar",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
