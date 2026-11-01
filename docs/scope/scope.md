@@ -35,9 +35,9 @@ Pick the stack and fix the product contract (data model, pipeline, SRS rules, sc
 **Done when:** `npm run dev` on Windows starts the Expo dev server and the empty app opens in Expo Go on your Android phone, and a `preview` APK from EAS Build installs and opens (0001 AC-1, AC-6).
 - [x] Decide the stack (spec): `/architect stack & architecture`
 - [x] Scaffold from the decision (Next.js, superseded 2026-11-01): `/develop stack & architecture`
-- [x] Verify it (Next.js scaffold): `/check verify stack & architecture`
-- [ ] Re scaffold on Expo from the revised `## Proposed stack`: `/develop stack & architecture`
-- [ ] Verify the Expo scaffold: `/check verify stack & architecture`
+- [x] Verified the Next.js scaffold (superseded 2026-11-01): `/check verify stack & architecture`
+- [ ] Build it (re scaffold on Expo from the revised Proposed stack): `/develop stack & architecture`
+- [ ] Verify it (the Expo scaffold): `/check verify stack & architecture`
 Spec 0001 · code in `/` (root)
 
 ### 2. Coding standards & tooling · done
