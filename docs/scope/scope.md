@@ -15,7 +15,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 |---|---------|-------|--------|
 | 1 | Stack & architecture | Foundation | done |
 | 2 | Coding standards & tooling | Foundation | done |
-| 3 | Data model | Foundation | in-progress |
+| 3 | Data model | Foundation | done |
 | 4 | UI foundation | Foundation | in-progress |
 | 5 | Core study loop | Slice 1 | in-progress |
 | 6 | Full content pipeline | Slice 2 | in-progress |
@@ -46,16 +46,16 @@ Capture conventions from the real scaffolded project, then install lint, format,
 - [x] Install the tooling: `/develop tooling`
 - [x] Verify it: `/check verify coding standards & tooling`
 
-### 3. Data model · in-progress
+### 3. Data model · done
 Typed schema, migrations, database client, and query layer for content and progress tables, with a user id on every progress row.
 **Done when:** migrations create every table in 0001 §4, rerun cleanly, and the query layer passes its tests.
 - [x] Design it (spec, update 0002 for Android): `/architect data model`
-- [ ] Build it: `/develop data model`
-   - [ ] Drizzle setup, schema, first migration, driver mode confirmed (AC-1, AC-6)
-   - [ ] Startup migrations, error screen, and `withTransaction` (AC-1, AC-2, AC-3, AC-7)
-   - [ ] Current user helper and query modules with tests (AC-4, AC-5, AC-6)
-- [ ] Verify it: `/check verify data model`
-Spec [0002](../specs/0002-data-model.md)
+- [x] Build it (built 2026-11-01): `/develop data model`
+   - [x] Drizzle setup, schema, first migration, driver mode confirmed (AC-1, AC-6)
+   - [x] Startup migrations, error screen, and `withTransaction` (AC-1, AC-2, AC-3, AC-7) (phone checked in Expo Go 2026-11-01)
+   - [x] Current user helper and query modules with tests (AC-4, AC-5, AC-6)
+- [x] Verify it (verified 2026-11-01): `/check verify data model`
+Spec [0002](../specs/0002-data-model/index.md) · code in `src/lib/db/`, `src/lib/auth/`, `drizzle/`
 
 ### 4. UI foundation · in-progress · spec stale for Android
 Own color palette (not WaniKani's), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.

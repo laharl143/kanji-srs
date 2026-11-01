@@ -12,14 +12,17 @@
     "format:check": "prettier --check .",
     "test": "vitest run --passWithNoTests",
     "doctor": "expo-doctor",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "drizzle-orm": "0.45.4",
     "expo": "~58.0.22",
     "expo-constants": "~58.0.14",
     "expo-linking": "~58.0.15",
     "expo-router": "~58.0.29",
     "expo-splash-screen": "~58.0.12",
+    "expo-sqlite": "~58.0.15",
     "expo-status-bar": "~58.0.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -28,7 +31,11 @@
     "react-native-screens": "~4.30.1"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
     "@types/react": "^19.3.0",
+    "babel-plugin-inline-import": "^3.0.0",
+    "better-sqlite3": "^13.0.3",
+    "drizzle-kit": "0.31.11",
     "eslint": "^9.39.5",
     "eslint-config-expo": "^58.0.4",
     "eslint-config-prettier": "^10.1.8",
