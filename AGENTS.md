@@ -10,9 +10,10 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 - **Framework**: Expo SDK 58 with React Native 0.88 and React 19.3, Android only; Expo Router with routes in `src/app/`
 - **Build and install**: EAS Build (`eas.json` profiles `preview` and `e2e`, both APK); project owner `edduenas-apps`, Android package `com.edduenas.kanjisrs`
 - **Tooling installed**: ESLint (`eslint-config-expo` plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
-- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-sqlite` with Drizzle ORM and drizzle-kit, NativeWind v4 (Tailwind CSS 3.4), `expo-notifications`, `expo-speech`, `wanakana`, Noto Sans JP via `expo-font`, Maestro
+- **Database**: `expo-sqlite` with Drizzle ORM 0.45 and drizzle-kit 0.31; Vitest runs the same schema and migrations on `better-sqlite3` in memory. See [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md)
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): NativeWind v4 (Tailwind CSS 3.4), `expo-notifications`, `expo-speech`, `wanakana`, Noto Sans JP via `expo-font`, Maestro
 - **Package manager**: npm
-- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`
+- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`
 - **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
 
 ## Build approach
@@ -26,7 +27,7 @@ Tracer Bullet: get one thin real thread working through every layer first, then 
 3. **Mnemonics and radical names are original.** Invent them. Follow the writing rules in 0001 §5.4.
 4. **Only the data sources in 0001 §5.1.** Record any new source and its license in `pipeline/raw/SOURCES.json` and on the Credits page.
 5. **Keep `src/lib/srs` and `src/lib/answer` pure.** No DB, framework, `Date.now()`, or env access. Pass `now` in.
-6. **Never write to content tables from app code.** Content only changes through the pipeline + `npm run db:seed`.
+6. **Never write to content tables from app code.** Content only changes through the pipeline and the bundled content reseed on launch.
 7. **Never renumber subject IDs.**
 8. **Run `npm test` before every commit.** Do not commit failing tests.
 
@@ -43,8 +44,7 @@ npm run pipeline:build      # build content/subjects.json
 npm run pipeline:batch -- --levels 1-3   # write mnemonic batches to pipeline/work
 npm run pipeline:merge      # validate + merge filled batches
 npm run pipeline:validate   # content checks
-npm run db:migrate
-npm run db:seed
+npm run db:generate         # after a schema change: write a new SQL migration into drizzle/ (it runs on app launch)
 ```
 
 Keep `.easignore` in step with `.gitignore`: EAS reads it instead of `.gitignore`. It also keeps `.agents/`, `.bob/` and `.claude/` out of EAS uploads, because the symlinks in `.bob/skills/` make the upload fail on Windows (EPERM).
@@ -62,8 +62,14 @@ Project skills live in `.bob/skills/`: `/scope` (what to build, `docs/scope/`), 
 - [expo-router](.agents/skills/expo-router/): `expo/skills`, file based routes, stacks, modals, headers.
 - [expo-dev-client](.agents/skills/expo-dev-client/): `expo/skills`, development builds when Expo Go is not enough.
 - [expo-upgrade](.agents/skills/expo-upgrade/): `expo/skills`, Expo SDK upgrades and dependency fixes.
+- [expo-examples](.agents/skills/expo-examples/): `expo/skills`, official version matched integration examples (including SQLite) to adapt when adding a library.
 - [vercel-react-native-skills](.agents/skills/vercel-react-native-skills/): `vercel-labs/agent-skills`, React Native performance and structure rules.
 - [react-native-best-practices](.agents/skills/react-native-best-practices/): `callstackincubator/agent-skills`, React Native performance and best practices (Callstack).
 - [limrun-maestro-testing](.agents/skills/limrun-maestro-testing/): `limrun-inc/skills`, Maestro end to end flows (community; check it does not assume the limrun cloud before relying on it).
 
 MCP servers: maestro (recommended, `claude mcp add maestro -- maestro mcp`)
+Declined: `honra-io/drizzle-best-practices` (PostgreSQL only; this app uses SQLite)
+
+## Context files
+
+- [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md): database schema, migrations, transactions, and query rules
