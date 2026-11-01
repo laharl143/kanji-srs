@@ -13,7 +13,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 | # | Feature | Phase | Status |
 |---|---------|-------|--------|
-| 1 | Stack & architecture | Foundation | in-progress |
+| 1 | Stack & architecture | Foundation | done |
 | 2 | Coding standards & tooling | Foundation | done |
 | 13 | Patch Next.js security advisory | Foundation | dropped |
 | 3 | Data model | Foundation | in-progress |
@@ -30,14 +30,14 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 ## Foundations
 
-### 1. Stack & architecture · in-progress
+### 1. Stack & architecture · done
 Pick the stack and fix the product contract (data model, pipeline, SRS rules, screens), then scaffold a runnable Expo Android project. Reopened 2026-11-01: spec 0001 replaced Next.js with Expo, so the scaffold is redone (pipeline, `content/`, docs, Husky, ESLint, Prettier, and Vitest carry over).
 **Done when:** `npm run dev` on Windows starts the Expo dev server and the empty app opens in Expo Go on your Android phone, and a `preview` APK from EAS Build installs and opens (0001 AC-1, AC-6).
 - [x] Decide the stack (spec): `/architect stack & architecture`
 - [x] Scaffold from the decision (Next.js, superseded 2026-11-01): `/develop stack & architecture`
 - [x] Verified the Next.js scaffold (superseded 2026-11-01): `/check verify stack & architecture`
 - [x] Build it (re scaffold on Expo from the revised Proposed stack, built 2026-11-01; Expo SDK 58, expo-router, `app.json`, `eas.json`): `/develop stack & architecture`
-- [ ] Verify it (the Expo scaffold): `/check verify stack & architecture`
+- [x] Verify it (the Expo scaffold, passed 2026-11-01: preview APK opens offline in airplane mode): `/check verify stack & architecture`
 Spec 0001 · code in `/` (root)
 
 ### 2. Coding standards & tooling · done

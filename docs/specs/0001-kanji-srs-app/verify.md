@@ -2,16 +2,16 @@
 _Steps derived from spec 0001 acceptance criteria. `/check verify` runs these; `/test` locks the durable ones._
 
 ## UI / manual
-- [ ] Run `npm run dev` on Windows, scan the QR code with Expo Go on your Android phone (use `npx expo start --tunnel` if the firewall blocks it) → the "Kanji SRS / Scaffold is running." screen shows → AC-1
-- [ ] Run `npx eas-cli@latest login` and `npx eas-cli@latest init` → `app.json` gains `extra.eas.projectId` → AC-6 (setup)
-- [ ] Run `npx eas-cli@latest build -p android --profile preview`, install the APK, turn on airplane mode, open the app → it opens to the home screen with no errors → AC-6
+- [x] Run `npm run dev` on Windows, scan the QR code with Expo Go on your Android phone (use `npx expo start --tunnel` if the firewall blocks it) → the "Kanji SRS / Scaffold is running." screen shows → AC-1
+- [x] Run `npx eas-cli@latest login` and `npx eas-cli@latest init` → `app.json` gains `extra.eas.projectId` → AC-6 (setup)
+- [x] Run `npx eas-cli@latest build -p android --profile preview`, install the APK, turn on airplane mode, open the app → it opens to the home screen with no errors → AC-6
 
 ## Commands
-- [ ] `npm run typecheck` → exits 0 → tooling carries over
-- [ ] `npm run lint` → exits 0 → tooling carries over
-- [ ] `npm test` → exits 0 → tooling carries over
-- [ ] `npx expo-doctor` → 20/20 checks passed → AC-1
-- [ ] `npx expo export --platform android` → writes an Android bundle with no errors → AC-1
+- [x] `npm run typecheck` → exits 0 → tooling carries over
+- [x] `npm run lint` → exits 0 → tooling carries over
+- [x] `npm test` → exits 0 → tooling carries over
+- [x] `npx expo-doctor` → 20/20 checks passed → AC-1
+- [x] `npx expo export --platform android` → writes an Android bundle with no errors → AC-1
 
 ## Acceptance-criteria coverage
 - AC-1 covered by the Expo Go step, `expo-doctor`, and the Android export

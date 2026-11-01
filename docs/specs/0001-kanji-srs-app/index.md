@@ -1,7 +1,7 @@
 # 0001. Kanji SRS app architecture and product contract
 
 **Date**: 2026-10-13 (revised 2026-11-01: Android app on Expo, replacing the Next.js web app)
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
