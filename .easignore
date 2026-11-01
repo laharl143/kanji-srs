@@ -1,0 +1,34 @@
+# EAS uses this instead of .gitignore when packing the build upload,
+# so it repeats .gitignore and adds folders the build never needs.
+
+# --- same as .gitignore ---
+node_modules/
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+/ios
+/android
+.kotlin/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+.metro-health-check*
+npm-debug.*
+*.tsbuildinfo
+.env*
+!.env.example
+data/
+pipeline/raw/
+pipeline/work/*
+!pipeline/work/README.md
+
+# --- build-only extras ---
+# AI agent skills: .bob/skills holds symlinks, which Windows can't recreate
+# in EAS's temp copy without admin rights (EPERM).
+.agents/
+.bob/
+.claude/
