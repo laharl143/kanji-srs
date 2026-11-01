@@ -36,7 +36,7 @@ Pick the stack and fix the product contract (data model, pipeline, SRS rules, sc
 - [x] Decide the stack (spec): `/architect stack & architecture`
 - [x] Scaffold from the decision (Next.js, superseded 2026-11-01): `/develop stack & architecture`
 - [x] Verified the Next.js scaffold (superseded 2026-11-01): `/check verify stack & architecture`
-- [ ] Build it (re scaffold on Expo from the revised Proposed stack): `/develop stack & architecture`
+- [x] Build it (re scaffold on Expo from the revised Proposed stack, built 2026-11-01; Expo SDK 58, expo-router, `app.json`, `eas.json`): `/develop stack & architecture`
 - [ ] Verify it (the Expo scaffold): `/check verify stack & architecture`
 Spec 0001 · code in `/` (root)
 

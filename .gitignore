@@ -1,13 +1,40 @@
+# dependencies
 node_modules/
-.next/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# generated native folders (Continuous Native Generation)
+/ios
+/android
+.kotlin/
+
+# signing material (EAS keeps the keystore)
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+
+# typescript
+*.tsbuildinfo
+
+# local env files
+.env*
+!.env.example
+
+# project data
 data/
 pipeline/raw/
 pipeline/work/*
 !pipeline/work/README.md
-public/audio/
-.env*
-!.env.example
-test-results/
-playwright-report/
-next-env.d.ts
-*.tsbuildinfo
