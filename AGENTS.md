@@ -52,3 +52,13 @@ Project skills live in `.bob/skills/`: `/scope` (what to build, `docs/scope/`), 
 
 - [tailwind-design-system](.agents/skills/tailwind-design-system/): `wshobson/agents`, Tailwind CSS design system and token conventions.
 - [vercel-react-best-practices](.agents/skills/vercel-react-best-practices/): `vercel-labs/agent-skills`, React and Next.js performance and structure rules.
+- [expo-overview](.agents/skills/expo-overview/): `expo/skills`, entry point for any Expo or EAS task; load first, it routes to the other expo skills.
+- [expo-project-structure](.agents/skills/expo-project-structure/): `expo/skills`, folder layout for a new Expo Router app (scaffold time only).
+- [expo-router](.agents/skills/expo-router/): `expo/skills`, file based routes, stacks, modals, headers.
+- [expo-dev-client](.agents/skills/expo-dev-client/): `expo/skills`, development builds when Expo Go is not enough.
+- [expo-upgrade](.agents/skills/expo-upgrade/): `expo/skills`, Expo SDK upgrades and dependency fixes.
+- [vercel-react-native-skills](.agents/skills/vercel-react-native-skills/): `vercel-labs/agent-skills`, React Native performance and structure rules.
+- [react-native-best-practices](.agents/skills/react-native-best-practices/): `callstackincubator/agent-skills`, React Native performance and best practices (Callstack).
+- [limrun-maestro-testing](.agents/skills/limrun-maestro-testing/): `limrun-inc/skills`, Maestro end to end flows (community; check it does not assume the limrun cloud before relying on it).
+
+MCP servers: maestro (recommended, `claude mcp add maestro -- maestro mcp`)

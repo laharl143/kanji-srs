@@ -1,6 +1,48 @@
 {
   "version": 1,
   "skills": {
+    "expo-dev-client": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/expo/skills/expo-dev-client/SKILL.md",
+      "computedHash": "3e38e9402acd8430b98a887de86b1b346a9fb4873b046585e6c20cf78a91cc49"
+    },
+    "expo-overview": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/expo/skills/expo-overview/SKILL.md",
+      "computedHash": "55fa500c2637fbcc25bc933e3b8efea2b96a2568243d05d6728aee7a651a9246"
+    },
+    "expo-project-structure": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/expo/skills/expo-project-structure/SKILL.md",
+      "computedHash": "8ef539eb13f9fbb6560f185644f5bcd60230c04a7883f3d148b6295c43847936"
+    },
+    "expo-router": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/expo/skills/expo-router/SKILL.md",
+      "computedHash": "8cd1a4358b14380b259b79e22c4170016a077ec316dc36a09f810efd8120ece3"
+    },
+    "expo-upgrade": {
+      "source": "expo/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/expo/skills/expo-upgrade/SKILL.md",
+      "computedHash": "1a7b83fc0a5b7aa3552a194c57e1f046d85541e77130f3add7c358868f43f4e2"
+    },
+    "limrun-maestro-testing": {
+      "source": "limrun-inc/skills",
+      "sourceType": "github",
+      "skillPath": "skills/limrun-maestro-testing/SKILL.md",
+      "computedHash": "88f514af2f6f7a7bba62b0aaa54a4f60fbcac703ce32df70d8deb6a8cbea4b32"
+    },
+    "react-native-best-practices": {
+      "source": "callstackincubator/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-best-practices/SKILL.md",
+      "computedHash": "4b2b9561ff7b4b9d15ff76d2dd2a6191e3cdc7f36c06d171e377bfefcbcb2bfb"
+    },
     "tailwind-design-system": {
       "source": "wshobson/agents",
       "sourceType": "github",
@@ -12,6 +54,12 @@
       "sourceType": "github",
       "skillPath": "skills/react-best-practices/SKILL.md",
       "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
+    },
+    "vercel-react-native-skills": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-skills/SKILL.md",
+      "computedHash": "41d24eafa7c3d82e270439808f7cfbc4d51aeb2d14f2809a2267c16275784d06"
     }
   }
 }
