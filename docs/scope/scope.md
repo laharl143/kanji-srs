@@ -11,8 +11,9 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 | # | Feature | Phase | Status |
 |---|---------|-------|--------|
-| 1 | Stack & architecture | Foundation | in-progress |
-| 2 | Coding standards & tooling | Foundation | planned |
+| 1 | Stack & architecture | Foundation | done |
+| 2 | Coding standards & tooling | Foundation | done |
+| 13 | Patch Next.js security advisory | Foundation | planned |
 | 3 | Data model | Foundation | in-progress |
 | 4 | UI foundation | Foundation | in-progress |
 | 5 | Core study loop | Slice 1 | in-progress |
@@ -26,20 +27,26 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 ## Foundations
 
-### 1. Stack & architecture · in-progress
+### 1. Stack & architecture · done
 Pick the stack and fix the product contract (data model, pipeline, SRS rules, screens), then scaffold a runnable Next.js project.
 **Done when:** the empty scaffold boots with `npm run dev` on Windows and `npm run build` passes.
 - [x] Decide the stack (spec): `/architect stack & architecture`
-- [ ] Scaffold from the decision: `/develop stack & architecture`
-- [ ] Verify it: `/check verify stack & architecture`
-Spec 0001
+- [x] Scaffold from the decision: `/develop stack & architecture`
+- [x] Verify it: `/check verify stack & architecture`
+Spec 0001 · code in `/` (root)
 
-### 2. Coding standards & tooling
+### 2. Coding standards & tooling · done
 Capture conventions from the real scaffolded project, then install lint, format, strict types, and a pre-commit hook that runs `npm test`.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint, format, and tests run clean on commit.
-- [ ] Capture conventions + tooling choices: `/audit`
-- [ ] Install the tooling: `/develop tooling`
-- [ ] Verify it: `/check verify coding standards & tooling`
+- [x] Capture conventions + tooling choices: `/audit`
+- [x] Install the tooling: `/develop tooling`
+- [x] Verify it: `/check verify coding standards & tooling`
+
+### 13. Patch Next.js security advisory
+The build warns that Next.js 16.4.0 has a known security vulnerability. Move to the patched release before more code builds on it.
+**Done when:** `npm audit` shows no advisory for `next`, and typecheck, lint, test, and build still pass.
+- [ ] Upgrade it: `/develop patch Next.js security advisory`
+- [ ] Verify it: `/check verify patch Next.js security advisory`
 
 ### 3. Data model · in-progress
 Typed schema, migrations, database client, and query layer for content and progress tables, with a user id on every progress row.

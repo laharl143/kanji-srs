@@ -1,7 +1,7 @@
 # 0004. Core study loop (tracer slice)
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

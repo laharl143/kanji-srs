@@ -1,7 +1,7 @@
 # 0003. UI foundation
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

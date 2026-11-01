@@ -1,7 +1,7 @@
 # 0001. Kanji SRS app architecture and product contract
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: Accepted
 
 ## Summary
 

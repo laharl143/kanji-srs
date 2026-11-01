@@ -4,6 +4,20 @@ Private, local kanji SRS web app (radicals → kanji → vocabulary, JLPT N5 to 
 
 **Read first:** [docs/scope/scope.md](docs/scope/scope.md) (what to build, in order) and [docs/specs/0001-kanji-srs-app/index.md](docs/specs/0001-kanji-srs-app/index.md) (the product contract). Each feature has its own spec in `docs/specs/` with a `## Build plan`. If code and a spec disagree, follow the spec and flag the difference. If a feature spec and 0001 disagree, 0001 wins.
 
+## Stack
+
+- **Language / Runtime**: TypeScript on Node
+- **Framework**: Next.js 16 (App Router), React 19, Tailwind CSS 4
+- **Tooling installed**: ESLint (Next config plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): libSQL via `@libsql/client`, Drizzle ORM and drizzle-kit, Playwright
+- **Package manager**: npm
+- **Scripts that exist today**: `dev`, `build`, `start`, `lint`, `typecheck`, `format`, `format:check`, `test`
+- **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
+
+## Build approach
+
+Tracer Bullet: get one thin real thread working through every layer first, then thicken one part at a time. Source: the header of [docs/scope/scope.md](docs/scope/scope.md).
+
 ## Ground rules
 
 1. **No WaniKani content, ever.** Do not scrape, copy, paraphrase, or import mnemonics, radical names, sentences, audio, or level lists from WaniKani or any paid course. Do not call the WaniKani API.
@@ -33,3 +47,8 @@ npm run db:seed
 ## Skills
 
 Project skills live in `.bob/skills/`: `/scope` (what to build, `docs/scope/`), `/architect` (design specs, `docs/specs/`), `/develop` (build), `/check` (verify and review), `/test` (tests), `/sync` (keep AGENTS.md and scope current).
+
+## Agent skills
+
+- [tailwind-design-system](.agents/skills/tailwind-design-system/): `wshobson/agents`, Tailwind CSS design system and token conventions.
+- [vercel-react-best-practices](.agents/skills/vercel-react-best-practices/): `vercel-labs/agent-skills`, React and Next.js performance and structure rules.

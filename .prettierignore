@@ -1,0 +1,17 @@
+.next
+node_modules
+out
+build
+coverage
+data
+pipeline/raw
+pipeline/work
+content
+package-lock.json
+next-env.d.ts
+.agents
+.bob
+.claude
+skills-lock.json
+docs
+*.md

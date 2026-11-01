@@ -1,7 +1,7 @@
 # 0005. Full content pipeline
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

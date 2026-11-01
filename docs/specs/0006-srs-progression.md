@@ -1,7 +1,7 @@
 # 0006. SRS progression: unlocks, level up, wrap up
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

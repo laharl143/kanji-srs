@@ -1,7 +1,7 @@
 # 0009. Item pages, notes, and level browser
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 

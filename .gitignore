@@ -9,3 +9,5 @@ public/audio/
 !.env.example
 test-results/
 playwright-report/
+next-env.d.ts
+*.tsbuildinfo

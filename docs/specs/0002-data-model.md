@@ -1,7 +1,7 @@
 # 0002. Data model and database access
 
 **Date**: 2026-10-13
-**Status**: Proposed
+**Status**: In Progress
 
 ## Summary
 
