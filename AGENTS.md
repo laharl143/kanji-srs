@@ -21,6 +21,10 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 
 Tracer Bullet: get one thin real thread working through every layer first, then thicken one part at a time. Source: the header of [docs/scope/scope.md](docs/scope/scope.md).
 
+## Tracker
+
+Jira project `KS` (kanji-srs) on `vital-stats.atlassian.net`, [board 169](https://vital-stats.atlassian.net/jira/software/projects/KS/boards/169). It mirrors the scope: one Epic per phase, one Story per feature, one Subtask per scope box. Workflow transitions: To Do `11`, In Progress `21`, Done `31`. When a feature or box changes status in the scope, move its Jira issue to match.
+
 ## Ground rules
 
 1. **No WaniKani content, ever.** Do not scrape, copy, paraphrase, or import mnemonics, radical names, sentences, audio, or level lists from WaniKani or any paid course. Do not call the WaniKani API.
