@@ -4,6 +4,8 @@ A private Android app (Expo, React Native) that teaches Japanese kanji up to JLP
 
 **Heads up (2026-11-01):** spec 0001 moved the app from Next.js web to Expo Android. Specs 0002, 0003, 0004, 0006, 0007, 0009 and 0010 were written for Next.js, so their features carry a `spec stale for Android` tag. Run `/architect <feature>` to update each spec before `/develop` (0001 `## Follow-up` lists what changes).
 
+**Release builds (2026-11-02):** EAS `preview` APK builds wait until the app is feature complete (Free plan: 15 Android builds a month, and each one is slow). Until then, check features in Expo Go. A cold deep link `exp://<host>:<port>/--/<path>` stands in for a release deep link. Checks that only a release build can prove go into **Release build checks** below. Make an early build only if a feature adds a native module or `app.json` plugin, because Expo Go cannot catch those breaking.
+
 **Build approach:** Tracer Bullet (get one thin real thread working through every layer first, then thicken one part at a time).
 **Workflow:** Alpha (after `/develop`, run `/check verify` on the real app). The project default level of rigor. `/architect` is the recommended first stop for a feature with a real decision, but skippable when you already know the build. Any feature can carry its own tag (e.g. `· GA`) to do more or less.
 
@@ -16,7 +18,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 1 | Stack & architecture | Foundation | done |
 | 2 | Coding standards & tooling | Foundation | done |
 | 3 | Data model | Foundation | done |
-| 4 | UI foundation | Foundation | in-progress |
+| 4 | UI foundation | Foundation | done |
 | 5 | Core study loop | Slice 1 | in-progress |
 | 6 | Full content pipeline | Slice 2 | in-progress |
 | 7 | SRS progression | Slice 3 | in-progress |
@@ -57,17 +59,17 @@ Typed schema, migrations, database client, and query layer for content and progr
 - [x] Verify it (verified 2026-11-01): `/check verify data model`
 Spec [0002](../specs/0002-data-model/index.md) · code in `src/lib/db/`, `src/lib/auth/`, `drizzle/`
 
-### 4. UI foundation · in-progress · spec stale for Android
-Pink / blue / purple colorway (see `docs/references/ui-inspiration.md`), Japanese font, app shell with nav, and base components, working at phone width and in dark mode.
-**Done when:** every base component renders on the development preview page at 375px and 1280px with visible keyboard focus.
-**Before building:** spec 0003 was written for Next.js. Update it for Android first with `/architect UI foundation` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0003 for Android): `/architect UI foundation`
-- [ ] Build it: `/develop UI foundation`
-   - [ ] Tokens, palette, Japanese font (AC-1 to AC-3)
-   - [ ] App shell and nav (AC-4)
-   - [ ] Base components and preview page (AC-5)
-- [ ] Verify it: `/check verify UI foundation`
-Spec 0003
+### 4. UI foundation · done
+Pink / blue / purple colorway (see `docs/references/ui-inspiration.md`), Japanese font, bottom tab shell with a pink app bar, and base components, working at phone width and in dark mode.
+**Done when:** every base component renders on the development preview screen at 360dp, in light and dark mode and at a 1.3 font scale, reads correctly with TalkBack, and the preview is unreachable in the `preview` APK.
+- [x] Design it (spec, updated 2026-11-01 for Android): `/architect UI foundation`
+- [x] Build it (built 2026-11-02): `/develop UI foundation`
+   - [x] NativeWind thread, tokens, stage colors, Japanese font (AC-1 to AC-3) (built 2026-11-01; checked 2026-11-02: Expo Go on the emulator in light and live dark mode with Japanese glyphs and Bold, and `preview` APK e6487fe5 opens on the phone with no developer card)
+   - [x] App shell: tabs, AppBar, Screen, placeholders (AC-4) (built 2026-11-01, phone check pending)
+   - [x] Base components, toast, confirm dialog (AC-5, AC-6) (built 2026-11-01, phone check pending)
+   - [x] Dev preview screen and on device checks (AC-7) (screen built 2026-11-01; emulator checks passed 2026-11-02 at 360dp, 1.3 font scale, light and dark; on the phone 2026-11-02, TalkBack and keyboard autofocus passed; the `/dev/ui` release redirect now goes to `href="/"` because `/index` resolves to +not-found on a cold deep link, and Expo Go confirmed it on a cold start; the APK proof is in Release build checks)
+- [x] Verify it: `/check verify UI foundation` (skipped 2026-11-02, marked done by you: 29 of 37 verify steps passed on the emulator with no failures; still open are TalkBack in this run, the offline splash and splash color, the toast with 3 button navigation, and stage 4 and 6 dots on screen, plus the release build steps in Release build checks)
+Spec [0003](../specs/0003-ui-foundation/index.md) · code in `src/global.css`, `src/theme/`, `src/components/ui/`, `src/app/`
 
 ## Slice 1: Core study loop
 
@@ -183,6 +185,12 @@ Write original radical names and mnemonics for levels 4 to the last level, a few
 **Done when:** every level is enabled and `npm run pipeline:validate` passes.
 - [ ] Write and enable the next wave: `/develop mnemonic waves`
 - [ ] Verify it: `/check verify mnemonic waves`
+
+## Release build checks
+Run these once, on one `preview` APK, when the app is feature complete (see **Release builds** at the top). Add an item here whenever a check needs a release build.
+- [ ] `kanjisrs://dev/ui` lands on Home with no Developer card (feature 4, AC-7; the `href="/"` fix is only checked in Expo Go so far)
+- [ ] Offline cold start shows the splash in the page color, light `#fafaf9` and dark `#1c1917`, then Home with no white flash (feature 4, AC-3; Expo Go shows its own splash)
+- [ ] Review reminders on the installed APK (feature 14)
 
 ## Dropped
 
