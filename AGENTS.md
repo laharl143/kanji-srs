@@ -11,7 +11,8 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 - **Build and install**: EAS Build (`eas.json` profiles `preview` and `e2e`, both APK); project owner `edduenas-apps`, Android package `com.edduenas.kanjisrs`
 - **Tooling installed**: ESLint (`eslint-config-expo` plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
 - **Database**: `expo-sqlite` with Drizzle ORM 0.45 and drizzle-kit 0.31; Vitest runs the same schema and migrations on `better-sqlite3` in memory. See [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md)
-- **Planned, not installed yet** (see 0001 `## Proposed stack`): NativeWind v4 (Tailwind CSS 3.4), `expo-notifications`, `expo-speech`, `wanakana`, Noto Sans JP via `expo-font`, Maestro
+- **UI**: NativeWind 4.2 with Tailwind CSS 3.4 (`tailwind.config.js`, tokens in `src/global.css`), Reanimated 4.7, Noto Sans JP Regular and Bold via `expo-font`. See [src/theme/AGENTS.md](src/theme/AGENTS.md) and [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md)
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, `expo-speech`, `wanakana`, Maestro
 - **Package manager**: npm
 - **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`
 - **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
@@ -36,7 +37,7 @@ Tracer Bullet: get one thin real thread working through every layer first, then 
 ```
 npm run dev                 # expo start; scan the QR code with Expo Go (npx expo start --tunnel if the firewall blocks the phone)
 npm test                    # Vitest
-npm run doctor              # expo-doctor, expect 20/20
+npx expo-doctor             # expect 20/20 (`npm run doctor` fails: expo-doctor is not a dependency)
 npx eas-cli@latest build -p android --profile preview   # sideloadable APK on EAS (uses free build quota)
 npm run test:e2e            # Maestro flows in maestro/
 npm run pipeline:download   # fetch open data into pipeline/raw
@@ -71,7 +72,10 @@ Project skills live in `.bob/skills/`: `/scope` (what to build, `docs/scope/`), 
 
 MCP servers: maestro (recommended, `claude mcp add maestro -- maestro mcp`)
 Declined: `honra-io/drizzle-best-practices` (PostgreSQL only; this app uses SQLite)
+Declined: Agent Skill and MCP search for NativeWind and Reanimated (2026-11-02)
 
 ## Context files
 
 - [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md): database schema, migrations, transactions, and query rules
+- [src/theme/AGENTS.md](src/theme/AGENTS.md): design tokens, raw colors, stage and progress helpers
+- [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md): base UI components and their accessibility rules
