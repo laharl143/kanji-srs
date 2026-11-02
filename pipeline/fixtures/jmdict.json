@@ -1,0 +1,82 @@
+{
+  "words": [
+    {
+      "id": "1",
+      "kanji": [{ "text": "一日", "common": true, "tags": [] }],
+      "kana": [
+        { "text": "いちにち", "common": true, "tags": [], "appliesToKanji": ["*"] },
+        { "text": "ついたち", "common": true, "tags": [], "appliesToKanji": ["*"] },
+        { "text": "いちじつ", "common": false, "tags": [], "appliesToKanji": ["*"] },
+        { "text": "ひとひ", "common": false, "tags": ["ok"], "appliesToKanji": ["*"] }
+      ],
+      "sense": [
+        {
+          "appliesToKanji": ["*"],
+          "appliesToKana": ["いちにち", "いちじつ"],
+          "gloss": [
+            { "lang": "eng", "text": "one day" },
+            { "lang": "eng", "text": "all day" }
+          ]
+        },
+        {
+          "appliesToKanji": ["*"],
+          "appliesToKana": ["ついたち"],
+          "gloss": [{ "lang": "eng", "text": "first day of the month" }]
+        },
+        {
+          "appliesToKanji": ["*"],
+          "appliesToKana": ["*"],
+          "gloss": [
+            { "lang": "eng", "text": "a day" },
+            { "lang": "eng", "text": "some day" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "kanji": [
+        { "text": "大人", "common": true, "tags": [] },
+        { "text": "大人しい", "common": false, "tags": [] }
+      ],
+      "kana": [
+        { "text": "おとな", "common": true, "tags": [], "appliesToKanji": ["大人"] },
+        { "text": "だいにん", "common": false, "tags": [], "appliesToKanji": ["大人"] }
+      ],
+      "sense": [
+        {
+          "appliesToKanji": ["*"],
+          "appliesToKana": ["*"],
+          "gloss": [{ "lang": "eng", "text": "adult" }]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "kanji": [{ "text": "上", "common": false, "tags": [] }],
+      "kana": [{ "text": "かみ", "common": false, "tags": [], "appliesToKanji": ["*"] }],
+      "sense": [
+        {
+          "appliesToKanji": ["*"],
+          "appliesToKana": ["*"],
+          "gloss": [{ "lang": "eng", "text": "upper reaches" }]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "kanji": [{ "text": "上", "common": true, "tags": [] }],
+      "kana": [{ "text": "うえ", "common": true, "tags": [], "appliesToKanji": ["*"] }],
+      "sense": [
+        {
+          "appliesToKanji": ["*"],
+          "appliesToKana": ["*"],
+          "gloss": [
+            { "lang": "eng", "text": "above" },
+            { "lang": "eng", "text": "up" }
+          ]
+        }
+      ]
+    }
+  ]
+}

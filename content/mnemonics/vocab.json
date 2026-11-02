@@ -1,0 +1,302 @@
+{
+  "日": {
+    "meaningMnemonic": "On its own, the kanji for day also means the sun itself, the thing that makes the day.",
+    "readingMnemonic": "Alone it uses the kun'yomi ひ. Picture the sun so hot you shout \"hee!\" when it touches your skin."
+  },
+  "一つ": {
+    "meaningMnemonic": "The kanji for one plus the little つ ending is how you count one thing.",
+    "readingMnemonic": "This uses the kun'yomi ひと plus つ. The つ ending is the native Japanese way of counting objects."
+  },
+  "一日": {
+    "meaningMnemonic": "One plus day gives one day, or a whole day from morning to night.",
+    "readingMnemonic": "Both kanji use their on'yomi: いち from one and にち from day, which you already know."
+  },
+  "一": {
+    "meaningMnemonic": "Alone, the kanji is just the number one.",
+    "readingMnemonic": "Alone it keeps the on'yomi いち, the same itch you remember from the kanji."
+  },
+  "国": {
+    "meaningMnemonic": "Alone, the kanji means a country or a region.",
+    "readingMnemonic": "Alone it uses the kun'yomi くに, not the cook reading. Picture the royal cook saying \"coo, nee\" as he looks over his country."
+  },
+  "一人": {
+    "meaningMnemonic": "One plus person means one person, or being all alone.",
+    "readingMnemonic": "This is an irregular reading: ひとり. Learn it as a whole word; it does not use いち or じん."
+  },
+  "人": {
+    "meaningMnemonic": "Alone, the kanji means a person, someone.",
+    "readingMnemonic": "Alone it uses the kun'yomi ひと, the same ひと you saw in 一人."
+  },
+  "一人一人": {
+    "meaningMnemonic": "One person, then one person again: each person, one by one.",
+    "readingMnemonic": "It is simply ひとり said twice: ひとりひとり."
+  },
+  "年": {
+    "meaningMnemonic": "Alone, the kanji means a year, or a person's age in years.",
+    "readingMnemonic": "Alone it uses the kun'yomi とし, not the nun reading. Picture the nun counting years on her toes, \"toe, she\" says."
+  },
+  "大人": {
+    "meaningMnemonic": "A large person is a grown up, an adult.",
+    "readingMnemonic": "This is an irregular reading, おとな. It does not use だい or じん; learn it as one word."
+  },
+  "大きい": {
+    "meaningMnemonic": "The kanji for large plus the い ending makes the adjective big.",
+    "readingMnemonic": "It uses the kun'yomi おお plus きい, so おおきい. Picture someone shouting \"oh!\" at something big."
+  },
+  "大きな": {
+    "meaningMnemonic": "Another way to say big, used right before a noun.",
+    "readingMnemonic": "Same おお as 大きい, but it ends in きな instead of きい: おおきな."
+  },
+  "大いに": {
+    "meaningMnemonic": "Large turned into an adverb: very much, greatly.",
+    "readingMnemonic": "It uses the kun'yomi おお plus いに: おおいに."
+  },
+  "大した": {
+    "meaningMnemonic": "Large in importance: something considerable or great.",
+    "readingMnemonic": "Here the kanji uses its other on'yomi たい, plus した: たいした."
+  },
+  "大": {
+    "meaningMnemonic": "Alone, the kanji means large or great, often as a size label.",
+    "readingMnemonic": "Alone it keeps the on'yomi だい, the purple dye from the kanji."
+  },
+  "十日": {
+    "meaningMnemonic": "Ten plus day gives ten days, or the tenth day of the month.",
+    "readingMnemonic": "This is a special date reading: とおか. Ten is read とお here and day is read か."
+  },
+  "十": {
+    "meaningMnemonic": "Alone, the kanji is the number ten.",
+    "readingMnemonic": "Alone it keeps the on'yomi じゅう, the jewel from the kanji."
+  },
+  "二つ": {
+    "meaningMnemonic": "Two plus the つ counting ending: two things.",
+    "readingMnemonic": "It uses the kun'yomi ふた plus つ: ふたつ."
+  },
+  "二人": {
+    "meaningMnemonic": "Two plus person: two people, a pair.",
+    "readingMnemonic": "Like 一人, this is irregular: ふたり. Learn it together with ひとり."
+  },
+  "二日": {
+    "meaningMnemonic": "Two plus day: two days, or the second day of the month.",
+    "readingMnemonic": "A special date reading: ふつか. It does not use に or にち."
+  },
+  "二": {
+    "meaningMnemonic": "Alone, the kanji is the number two.",
+    "readingMnemonic": "Alone it keeps the on'yomi に, the knee from the kanji."
+  },
+  "二十日": {
+    "meaningMnemonic": "Twenty plus day: twenty days, or the twentieth day of the month.",
+    "readingMnemonic": "A special reading: はつか. Learn it as one word, because none of the usual readings appear."
+  },
+  "二十": {
+    "meaningMnemonic": "Two tens make twenty; this word means twenty years old.",
+    "readingMnemonic": "When it means twenty years old, it has its own reading: はたち. A big birthday gets a special word."
+  },
+  "本": {
+    "meaningMnemonic": "Alone, the kanji means a book.",
+    "readingMnemonic": "Alone it keeps the on'yomi ほん, the honk from the kanji."
+  },
+  "本人": {
+    "meaningMnemonic": "The book's own person: the person in question, the one themselves.",
+    "readingMnemonic": "Both on'yomi: ほん plus にん, the second reading of person."
+  },
+  "日本": {
+    "meaningMnemonic": "The sun's origin: the land where the sun rises, Japan.",
+    "readingMnemonic": "Day becomes に and book stays ほん: にほん. The stronger form にっぽん doubles the sound."
+  },
+  "中": {
+    "meaningMnemonic": "Alone, the kanji means the inside of something.",
+    "readingMnemonic": "Alone it uses the kun'yomi なか. Picture the inside of a box so dark you say \"nah, ka\" and back away."
+  },
+  "中々": {
+    "meaningMnemonic": "Inside, then inside again: quite deeply, so very or considerably.",
+    "readingMnemonic": "It is なか said twice: なかなか. The 々 mark repeats the kanji before it."
+  },
+  "年中": {
+    "meaningMnemonic": "Inside the year: all year round.",
+    "readingMnemonic": "Both on'yomi, with a sound change: ねん plus じゅう, so ねんじゅう. The ちゅう of inside picks up a voiced sound."
+  },
+  "日中": {
+    "meaningMnemonic": "Inside the day: during the daytime.",
+    "readingMnemonic": "Both on'yomi: にち plus ちゅう, squeezed into にっちゅう."
+  },
+  "長い": {
+    "meaningMnemonic": "The kanji for long plus the い ending: the adjective long.",
+    "readingMnemonic": "It uses the kun'yomi なが plus い: ながい."
+  },
+  "出る": {
+    "meaningMnemonic": "Exit as a verb: to leave or to go out.",
+    "readingMnemonic": "It uses the kun'yomi で plus る: でる."
+  },
+  "出す": {
+    "meaningMnemonic": "To make something exit: to take it out or put it out.",
+    "readingMnemonic": "It uses the kun'yomi だ plus す: だす. Compare でる, where you go out yourself."
+  },
+  "出かける": {
+    "meaningMnemonic": "To exit the house on an outing: to go out.",
+    "readingMnemonic": "It starts with the kun'yomi で, then かける: でかける."
+  },
+  "三日": {
+    "meaningMnemonic": "Three plus day: three days, or the third day of the month.",
+    "readingMnemonic": "A special date reading: みっか. Three is read みっ and day is read か."
+  },
+  "三つ": {
+    "meaningMnemonic": "Three plus the つ counting ending: three things.",
+    "readingMnemonic": "It uses the kun'yomi みっ plus つ: みっつ."
+  },
+  "三": {
+    "meaningMnemonic": "Alone, the kanji is the number three.",
+    "readingMnemonic": "Alone it keeps the on'yomi さん, the sand from the kanji."
+  },
+  "時々": {
+    "meaningMnemonic": "Time, then time again: from time to time, sometimes.",
+    "readingMnemonic": "It is とき said twice, and the second one softens to どき: ときどき."
+  },
+  "一時": {
+    "meaningMnemonic": "One plus hour: one o'clock, or one moment in time.",
+    "readingMnemonic": "Both on'yomi: いち plus じ, the jeep from the kanji: いちじ."
+  },
+  "時": {
+    "meaningMnemonic": "Alone, the kanji means time or a moment.",
+    "readingMnemonic": "Alone it uses the kun'yomi とき, not the jeep reading."
+  },
+  "行く": {
+    "meaningMnemonic": "Going as a verb: to go.",
+    "readingMnemonic": "It uses the kun'yomi い plus く: いく."
+  },
+  "行う": {
+    "meaningMnemonic": "Going about a task: to perform or carry it out.",
+    "readingMnemonic": "It uses the longer kun'yomi おこな plus う: おこなう."
+  },
+  "行き": {
+    "meaningMnemonic": "The going part of a trip: the way there.",
+    "readingMnemonic": "It uses the kun'yomi い plus き: いき."
+  },
+  "見る": {
+    "meaningMnemonic": "See as a verb: to see or to watch.",
+    "readingMnemonic": "It uses the kun'yomi み plus る: みる."
+  },
+  "見せる": {
+    "meaningMnemonic": "To make someone see: to show.",
+    "readingMnemonic": "It uses the kun'yomi み plus せる: みせる."
+  },
+  "見つける": {
+    "meaningMnemonic": "To see something you were looking for: to find it.",
+    "readingMnemonic": "It uses the kun'yomi み plus つける: みつける."
+  },
+  "見える": {
+    "meaningMnemonic": "To be seeable: to be visible or in sight.",
+    "readingMnemonic": "It uses the kun'yomi み plus える: みえる."
+  },
+  "見つかる": {
+    "meaningMnemonic": "To get seen at last: to be found.",
+    "readingMnemonic": "It uses the kun'yomi み plus つかる: みつかる. Compare みつける, where you do the finding."
+  },
+  "一月": {
+    "meaningMnemonic": "One plus month: a span of one month.",
+    "readingMnemonic": "It uses the kun'yomi ひと plus つき: ひとつき."
+  },
+  "月": {
+    "meaningMnemonic": "Alone, the kanji means the Moon, or a month.",
+    "readingMnemonic": "Alone it uses the kun'yomi つき, not the get reading."
+  },
+  "年月": {
+    "meaningMnemonic": "Years and months together: a long stretch of time.",
+    "readingMnemonic": "Both kun'yomi: とし plus つき: としつき."
+  },
+  "後ろ": {
+    "meaningMnemonic": "Behind as a place: the back or the rear.",
+    "readingMnemonic": "It uses the kun'yomi うし plus ろ: うしろ."
+  },
+  "後": {
+    "meaningMnemonic": "Alone, the kanji means after, or what comes behind.",
+    "readingMnemonic": "Alone it uses the kun'yomi あと, not the goat reading."
+  },
+  "前": {
+    "meaningMnemonic": "Alone, the kanji means the front, or before.",
+    "readingMnemonic": "Alone it uses the kun'yomi まえ, not the zen reading."
+  },
+  "生まれる": {
+    "meaningMnemonic": "Life arriving: to be born.",
+    "readingMnemonic": "It uses the kun'yomi う plus まれる: うまれる."
+  },
+  "生きる": {
+    "meaningMnemonic": "Life as a verb: to live.",
+    "readingMnemonic": "It uses the kun'yomi い plus きる: いきる."
+  },
+  "生じる": {
+    "meaningMnemonic": "To bring something to life: to produce or cause it.",
+    "readingMnemonic": "It uses the on'yomi しょう plus じる: しょうじる."
+  },
+  "生": {
+    "meaningMnemonic": "Alone, the kanji means life or living.",
+    "readingMnemonic": "Alone it keeps the on'yomi せい, the say from the kanji."
+  },
+  "一生": {
+    "meaningMnemonic": "One life: a whole lifetime.",
+    "readingMnemonic": "Both on'yomi, squeezed: いち plus しょう becomes いっしょう."
+  },
+  "生まれ": {
+    "meaningMnemonic": "Your birth, or the place you were born.",
+    "readingMnemonic": "It uses the kun'yomi う plus まれ: うまれ, like 生まれる without the る."
+  },
+  "人生": {
+    "meaningMnemonic": "A person's life.",
+    "readingMnemonic": "Both on'yomi: じん plus せい, the gin and the say: じんせい."
+  },
+  "五つ": {
+    "meaningMnemonic": "Five plus the つ counting ending: five things.",
+    "readingMnemonic": "It uses the kun'yomi いつ plus つ: いつつ."
+  },
+  "五": {
+    "meaningMnemonic": "Alone, the kanji is the number five.",
+    "readingMnemonic": "Alone it keeps the on'yomi ご, the goat from the kanji."
+  },
+  "五日": {
+    "meaningMnemonic": "Five plus day: five days, or the fifth day of the month.",
+    "readingMnemonic": "A special date reading: いつか. Five is read いつ and day is read か."
+  },
+  "時間": {
+    "meaningMnemonic": "The interval of time: time, an hour, a period.",
+    "readingMnemonic": "Both on'yomi: じ plus かん, the jeep and the can: じかん."
+  },
+  "間": {
+    "meaningMnemonic": "Alone, the kanji means the space between things.",
+    "readingMnemonic": "Alone it uses the kun'yomi あいだ, not the can reading."
+  },
+  "人間": {
+    "meaningMnemonic": "The one between people: a human being.",
+    "readingMnemonic": "Both on'yomi: にん plus けん, and けん softens to げん: にんげん."
+  },
+  "年間": {
+    "meaningMnemonic": "The span of a year: during a year.",
+    "readingMnemonic": "Both on'yomi: ねん plus かん, the nun and the can: ねんかん."
+  },
+  "上げる": {
+    "meaningMnemonic": "To move something above: to raise it.",
+    "readingMnemonic": "It uses the kun'yomi あ plus げる: あげる."
+  },
+  "上": {
+    "meaningMnemonic": "Alone, the kanji means above or on top.",
+    "readingMnemonic": "Alone it uses the kun'yomi うえ, not the joker reading."
+  },
+  "上る": {
+    "meaningMnemonic": "To go above: to rise or go up.",
+    "readingMnemonic": "Here it uses the kun'yomi あ plus がる, so あがる, like あげる but going up by itself."
+  },
+  "東": {
+    "meaningMnemonic": "Alone, the kanji means east.",
+    "readingMnemonic": "Alone it uses the kun'yomi ひがし, not the toe reading."
+  },
+  "四日": {
+    "meaningMnemonic": "Four plus day: four days, or the fourth day of the month.",
+    "readingMnemonic": "A special date reading: よっか. Four is read よっ and day is read か."
+  },
+  "四つ": {
+    "meaningMnemonic": "Four plus the つ counting ending: four things.",
+    "readingMnemonic": "It uses the kun'yomi よっ plus つ: よっつ."
+  },
+  "四": {
+    "meaningMnemonic": "Alone, the kanji is the number four.",
+    "readingMnemonic": "Alone it keeps the on'yomi し, the sheep from the kanji. People also say よん."
+  }
+}

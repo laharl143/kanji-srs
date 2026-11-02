@@ -28,6 +28,31 @@ export async function getSubjectsByIds(db: Db, ids: readonly number[]): Promise<
     .orderBy(asc(subjects.id));
 }
 
+// Full rows, mnemonics included, for the lesson pages (spec 0004).
+export async function getSubjectsWithMnemonics(db: Db, ids: readonly number[]): Promise<Subject[]> {
+  if (ids.length === 0) return [];
+  return db
+    .select()
+    .from(subjects)
+    .where(inArray(subjects.id, [...ids]))
+    .orderBy(asc(subjects.id));
+}
+
+// First launch unlock set (spec 0004 AC-5): level 1 radicals, and level 1 kanji with no radicals.
+export async function getInitialUnlockIds(db: Db): Promise<number[]> {
+  const rows = await db
+    .select({ id: subjects.id })
+    .from(subjects)
+    .where(
+      and(
+        eq(subjects.level, 1),
+        sql`(${subjects.type} = 'radical' OR (${subjects.type} = 'kanji' AND json_array_length(${subjects.componentIds}) = 0))`,
+      ),
+    )
+    .orderBy(asc(subjects.id));
+  return rows.map((r) => r.id);
+}
+
 // Subjects that list `subjectId` among their components.
 export async function getUsedIn(db: Db, subjectId: number): Promise<SubjectSummary[]> {
   return db

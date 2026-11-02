@@ -1,0 +1,67 @@
+{
+  "characters": [
+    {
+      "literal": "上",
+      "misc": { "frequency": 35, "jlptLevel": 4 },
+      "readingMeaning": {
+        "groups": [
+          {
+            "readings": [
+              { "type": "pinyin", "value": "shang4" },
+              { "type": "ja_on", "value": "ジョウ" },
+              { "type": "ja_on", "value": "ショウ" },
+              { "type": "ja_kun", "value": "うえ" },
+              { "type": "ja_kun", "value": "-うえ" },
+              { "type": "ja_kun", "value": "あ.げる" },
+              { "type": "ja_kun", "value": "あ.がる" }
+            ],
+            "meanings": [
+              { "lang": "en", "value": "above" },
+              { "lang": "en", "value": "up" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "literal": "畑",
+      "misc": { "frequency": 1305, "jlptLevel": 2 },
+      "readingMeaning": {
+        "groups": [
+          {
+            "readings": [
+              { "type": "ja_kun", "value": "はた" },
+              { "type": "ja_kun", "value": "はたけ" },
+              { "type": "ja_kun", "value": "-ばたけ" }
+            ],
+            "meanings": [
+              { "lang": "en", "value": "farm" },
+              { "lang": "en", "value": "field" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "literal": "人",
+      "misc": { "frequency": 5, "jlptLevel": 4 },
+      "readingMeaning": {
+        "groups": [
+          {
+            "readings": [
+              { "type": "ja_on", "value": "ジン" },
+              { "type": "ja_on", "value": "ニン" },
+              { "type": "ja_kun", "value": "ひと" }
+            ],
+            "meanings": [{ "lang": "en", "value": "person" }]
+          }
+        ]
+      }
+    },
+    {
+      "literal": "鬱",
+      "misc": { "frequency": null, "jlptLevel": null },
+      "readingMeaning": null
+    }
+  ]
+}

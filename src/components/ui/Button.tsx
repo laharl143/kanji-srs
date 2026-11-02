@@ -14,6 +14,8 @@ type ButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   icon?: ComponentProps<typeof MaterialCommunityIcons>["name"];
+  // For Maestro flows (spec 0004).
+  testID?: string;
 };
 
 const containerClasses: Record<Variant, string> = {
@@ -41,12 +43,14 @@ export function Button({
   disabled = false,
   loading = false,
   icon,
+  testID,
 }: ButtonProps) {
   const tint = tintFor(variant, usePalette());
   const inactive = disabled || loading;
 
   return (
     <Pressable
+      testID={testID}
       accessibilityRole="button"
       accessibilityLabel={label}
       accessibilityState={{ disabled: inactive, busy: loading }}

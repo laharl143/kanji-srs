@@ -11,6 +11,11 @@ import { useEffect, useState } from "react";
 import { ScrollView, Text, useColorScheme } from "react-native";
 
 import { AppBar, ToastProvider } from "@/components/ui";
+import { getCurrentUserId } from "@/lib/auth/current-user";
+import { CLOCK_DEBUG_ENABLED, loadClockOffset, now } from "@/lib/clock";
+import { bundledContent } from "@/lib/content/bundled";
+import { runStartup } from "@/lib/content/startup";
+import { getDb } from "@/lib/db/client";
 import { useDbMigrations } from "@/lib/db/migrate";
 import { paletteFor, type Palette } from "@/theme/colors";
 
@@ -48,9 +53,36 @@ function useFontsReady(): boolean {
   return loaded || error !== null || timedOut;
 }
 
+// After migrations: restore the debug clock offset, then reseed content and unlock the first
+// lessons on first launch (spec 0004 AC-5, AC-13). Runs once per app start.
+function useContentStartup(migrated: boolean): { ready: boolean; error: Error | undefined } {
+  const [state, setState] = useState<{ ready: boolean; error?: Error }>({ ready: false });
+  useEffect(() => {
+    if (!migrated) return;
+    let cancelled = false;
+    (async () => {
+      const db = getDb();
+      if (CLOCK_DEBUG_ENABLED) await loadClockOffset(db);
+      await runStartup(db, getCurrentUserId(), bundledContent, now());
+    })().then(
+      () => !cancelled && setState({ ready: true }),
+      (e) =>
+        !cancelled &&
+        setState({ ready: false, error: e instanceof Error ? e : new Error(String(e)) }),
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [migrated]);
+  return { ready: state.ready, error: state.error };
+}
+
 export default function RootLayout() {
-  // Startup work (0001 §3): migrations and fonts now; content reseed and reminders land later.
-  const { ready, error } = useDbMigrations();
+  // Startup work (0001 §3): migrations, content reseed, and fonts; reminders land later.
+  const migrations = useDbMigrations();
+  const content = useContentStartup(migrations.ready);
+  const ready = content.ready;
+  const error = migrations.error ?? content.error;
   const fontsReady = useFontsReady();
   const scheme = useColorScheme();
 
@@ -59,7 +91,8 @@ export default function RootLayout() {
   }, [ready, error, fontsReady]);
 
   if (!fontsReady) return null;
-  // A failed open or migration blocks the app so progress is never lost silently (0002 AC-3).
+  // A failed open, migration, or reseed blocks the app so progress is never lost silently
+  // (0002 AC-3, 0004 AC-5).
   if (error) return <StartupError error={error} palette={paletteFor(scheme)} />;
   if (!ready) return null;
 
@@ -85,7 +118,7 @@ function StartupError({ error, palette }: { error: Error; palette: Palette }) {
         The app could not start
       </Text>
       <Text style={{ fontSize: 16, color: palette.text }}>
-        The database failed to open or update. Your progress has not been changed.
+        The database or the bundled content failed to load. Your progress has not been changed.
       </Text>
       <Text selectable style={{ fontSize: 14, fontFamily: "monospace", color: palette.muted }}>
         {error.message}

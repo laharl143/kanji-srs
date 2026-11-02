@@ -19,7 +19,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 2 | Coding standards & tooling | Foundation | done |
 | 3 | Data model | Foundation | done |
 | 4 | UI foundation | Foundation | done |
-| 5 | Core study loop | Slice 1 | in-progress |
+| 5 | Core study loop | Slice 1 | done |
 | 6 | Full content pipeline | Slice 2 | in-progress |
 | 7 | SRS progression | Slice 3 | in-progress |
 | 8 | Answer checking | Slice 4 | in-progress |
@@ -73,19 +73,18 @@ Spec [0003](../specs/0003-ui-foundation/index.md) · code in `src/global.css`, `
 
 ## Slice 1: Core study loop
 
-### 5. Core study loop · in-progress · spec stale for Android
+### 5. Core study loop · done
 The walking skeleton: real open data becomes level 1, you take a lesson, and a review moves the item up a stage. Narrow, but real in every layer.
-**Done when:** on a fresh database you can learn level 1 radicals, review them 4 hours later, and see them reach stage 2 (proven by the Maestro flow, 0001 AC-4).
-**Before building:** spec 0004 was written for Next.js. Update it for Android first with `/architect core study loop` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0004 for Android): `/architect core study loop`
-- [ ] Build it: `/develop core study loop`
-   - [ ] Download, parse, and build levels (AC-1, AC-2)
-   - [ ] Level 1 mnemonics and seed (AC-3, AC-4)
-   - [ ] Clock, SRS schedule, exact answer checks (AC-5 to AC-7)
-   - [ ] Lessons, reviews, minimal home page (AC-5, AC-6, AC-8)
-   - [ ] End to end loop test (AC-9)
-- [ ] Verify it: `/check verify core study loop`
-Spec 0004
+**Done when:** on a fresh database you can learn level 1 radicals, review them 4 hours later, and see them reach stage 2, proven by the Vitest loop test in `npm test` and by hand in Expo Go with the debug clock (the Maestro flow first runs at release, see Release build checks).
+- [x] Design it (spec, updated 2026-11-02 for Android): `/architect core study loop`
+- [x] Build it (built 2026-11-02; the loop also passed by hand in Expo Go on the emulator with the debug clock, light and dark): `/develop core study loop`
+   - [x] Download, license check, parse, and build levels (AC-1 to AC-3)
+   - [x] Level 1 mnemonics, bundle, and reseed on launch (AC-4, AC-5)
+   - [x] Clock, debug clock, SRS math, answer checks, study services, and the Vitest loop test (AC-7 to AC-10, AC-13, AC-14)
+   - [x] Lessons, reviews, and Home counts (AC-6 to AC-12)
+   - [x] Maestro flow written, run deferred to release (AC-15)
+- [x] Verify it: `/check verify core study loop` (skipped 2026-11-02, marked done by you: the full loop passed by hand in Expo Go on the emulator, lessons to stage 1, reviews 4 hours later, stage 2 proven by the 8 hour return, plus the leave guard, the AC-9 toast, and dark mode; not run on a device were reading questions (no kanji unlock until 0006), the real phone keyboard, the clock offset after a restart, and the pipeline refusal commands, which unit tests cover; the steps are in `verify.md`, and the Maestro run is in Release build checks)
+Spec [0004](../specs/0004-core-loop/index.md) · code in `pipeline/src/`, `content/`, `src/lib/content/`, `src/lib/clock/`, `src/lib/srs/`, `src/lib/answer/`, `src/lib/study/`, `src/components/study/`, `src/app/lessons.tsx`, `src/app/reviews.tsx`, `src/app/dev/clock.tsx`, `maestro/`
 
 ## Slice 2: Full content pipeline
 
@@ -191,6 +190,7 @@ Run these once, on one `preview` APK, when the app is feature complete (see **Re
 - [ ] `kanjisrs://dev/ui` lands on Home with no Developer card (feature 4, AC-7; the `href="/"` fix is only checked in Expo Go so far)
 - [ ] Offline cold start shows the splash in the page color, light `#fafaf9` and dark `#1c1917`, then Home with no white flash (feature 4, AC-3; Expo Go shows its own splash)
 - [ ] Review reminders on the installed APK (feature 14)
+- [ ] `maestro/core-loop.yaml` passes on the `e2e` APK (feature 5, 0004 AC-15)
 
 ## Dropped
 

@@ -1,0 +1,55 @@
+# Core study loop (spec 0004 AC-15). Runs on the e2e APK (EXPO_PUBLIC_E2E=1 turns on the debug
+# clock). Its first run is in the scope's Release build checks.
+#   maestro test maestro/core-loop.yaml
+appId: com.edduenas.kanjisrs
+---
+- launchApp:
+    clearState: true
+
+# Fresh install: the five level 1 radicals at the front of the lesson queue.
+- assertVisible:
+    id: "home-reviews-count"
+    text: "0"
+- tapOn:
+    id: "home-start-lessons"
+
+# Five lesson pages, then the quiz.
+- repeat:
+    times: 4
+    commands:
+      - tapOn:
+          id: "lesson-next"
+- tapOn: "Start quiz"
+- runFlow: subflows/answer-batch.yaml
+- assertVisible: "Done, 5 items"
+- tapOn:
+    id: "session-home"
+
+# Four hours later, all five are due.
+- tapOn:
+    id: "home-debug-clock"
+- tapOn:
+    id: "clock-add-4h"
+- back
+- assertVisible:
+    id: "home-reviews-count"
+    text: "5"
+- tapOn:
+    id: "home-start-reviews"
+- runFlow: subflows/answer-batch.yaml
+- assertVisible: "Done, 5 items"
+- tapOn:
+    id: "session-home"
+- assertVisible:
+    id: "home-reviews-count"
+    text: "0"
+
+# Stage 2 waits 8 hours, so the batch comes back after 8 more.
+- tapOn:
+    id: "home-debug-clock"
+- tapOn:
+    id: "clock-add-8h"
+- back
+- assertVisible:
+    id: "home-reviews-count"
+    text: "5"

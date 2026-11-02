@@ -1,0 +1,40 @@
+# Answers whatever question is showing for the first lesson batch (the five level 1 radicals
+# with the lowest positions), then repeats until the session's "Done" card shows. Questions are
+# shuffled, so each answer is picked by the characters on the prompt. Every radical has one
+# question (its name), so a batch of 5 means 5 answers.
+appId: com.edduenas.kanjisrs
+---
+- repeat:
+    while:
+      notVisible:
+        id: "session-done"
+    commands:
+      - runFlow:
+          when:
+            visible: { id: "prompt-characters", text: "日" }
+          commands:
+            - inputText: "sun"
+      - runFlow:
+          when:
+            visible: { id: "prompt-characters", text: "一" }
+          commands:
+            - inputText: "plank"
+      - runFlow:
+          when:
+            visible: { id: "prompt-characters", text: "王" }
+          commands:
+            - inputText: "monarch"
+      - runFlow:
+          when:
+            visible: { id: "prompt-characters", text: "囗" }
+          commands:
+            - inputText: "corral"
+      - runFlow:
+          when:
+            visible: { id: "prompt-characters", text: "丶" }
+          commands:
+            - inputText: "speck"
+      # First press checks, second press moves on (spec 0004 AC-10).
+      - pressKey: Enter
+      - assertVisible: "Correct"
+      - pressKey: Enter

@@ -1,0 +1,4 @@
+# The content version is the SHA-256 of bundle.json, so keep both byte for byte (no line ending
+# conversion on checkout).
+content/bundle.json -text
+content/content-version.txt -text
