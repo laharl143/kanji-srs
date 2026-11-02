@@ -12,9 +12,10 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 - **Tooling installed**: ESLint (`eslint-config-expo` plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
 - **Database**: `expo-sqlite` with Drizzle ORM 0.45 and drizzle-kit 0.31; Vitest runs the same schema and migrations on `better-sqlite3` in memory. See [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md)
 - **UI**: NativeWind 4.2 with Tailwind CSS 3.4 (`tailwind.config.js`, tokens in `src/global.css`), Reanimated 4.7, Noto Sans JP Regular and Bold via `expo-font`. See [src/theme/AGENTS.md](src/theme/AGENTS.md) and [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md)
-- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, `expo-speech`, `wanakana`, Maestro
+- **Study and pipeline libraries** (spec 0004): `wanakana` (romaji to kana in the reading field), `expo-crypto` (`randomUUID` for review ids); dev only `tsx` (runs `pipeline/src`) and `undici` (proxy aware downloads)
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, `expo-speech`, the Maestro CLI (flows are written in `maestro/`)
 - **Package manager**: npm
-- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`
+- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`, `pipeline:download`, `pipeline:build`, `pipeline:bundle`
 - **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
 
 ## Build approach
@@ -46,6 +47,7 @@ npx eas-cli@latest build -p android --profile preview   # sideloadable APK on EA
 npm run test:e2e            # Maestro flows in maestro/
 npm run pipeline:download   # fetch open data into pipeline/raw
 npm run pipeline:build      # build content/subjects.json
+npm run pipeline:bundle     # merge enabled levels and mnemonics into content/bundle.json and content-version.txt (the app reseeds on launch when it changes)
 npm run pipeline:batch -- --levels 1-3   # write mnemonic batches to pipeline/work
 npm run pipeline:merge      # validate + merge filled batches
 npm run pipeline:validate   # content checks
@@ -83,3 +85,6 @@ Declined: Agent Skill and MCP search for NativeWind and Reanimated (2026-11-02)
 - [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md): database schema, migrations, transactions, and query rules
 - [src/theme/AGENTS.md](src/theme/AGENTS.md): design tokens, raw colors, stage and progress helpers
 - [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md): base UI components and their accessibility rules
+- [pipeline/AGENTS.md](pipeline/AGENTS.md): content pipeline steps, pinned sources, and the `content/` files
+- [src/lib/study/AGENTS.md](src/lib/study/AGENTS.md): lesson and review services, the session queue, and the loop test
+- [src/components/study/AGENTS.md](src/components/study/AGENTS.md): shared quiz and lesson screen pieces, leave guard, Maestro testIDs

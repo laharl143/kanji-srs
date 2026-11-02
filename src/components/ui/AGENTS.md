@@ -9,6 +9,7 @@ Import from the barrel `@/components/ui` (`index.ts`): `Screen`, `AppBar`, `Butt
 ## Rules
 
 - Style with NativeWind token classes (`bg-surface`, `text-muted`, ...). For a prop that needs a raw color, use `usePalette()` from `@/theme/use-palette`, never a hex literal.
+- `Button` takes an optional `testID` for Maestro flows; set one on any button a flow taps.
 - Japanese text uses the `font-jp` or `font-jp-bold` class. Fonts may fail to load, so never depend on them for layout.
 - Every interactive component needs a TalkBack role, label, and state, a touch target of at least 48dp, and a visible pressed state (AC-5).
 - Stage colors and labels come only from `stageGroup` in `@/theme/stage`.

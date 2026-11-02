@@ -93,7 +93,7 @@ Make the pipeline safe to rerun: license check, stable ids, full validation, bui
 **Done when:** levels 1 to 3 pass validation and are playable, and rebuilding never changes an existing id.
 - [x] Design it (spec): `/architect full content pipeline`
 - [ ] Build it: `/develop full content pipeline`
-   - [ ] License check and stable ids (AC-1, AC-2)
+   - [x] License check and stable ids (AC-1, AC-2) (built with feature 5 on 2026-11-02: `pipeline/src/sources.ts` records the tanos license, and `pipeline/src/levels.test.ts` proves ids stay stable across two builds)
    - [ ] Validator and build report (AC-3, AC-4, AC-8)
    - [ ] Batch and merge workflow, sound hooks (AC-5, AC-6)
    - [ ] Levels 2 and 3 written and enabled (AC-7)
