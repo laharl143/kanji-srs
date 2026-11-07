@@ -6,9 +6,10 @@ import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } fr
 import shippedBundle from "../../../content/bundle.json";
 import { subject } from "../../../tests/unit/db/fixtures";
 import { createTestDb, type TestDb } from "../../../tests/unit/db/harness";
+import * as assignmentQueries from "@/lib/db/queries/assignments";
 import { getAssignments, updateAssignment } from "@/lib/db/queries/assignments";
 import { getMeta } from "@/lib/db/queries/meta";
-import { getSettings } from "@/lib/db/queries/settings";
+import { getSettings, updateSettings } from "@/lib/db/queries/settings";
 import { getSubject, getSubjectsWithMnemonics } from "@/lib/db/queries/subjects";
 
 import { CONTENT_VERSION_KEY, runStartup } from "./startup";
@@ -60,13 +61,18 @@ describe("runStartup", () => {
   it("changes nothing on a relaunch with the same version", async () => {
     await runStartup(db, USER, content("v1"), NOW);
     await updateAssignment(db, USER, 1, { srsStage: 3 });
+    const before = await getAssignments(db, USER);
+    const settings = await getSettings(db, USER);
     const edited = { ...subjects[0], meaningMnemonic: "changed" };
+    const later = new Date(NOW.getTime() + 86_400_000);
 
-    const again = await runStartup(db, USER, content("v1", [edited, ...subjects.slice(1)]), NOW);
+    const again = await runStartup(db, USER, content("v1", [edited, ...subjects.slice(1)]), later);
 
     expect(again).toEqual({ reseeded: false });
     expect((await getSubject(db, 1))?.meaningMnemonic).toBe("mnemonic 1");
-    expect((await getAssignments(db, USER, [1]))[0].srsStage).toBe(3);
+    // The progression ran and had nothing to unlock, so it wrote nothing (spec 0006 AC-5).
+    expect(await getAssignments(db, USER)).toEqual(before);
+    expect(await getSettings(db, USER)).toEqual(settings);
   });
 
   it("a new version updates subjects and keeps progress, never deleting a subject", async () => {
@@ -91,6 +97,75 @@ describe("runStartup", () => {
     expect(await getMeta(db, CONTENT_VERSION_KEY)).toBeUndefined();
     expect(await getSettings(db, USER)).toBeUndefined();
     expect(await getAssignments(db, USER)).toEqual([]);
+  });
+});
+
+describe("runStartup progression (spec 0006 AC-5)", () => {
+  const later = new Date(NOW.getTime() + 86_400_000);
+  // Level 3 arrives in a new bundle: one radical, and one kanji built from it.
+  const withLevel3 = [
+    ...subjects,
+    subject({ id: 8, type: "radical", level: 3 }),
+    subject({ id: 9, type: "kanji", level: 3, componentIds: [8] }),
+  ] as BundleSubject[];
+
+  // At level 2, the top level of the first bundle, with its only kanji (7) passed.
+  async function finishLevel2() {
+    await runStartup(db, USER, content("v1"), NOW);
+    await updateSettings(db, USER, { currentLevel: 2 });
+    await assignmentQueries.insertAssignmentsIfMissing(db, USER, [
+      { subjectId: 6, srsStage: 5, unlockedAt: 0 },
+      { subjectId: 7, srsStage: 5, unlockedAt: 0 },
+    ]);
+  }
+
+  it("keeps you at the top level of the content you have", async () => {
+    await finishLevel2();
+    const before = await getAssignments(db, USER);
+
+    expect(await runStartup(db, USER, content("v1"), later)).toEqual({ reseeded: false });
+
+    expect((await getSettings(db, USER))?.currentLevel).toBe(2);
+    expect(await getAssignments(db, USER)).toEqual(before);
+  });
+
+  it("levels you up when a new bundle adds a level above the one you finished", async () => {
+    await finishLevel2();
+
+    expect(await runStartup(db, USER, content("v2", withLevel3), later)).toEqual({
+      reseeded: true,
+    });
+
+    expect((await getSettings(db, USER))?.currentLevel).toBe(3);
+    // The new level's radical unlocks at launch time; its kanji waits for the radical.
+    expect(await getAssignments(db, USER, [8, 9])).toEqual([
+      expect.objectContaining({ subjectId: 8, srsStage: 0, unlockedAt: later.getTime() }),
+    ]);
+  });
+
+  it("unlocks new subjects at your level on a relaunch, even with no reseed", async () => {
+    await runStartup(db, USER, content("v1"), NOW);
+    // Radicals 1 and 2 passed outside a review (for example by a later skip ahead).
+    await updateAssignment(db, USER, 1, { srsStage: 5 });
+    await updateAssignment(db, USER, 2, { srsStage: 5 });
+
+    expect(await runStartup(db, USER, content("v1"), later)).toEqual({ reseeded: false });
+
+    expect(await getAssignments(db, USER, [3])).toEqual([
+      expect.objectContaining({ subjectId: 3, srsStage: 0, unlockedAt: later.getTime() }),
+    ]);
+  });
+
+  it("fails startup, and writes nothing, when the progression throws", async () => {
+    await runStartup(db, USER, content("v1"), NOW);
+    const before = await getAssignments(db, USER);
+    // A subject row the progression cannot read.
+    db.run(sql`UPDATE subjects SET component_ids = 'not json' WHERE id = 3`);
+
+    await expect(runStartup(db, USER, content("v1"), later)).rejects.toThrow();
+
+    expect(await getAssignments(db, USER)).toEqual(before);
+    expect((await getSettings(db, USER))?.currentLevel).toBe(1);
   });
 });
 
@@ -140,9 +215,16 @@ describe("runStartup, progress outside the bundle (spec 0005 AC-8)", () => {
 
   it("never fails startup when the check itself fails", async () => {
     await runStartup(db, USER, content("v1"), NOW);
-    db.run(sql`DROP TABLE assignments`);
+    // Only the check's read fails; the progression after it reads as usual.
+    const read = vi
+      .spyOn(assignmentQueries, "getAssignments")
+      .mockRejectedValueOnce(new Error("read failed"));
 
-    await expect(runStartup(db, USER, content("v2"), NOW)).resolves.toEqual({ reseeded: true });
+    try {
+      await expect(runStartup(db, USER, content("v2"), NOW)).resolves.toEqual({ reseeded: true });
+    } finally {
+      read.mockRestore();
+    }
 
     expect(await getMeta(db, CONTENT_VERSION_KEY)).toBe("v2");
     expect(warn).toHaveBeenCalledExactlyOnceWith(
@@ -178,6 +260,24 @@ describe("runStartup with the shipped bundle (spec 0005 AC-7)", () => {
         : !r.meaningMnemonic || (r.type === "kanji" && !r.readingMnemonic),
     );
     expect(unwritten.map((r) => `${r.type}:${r.characters}`)).toEqual([]);
+  });
+
+  it("first launch unlocks exactly the level 1 radicals, at stage 0 (spec 0006 AC-5, AC-13)", async () => {
+    const shipped: BundledContent = {
+      bundle: shippedBundle as Bundle,
+      version: read("content-version.txt").trim(),
+    };
+    const level1Radicals = shipped.bundle.subjects
+      .filter((s) => s.level === 1 && s.type === "radical")
+      .map((s) => s.id)
+      .sort((a, b) => a - b);
+
+    await runStartup(db, USER, shipped, NOW);
+
+    const rows = await getAssignments(db, USER);
+    expect(rows.map((a) => a.subjectId)).toEqual(level1Radicals);
+    expect(rows.every((a) => a.srsStage === 0 && a.unlockedAt === NOW.getTime())).toBe(true);
+    expect((await getSettings(db, USER))?.currentLevel).toBe(1);
   });
 });
 

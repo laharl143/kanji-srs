@@ -52,10 +52,11 @@ describe("subjects queries", () => {
     expect(await getUsedIn(db, 4)).toEqual([]);
   });
 
-  it("getUnlockInputs returns subjects up to the level", async () => {
+  it("getUnlockInputs returns subjects up to the level, or every subject with no level", async () => {
     const rows = await getUnlockInputs(db, 1);
     expect(rows.map((r) => r.id)).toEqual([1, 2, 3, 4]);
     expect(rows[2]).toEqual({ id: 3, type: "kanji", level: 1, componentIds: [1, 2] });
+    expect((await getUnlockInputs(db)).map((r) => r.id)).toEqual([1, 2, 3, 4, 5]);
   });
 
   it("getLevelSummaries counts subjects and passed assignments per level", async () => {

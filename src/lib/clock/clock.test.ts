@@ -41,3 +41,29 @@ describe("clock", () => {
     expect(getClockOffset()).toBe(0);
   });
 });
+
+// `/dev/clock` (the debug clock and the progress shortcut) redirects Home when this is off
+// (spec 0004 AC-13, spec 0006 AC-11).
+describe("CLOCK_DEBUG_ENABLED", () => {
+  async function flagWith(dev: boolean, e2e: string) {
+    vi.stubGlobal("__DEV__", dev);
+    vi.stubEnv("EXPO_PUBLIC_E2E", e2e);
+    vi.resetModules();
+    return (await import("./index")).CLOCK_DEBUG_ENABLED;
+  }
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+    vi.resetModules();
+  });
+
+  it("is off in a build that is neither development nor e2e, like the preview APK", async () => {
+    expect(await flagWith(false, "")).toBe(false);
+  });
+
+  it("is on in development and in the e2e build", async () => {
+    expect(await flagWith(true, "")).toBe(true);
+    expect(await flagWith(false, "1")).toBe(true);
+  });
+});

@@ -1,20 +1,24 @@
-import { getAssignments, insertAssignmentsIfMissing } from "@/lib/db/queries/assignments";
+import { getAssignments } from "@/lib/db/queries/assignments";
 import { getMeta, setMeta } from "@/lib/db/queries/meta";
 import { getOrCreateSettings, getSettings } from "@/lib/db/queries/settings";
-import { getInitialUnlockIds, upsertSubjects } from "@/lib/db/queries/subjects";
+import { upsertSubjects } from "@/lib/db/queries/subjects";
 import { withTransaction } from "@/lib/db/transaction";
 import type { Db } from "@/lib/db/types";
+import { runProgression } from "@/lib/study/progression";
 
 import type { BundledContent } from "./types";
 
 export const CONTENT_VERSION_KEY = "content_version";
 
 /**
- * Launch reseed (0001 §5.6, spec 0004 AC-5). When the bundled version differs from the stored
- * one, or on first launch, upserts every bundled subject and writes the version in one
- * transaction. On first launch it also creates the settings and unlocks the starting set at
- * stage 0. Never deletes a subject and never touches existing progress. Throws on a DB failure.
- * After a reseed commits it logs progress rows whose subject left the bundle (spec 0005 AC-8).
+ * Launch work, in two transactions. First the reseed (0001 §5.6, spec 0004 AC-5): when the
+ * bundled version differs from the stored one, or on first launch, upserts every bundled subject
+ * and writes the version; first launch also creates the settings. It never deletes a subject and
+ * never touches progress, and after it commits it logs progress rows whose subject left the
+ * bundle (spec 0005 AC-8). Then, on every launch, the progression (spec 0006 AC-5): this is what
+ * unlocks the level 1 radicals on first launch, and what levels you up when a new bundle adds
+ * levels above the one you finished. A launch with nothing to unlock writes nothing. Throws on a
+ * DB failure.
  */
 export async function runStartup(
   db: Db,
@@ -25,24 +29,18 @@ export async function runStartup(
   // Both checks happen before any write.
   const firstLaunch = (await getSettings(db, userId)) === undefined;
   const stored = await getMeta(db, CONTENT_VERSION_KEY);
-  if (!firstLaunch && stored === content.version) return { reseeded: false };
+  const reseed = firstLaunch || stored !== content.version;
 
-  const at = now.getTime();
-  await withTransaction(db, async (tx) => {
-    await upsertSubjects(tx, content.bundle.subjects);
-    if (firstLaunch) {
-      await getOrCreateSettings(tx, userId, at);
-      const ids = await getInitialUnlockIds(tx);
-      await insertAssignmentsIfMissing(
-        tx,
-        userId,
-        ids.map((subjectId) => ({ subjectId, srsStage: 0, unlockedAt: at })),
-      );
-    }
-    await setMeta(tx, CONTENT_VERSION_KEY, content.version);
-  });
-  await warnOutsideBundle(db, userId, content);
-  return { reseeded: true };
+  if (reseed) {
+    await withTransaction(db, async (tx) => {
+      await upsertSubjects(tx, content.bundle.subjects);
+      if (firstLaunch) await getOrCreateSettings(tx, userId, now.getTime());
+      await setMeta(tx, CONTENT_VERSION_KEY, content.version);
+    });
+    await warnOutsideBundle(db, userId, content);
+  }
+  await withTransaction(db, (tx) => runProgression(tx, userId, now));
+  return { reseeded: reseed };
 }
 
 const ORPHAN_LOG_LIMIT = 20;

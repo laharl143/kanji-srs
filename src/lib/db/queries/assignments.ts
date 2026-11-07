@@ -183,6 +183,37 @@ export async function updateAssignment(
     .where(and(eq(assignments.userId, userId), eq(assignments.subjectId, subjectId)));
 }
 
+/**
+ * Development and e2e builds only (spec 0006 AC-11): every assignment of a subject at `level`
+ * with stage 0 to 4 moves to stage 4, due at `now`, with `started_at` set to `now` where it is
+ * empty. Rows already at stage 4 count too and are made due. Writes no reviews rows. Returns how
+ * many rows moved.
+ */
+export async function promoteLevelForTesting(
+  db: Db,
+  userId: string,
+  level: number,
+  now: number,
+): Promise<number> {
+  const atLevel = db.select({ id: subjects.id }).from(subjects).where(eq(subjects.level, level));
+  const moved = await db
+    .update(assignments)
+    .set({
+      srsStage: 4,
+      availableAt: now,
+      startedAt: sql`coalesce(${assignments.startedAt}, ${now})`,
+    })
+    .where(
+      and(
+        eq(assignments.userId, userId),
+        between(assignments.srsStage, 0, 4),
+        inArray(assignments.subjectId, atLevel),
+      ),
+    )
+    .returning({ subjectId: assignments.subjectId });
+  return moved.length;
+}
+
 // Skip ahead: every subject below `level` ends up at least at `values.srsStage`; never lowers one.
 export async function raiseAssignmentsBelowLevel(
   db: Db,

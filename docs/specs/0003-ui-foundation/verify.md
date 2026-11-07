@@ -17,7 +17,6 @@ Start with `npm run dev`, open the app in Expo Go on your Android phone, set Dis
 - [x] Tap Info, Success, Error toast: one toast at a time above the tab bar area, a pink, green, or red left bar, gone after about 3 seconds; a new tap replaces the old one → AC-5
 - [x] Open the default dialog: the dark scrim covers the whole screen including the status and navigation bars; tap outside the box → it closes and shows "Cancelled" → AC-6
 - [x] Open the RESET dialog: the keyboard opens and the box stays above it; type `reset` → Reset stays disabled; change to `RESET` → Reset enables; press Android back → it cancels; reopen → the field is empty again → AC-6
-- [ ] TalkBack on: each chip reads type, characters, meaning (and stage when shown, e.g. "kanji 直, straight, Seed"); progress bars read their value; a toast is announced; the back arrow reads "Back, button" → AC-5
 - [x] Tap any subject chip: an "Item" screen with a back arrow shows the id → AC-4
 - [ ] Startup: with the phone offline, a cold start shows the splash in the page color (light `#fafaf9`, dark `#1c1917`) then Home, never a white flash → AC-3
 - [x] Font fail path: temporarily rename the font import in `src/app/_layout.tsx` to a missing font, reload; the app still opens within about 3 seconds using the system font (revert after) → AC-3
@@ -37,7 +36,7 @@ Start with `npm run dev`, open the app in Expo Go on your Android phone, set Dis
 ## Value sourcing
 - [x] Theme tokens: switch system theme → class colors and raw colors (tab bar tint, icon colors) switch together → value source: system scheme
 - [x] Chip tile color: same characters with type radical, kanji, vocab give blue, pink, purple → `subject.type`
-- [x] Chip characters and meaning: the TalkBack label matches the sample's characters and meaning → caller props
+- [x] Chip characters and meaning: the accessibility label matches the sample's characters and meaning → caller props
 - [ ] Stage dot and label: stage null, 0, 4, 6, 7, 8, 9 give Locked, Lesson, Seed, Sprout, Bloom, Harvest, Retired → `stageGroup`
 - [x] Back arrow: present on `/dev/ui` and the Item screen, absent on all three tabs → navigator `back` prop
 - [x] Chip link: tapping chip id 2 opens Item 2 → `/subjects/${id}`
@@ -56,6 +55,6 @@ Start with `npm run dev`, open the app in Expo Go on your Android phone, set Dis
 - AC-2: chip colors, stage dots, Vitest stage and contrast tests (with the known gaps)
 - AC-3: Japanese glyph check, Bold check, splash, font fail path, export asset list
 - AC-4: tabs, titles, back arrow, Android back, 1.3 font scale, Item screen
-- AC-5: buttons, toasts, TalkBack, contrast test
+- AC-5: buttons, toasts, contrast test
 - AC-6: both dialogs, scrim, keyboard, RESET typing, back cancels
 - AC-7: dev link, preview screen, preview APK without the link, deep link redirect

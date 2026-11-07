@@ -14,9 +14,11 @@ import {
   getScheduledAssignments,
   getStageCounts,
   insertAssignmentsIfMissing,
+  promoteLevelForTesting,
   raiseAssignmentsBelowLevel,
   updateAssignment,
 } from "./assignments";
+import { getReviews } from "./reviews";
 import { upsertSubjects } from "./subjects";
 
 const U = "local";
@@ -147,6 +149,37 @@ describe("assignments queries", () => {
     const [row] = await getAssignments(db, U, [1]);
     expect(row).toMatchObject({ srsStage: 1, unlockedAt: 5, startedAt: 10, availableAt: 20 });
     expect(row?.passedAt).toBeNull();
+  });
+
+  it("promoteLevelForTesting moves stage 0 to 4 rows at the level to stage 4, due now (spec 0006 AC-11)", async () => {
+    await insertAssignmentsIfMissing(db, U, [
+      // Level 1: a lesson, two in review, and one passed.
+      { subjectId: 1, srsStage: 0, unlockedAt: 0 },
+      { subjectId: 2, srsStage: 2, unlockedAt: 0, startedAt: 7, availableAt: 900 },
+      { subjectId: 3, srsStage: 4, unlockedAt: 0, startedAt: 7, availableAt: 900 },
+      { subjectId: 4, srsStage: 5, unlockedAt: 0, startedAt: 7, availableAt: 900, passedAt: 8 },
+      // Level 2.
+      { subjectId: 5, srsStage: 1, unlockedAt: 0, startedAt: 7, availableAt: 900 },
+    ]);
+    await insertAssignmentsIfMissing(db, "other", [{ subjectId: 1, srsStage: 0, unlockedAt: 0 }]);
+
+    expect(await promoteLevelForTesting(db, U, 1, 500)).toBe(3);
+
+    const rows = await getAssignments(db, U);
+    expect(rows.map((r) => [r.subjectId, r.srsStage, r.startedAt, r.availableAt])).toEqual([
+      [1, 4, 500, 500],
+      [2, 4, 7, 500],
+      [3, 4, 7, 500],
+      [4, 5, 7, 900],
+      [5, 1, 7, 900],
+    ]);
+    expect(rows[0]).toMatchObject({ unlockedAt: 0, passedAt: null, burnedAt: null });
+    expect(await getAssignments(db, "other")).toEqual([
+      expect.objectContaining({ subjectId: 1, srsStage: 0, availableAt: null }),
+    ]);
+    expect(await getReviews(db, U)).toEqual([]);
+    // Nothing at the level: nothing moves.
+    expect(await promoteLevelForTesting(db, U, 9, 500)).toBe(0);
   });
 
   it("raiseAssignmentsBelowLevel inserts missing rows and never lowers a stage", async () => {

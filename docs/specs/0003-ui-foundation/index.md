@@ -19,7 +19,7 @@ This spec sets the look of the app and the base pieces every screen is built fro
 - **AC-2**: Colors follow the palette below: blue radicals, pink kanji, purple vocabulary (the same in both themes, white characters on top), a pink app bar with a white title in both themes, and stage colors as `--stage-*` tokens (light and dark) chosen through one pure function `stageGroup(srsStage)` that covers locked (no assignment), lesson (stage 0), Seed (1 to 4), Sprout (5 to 6), Bloom (7), Harvest (8), and Retired (9). `SubjectChip` and `StageDot` show the stage; a locked chip is greyed.
 - **AC-3**: Japanese text uses Noto Sans JP Regular and Bold through the `font-jp` and `font-jp-bold` classes. The fonts load at startup while the splash screen is still up. If the fonts fail to load, the app still opens using the system font (font loading never blocks the app).
 - **AC-4**: The app shell has a bottom tab bar with Home, Levels, and Settings, each with one pink `AppBar` (no arrow) titled "Kanji SRS", "Levels", and "Settings". Every screen pushed on top of the tabs (lessons, reviews, item page, level detail, credits, the dev preview) shows the pink `AppBar` with its own title and a back arrow, no tab bar, and the Android back button returns to the previous screen. The theme follows the system and switches live when you change it. The layout is edge to edge (drawn behind the system bars) with safe areas respected, light status bar icons over the pink bar, and no horizontal scroll at 360dp width or at a 1.3 font scale (the app bar title and tab labels may truncate with an ellipsis, never wrap or clip).
-- **AC-5**: The base components exist in `src/components/ui/`: `Screen`, `AppBar`, `Button`, `Card`, `SubjectChip`, `StageDot`, `ProgressBar`, `Toast` (provider plus `useToast`), and `ConfirmDialog`. Every interactive one has a TalkBack role, label, and state, a touch target of at least 48dp, and a visible pressed state. `Toast` messages are announced to TalkBack. Body text and button labels meet 4.5:1 contrast; large text (bold 18sp or larger, and chip characters) meets 3:1.
+- **AC-5**: The base components exist in `src/components/ui/`: `Screen`, `AppBar`, `Button`, `Card`, `SubjectChip`, `StageDot`, `ProgressBar`, `Toast` (provider plus `useToast`), and `ConfirmDialog`. Every interactive one has an accessibility role, label, and state, a touch target of at least 48dp, and a visible pressed state. Body text and button labels meet 4.5:1 contrast; large text (bold 18sp or larger, and chip characters) meets 3:1.
 - **AC-6**: `ConfirmDialog` closes as a cancel when you press the Android back button or tap outside it. Its scrim covers the whole screen including behind the system bars, and the dialog stays above the keyboard at 360dp. With `requireText` set, the confirm button stays disabled until the typed text matches exactly (case sensitive).
 - **AC-7**: A development only preview screen at `/dev/ui` shows every component in every variant, reachable from a link on Home in development builds. In a build without `__DEV__` (the `preview` and `e2e` APKs) the link is absent and opening `/dev/ui` redirects to Home.
 
@@ -162,7 +162,6 @@ Other routes (`lessons`, `reviews`, `levels/[n]`, `credits`) are created by thei
 - Contrast: white on `--primary` and `--primary` on `--bg` reach 4.5:1 in light mode, and every stage color reaches 3:1 on `--bg` in both themes (a Vitest check over `colors.ts`), verifies **AC-2**, **AC-5**
 - Fonts: kanji in a chip render in Noto Sans JP (compare 直 or 骨, whose Japanese and Chinese glyph shapes differ); with the font load forced to fail, the app still opens, verifies **AC-3**
 - Dialog: with `requireText="RESET"`, typing `reset` keeps confirm disabled and `RESET` enables it; the Android back button cancels, verifies **AC-6**
-- TalkBack: with TalkBack on, each chip reads its type, characters, and meaning, the progress bar reads its value, and a toast is announced, verifies **AC-5**
 - Release gate: in the `preview` APK, the Home link is gone and a deep link to `kanjisrs://dev/ui` lands on Home, verifies **AC-7**
 
 ## Build plan
@@ -186,7 +185,7 @@ Tracer Bullet: first prove that NativeWind, a token, and the shell run end to en
 
 **Negative / tradeoffs**:
 - The two Noto Sans JP weights add several megabytes to the APK (about 4 to 5 MB each).
-- Accessibility and pressed states are hand made, so they rely on the dev preview and TalkBack checks; there are no component render tests in Vitest.
+- Accessibility and pressed states are hand made, so they rely on the dev preview checks; there are no component render tests in Vitest.
 - NativeWind adds a Babel plugin, a Metro wrapper, and Reanimated, all of which an SDK upgrade must keep working.
 - The type colors do not change in dark mode, so the bright tiles stand out more against a dark page.
 

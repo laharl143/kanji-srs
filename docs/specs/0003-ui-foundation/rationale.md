@@ -68,3 +68,7 @@ The deciding force is 0001: it already chose NativeWind so that the Tailwind tok
 Nine components are enough because the screen specs only ask for these; parts with a single user (the review answer field, the forecast bars, the level picker) stay with their own screen spec. `Screen` and `AppBar` are included because every route needs the same safe area and bar handling, and getting edge to edge right once is cheaper than once per screen. The Material look of the reference is kept through the pink bar, white cards, and the colorway, not through a Material library.
 
 The raw color mirror in `colors.ts` exists because some React Native APIs take a color value, not a class name (the navigation theme background, tab bar tint, status bar, icon colors). Two copies of a palette always drift, so a parity test reads `global.css` and compares it with `colors.ts`, making drift a failing test instead of a visual bug.
+
+## Later change
+
+2026-11-08, your choice after `/check verify SRS progression`: no screen reader checks. This is a private app and you will not use a screen reader, so TalkBack is not a target. AC-5 now asks for an accessibility role, label, and state instead of a TalkBack one, the toast announcement is no longer required, and the TalkBack steps left the test scenarios and `verify.md`. The labels stay in the code, because the scripted checks read the screen through them (Android's screen dump shows them).

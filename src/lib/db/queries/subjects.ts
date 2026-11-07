@@ -38,21 +38,6 @@ export async function getSubjectsWithMnemonics(db: Db, ids: readonly number[]): 
     .orderBy(asc(subjects.id));
 }
 
-// First launch unlock set (spec 0004 AC-5): level 1 radicals, and level 1 kanji with no radicals.
-export async function getInitialUnlockIds(db: Db): Promise<number[]> {
-  const rows = await db
-    .select({ id: subjects.id })
-    .from(subjects)
-    .where(
-      and(
-        eq(subjects.level, 1),
-        sql`(${subjects.type} = 'radical' OR (${subjects.type} = 'kanji' AND json_array_length(${subjects.componentIds}) = 0))`,
-      ),
-    )
-    .orderBy(asc(subjects.id));
-  return rows.map((r) => r.id);
-}
-
 // Subjects that list `subjectId` among their components.
 export async function getUsedIn(db: Db, subjectId: number): Promise<SubjectSummary[]> {
   return db
@@ -64,8 +49,9 @@ export async function getUsedIn(db: Db, subjectId: number): Promise<SubjectSumma
     .orderBy(asc(subjects.level), typeOrder, asc(subjects.position));
 }
 
-// The input computeUnlocks needs (0001 §6.4).
-export async function getUnlockInputs(db: Db, maxLevel: number) {
+// The input the progression planner needs (0001 §6.4, spec 0006): every subject, or only those
+// up to `maxLevel` when it is given.
+export async function getUnlockInputs(db: Db, maxLevel?: number) {
   return db
     .select({
       id: subjects.id,
@@ -74,7 +60,7 @@ export async function getUnlockInputs(db: Db, maxLevel: number) {
       componentIds: subjects.componentIds,
     })
     .from(subjects)
-    .where(lte(subjects.level, maxLevel))
+    .where(maxLevel === undefined ? undefined : lte(subjects.level, maxLevel))
     .orderBy(asc(subjects.id));
 }
 

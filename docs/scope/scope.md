@@ -21,7 +21,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 4 | UI foundation | Foundation | done |
 | 5 | Core study loop | Slice 1 | done |
 | 6 | Full content pipeline | Slice 2 | done |
-| 7 | SRS progression | Slice 3 | in-progress |
+| 7 | SRS progression | Slice 3 | done |
 | 8 | Answer checking | Slice 4 | in-progress |
 | 9 | Dashboard | Slice 5 | in-progress |
 | 10 | Item pages & level browser | Slice 6 | in-progress |
@@ -103,17 +103,17 @@ Spec [0005](../specs/0005-content-pipeline/index.md) · code in `pipeline/src/`,
 
 ## Slice 3: SRS progression
 
-### 7. SRS progression · in-progress · spec stale for Android
+### 7. SRS progression · done
 Kanji unlock when their radicals pass, vocab when its kanji pass, level up at 90%, plus wrap up and a session summary.
 **Done when:** finishing level 1 radicals unlocks its kanji, passing 90% of level 1 kanji opens level 2, and wrap up works.
-**Before building:** spec 0006 was written for Next.js. Update it for Android first with `/architect SRS progression` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0006 for Android): `/architect SRS progression`
-- [ ] Build it: `/develop SRS progression`
-   - [ ] Unlock and level up rules with tests (AC-1 to AC-4)
-   - [ ] After review routine in a transaction (AC-5)
-   - [ ] Wrap up, summary, lesson ordering (AC-6, AC-7)
-- [ ] Verify it: `/check verify SRS progression`
-Spec 0006
+- [x] Design it (spec, updated 2026-11-07 for Android: 10 item review window, Keep going after Wrap up, dev shortcut to stage 4): `/architect SRS progression`
+- [x] Build it: `/develop SRS progression`
+   - [x] Unlock step after each review and on launch, plus the dev shortcut (AC-1, AC-4, AC-5, AC-11) (built 2026-11-07: `runProgression` runs inside each review's transaction and on every launch; in Expo Go on the emulator the `/dev/clock` shortcut moved the 35 level 1 radicals to stage 4)
+   - [x] Level up with the content cap and the progression loop test (AC-2, AC-3, AC-12, AC-13) (built 2026-11-07: `src/lib/study/progression.test.ts` drives the two level loop; on the emulator one session of level 1 kanji opened level 2, and the next lessons started with level 1 kanji and words)
+   - [x] Review window, wrap up, and accuracy (AC-6 to AC-8) (built 2026-11-07: on the emulator with 35 due, 10 in play, Wrap up and Keep going, and 66% after one miss in three answers)
+   - [x] Session summary (AC-9, AC-10) (built 2026-11-07: on the emulator, including the Level 2 is open banner, dark mode, Keep reviewing, and Start lessons)
+- [x] Verify it (verified 2026-11-08: all 51 Expo Go steps in `verify.md` passed on the emulator, among them the level 2 unlock in the review of the 23rd kanji, the lesson order after it, 360dp at a 1.3 font scale in light and dark, and a miss at Sprout 2 dropping to Seed 4; the TalkBack step was dropped on your request and the labels stay; the Maestro run and the `/dev/clock` APK check are in Release build checks): `/check verify SRS progression`
+Spec [0006](../specs/0006-srs-progression/index.md) · code in `src/lib/srs/progression.ts`, `src/lib/study/`, `src/components/study/ReviewSummary.tsx`, `src/app/reviews.tsx`, `src/app/dev/clock.tsx`
 
 ## Slice 4: Answer checking
 
@@ -191,7 +191,8 @@ Run these once, on one `preview` APK, when the app is feature complete (see **Re
 - [ ] `kanjisrs://dev/ui` lands on Home with no Developer card (feature 4, AC-7; the `href="/"` fix is only checked in Expo Go so far)
 - [ ] Offline cold start shows the splash in the page color, light `#fafaf9` and dark `#1c1917`, then Home with no white flash (feature 4, AC-3; Expo Go shows its own splash)
 - [ ] Review reminders on the installed APK (feature 14)
-- [ ] `maestro/core-loop.yaml` passes on the `e2e` APK (feature 5, 0004 AC-15)
+- [ ] `maestro/core-loop.yaml` passes on the `e2e` APK (feature 5, 0004 AC-15; feature 7, 0006 AC-9, now ending on the review summary)
+- [ ] `kanjisrs://dev/clock` lands on Home, so the debug clock and the progress shortcut cannot run (feature 7, 0006 AC-11)
 
 ## Dropped
 

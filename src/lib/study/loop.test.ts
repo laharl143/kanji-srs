@@ -93,6 +93,17 @@ beforeEach(async () => {
   await runStartup(db, USER, fixture, START);
 });
 
+// Runs a review session over everything due at `at` with every answer right, and saves each
+// finished item the way the review screen does.
+async function reviewEverythingDue(at: Date) {
+  const session = await loadReviewSession(db, USER, at);
+  const results = [];
+  for (const done of answerAll(session.map((i) => i.subject))) {
+    results.push(await submitReview(db, USER, done, at, randomUUID));
+  }
+  return results;
+}
+
 describe("core study loop (spec 0004 AC-14)", () => {
   it("learns level 1 radicals, reviews them 4 hours later, and reaches stage 2", async () => {
     expect(await getHomeCounts(db, USER, START)).toEqual({ lessons: 3, reviews: 0 });
@@ -117,7 +128,13 @@ describe("core study loop (spec 0004 AC-14)", () => {
 
     for (const done of answerAll(session.map((i) => i.subject))) {
       const result = await submitReview(db, USER, done, later, randomUUID);
-      expect(result).toEqual({ ok: true, newStage: 2 });
+      expect(result).toEqual({
+        ok: true,
+        startingStage: 1,
+        newStage: 2,
+        unlocked: 0,
+        newLevel: null,
+      });
     }
 
     const assignments = await getAssignments(db, USER);
@@ -132,6 +149,33 @@ describe("core study loop (spec 0004 AC-14)", () => {
     expect(await getHomeCounts(db, USER, later)).toEqual({ lessons: 0, reviews: 0 });
     // The stage 2 interval is 8 hours.
     expect((await getHomeCounts(db, USER, new Date(later.getTime() + 8 * HOUR))).reviews).toBe(3);
+  });
+
+  it("reviews the radicals up to stage 5, which puts their kanji in the lesson queue (spec 0006 AC-1, AC-4)", async () => {
+    for (const item of await loadLessonBatch(db, USER)) {
+      await completeLessonItem(db, USER, item.subject.id, START);
+    }
+    // Stages 1, 2, 3, and 4 wait 4 hours, 8 hours, 1 day, and 2 days.
+    let at = START;
+    for (const wait of [4 * HOUR, 8 * HOUR, 24 * HOUR]) {
+      at = new Date(at.getTime() + wait);
+      const results = await reviewEverythingDue(at);
+      expect(results.map((r) => r.ok && r.unlocked)).toEqual([0, 0, 0]);
+    }
+    expect(await getHomeCounts(db, USER, at)).toEqual({ lessons: 0, reviews: 0 });
+
+    at = new Date(at.getTime() + 48 * HOUR);
+    const results = await reviewEverythingDue(at);
+
+    // The review that passed the second of the kanji's radicals (一 and 卜) unlocked it.
+    expect(results.map((r) => r.ok && r.newStage)).toEqual([5, 5, 5]);
+    expect(results.reduce((n, r) => n + (r.ok ? r.unlocked : 0), 0)).toBe(1);
+    expect((await loadLessonBatch(db, USER)).map((i) => i.subject.id)).toEqual([4]);
+    expect(await getAssignments(db, USER, [4])).toEqual([
+      expect.objectContaining({ srsStage: 0, unlockedAt: at.getTime(), startedAt: null }),
+    ]);
+    // The word waits for its kanji.
+    expect(await getAssignments(db, USER, [5])).toEqual([]);
   });
 
   it("gives lesson pages their mnemonics and component meanings", async () => {
@@ -197,7 +241,13 @@ describe("service errors (spec 0004 AC-9)", () => {
       later,
       () => "review-1",
     );
-    expect(result).toEqual({ ok: true, newStage: 1 });
+    expect(result).toEqual({
+      ok: true,
+      startingStage: 1,
+      newStage: 1,
+      unlocked: 0,
+      newLevel: null,
+    });
     expect(await getReviews(db, USER)).toEqual([
       expect.objectContaining({ id: "review-1", incorrectMeaningCount: 2, endingStage: 1 }),
     ]);
