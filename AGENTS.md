@@ -26,6 +26,10 @@ Tracer Bullet: get one thin real thread working through every layer first, then 
 
 Jira project `KS` (kanji-srs) on `vital-stats.atlassian.net`, [board 169](https://vital-stats.atlassian.net/jira/software/projects/KS/boards/169). It mirrors the scope: one Epic per phase, one Story per feature, one Subtask per scope box. Workflow transitions: To Do `11`, In Progress `21`, Done `31`. When a feature or box changes status in the scope, move its Jira issue to match.
 
+## Git
+
+When the owner says "commit" (or picks a commit option), commit and then push the branch to `origin`. A requested commit always ends pushed, even where a skill says it never pushes. Without that word, commit nothing and push nothing, and keep other sessions' uncommitted files out of a commit.
+
 ## Ground rules
 
 1. **No WaniKani content, ever.** Do not scrape, copy, paraphrase, or import mnemonics, radical names, sentences, audio, or level lists from WaniKani or any paid course. Do not call the WaniKani API.
