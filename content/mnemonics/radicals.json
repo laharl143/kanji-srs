@@ -138,5 +138,161 @@
   "田": {
     "name": "paddy",
     "meaningMnemonic": "A square split into four smaller squares. It is a paddy seen from above, divided into flooded plots."
+  },
+  "个": {
+    "name": "umbrella",
+    "meaningMnemonic": "Two strokes spread down and out from one point at the top, like the cloth of an open umbrella. Hold this umbrella over whatever sits beneath it."
+  },
+  "金": {
+    "name": "ingot",
+    "meaningMnemonic": "A pointed top over stacked bars, with a glint on each side at the bottom. It is a heavy ingot, freshly cast and ready for the vault."
+  },
+  "ハ": {
+    "name": "mustache",
+    "meaningMnemonic": "Two short strokes part and sweep outward, one to the left and one to the right. Together they look like a mustache under a big nose."
+  },
+  "九": {
+    "name": "elbow",
+    "meaningMnemonic": "A short stroke crosses a long one that bends sharply and kicks out at the end. That sharp bend is an elbow, cocked and ready to nudge someone."
+  },
+  "入": {
+    "name": "tunnel",
+    "meaningMnemonic": "Two strokes lean together to make a low, pointed opening. It is the mouth of a tunnel you have to duck to get into."
+  },
+  "子": {
+    "name": "toddler",
+    "meaningMnemonic": "A round little head, arms stretched out to the sides, and one leg curled under. It is a toddler wobbling across the floor."
+  },
+  "尚": {
+    "name": "steam",
+    "meaningMnemonic": "Three short strokes rise and fan out at the top of a shape. They are wisps of steam drifting up from something hot."
+  },
+  "冖": {
+    "name": "blanket",
+    "meaningMnemonic": "A flat top with both edges hanging down at the sides. It is a blanket thrown over something to keep it covered."
+  },
+  "高": {
+    "name": "tower",
+    "meaningMnemonic": "Boxes stacked one on another under a pointed roof, with a wide frame at the base. It is a tower rising high over the town."
+  },
+  "亠": {
+    "name": "thumbtack",
+    "meaningMnemonic": "A small dot pressed down onto a flat line. It is a thumbtack pinning a note to the top of a board."
+  },
+  "冂": {
+    "name": "goalpost",
+    "meaningMnemonic": "Two upright posts joined by a bar across the top, open at the bottom. It is a goalpost waiting for someone to score."
+  },
+  "夕": {
+    "name": "dusk",
+    "meaningMnemonic": "A slanted moon with a stroke cutting through it, half hidden by cloud. The sun has gone down and it is dusk."
+  },
+  "米": {
+    "name": "sparkler",
+    "meaningMnemonic": "A cross with little sparks shooting off in four directions. It is a sparkler fizzing in your hand at a summer festival."
+  },
+  "气": {
+    "name": "breath",
+    "meaningMnemonic": "Thin lines drift sideways and curl down at the end. It is your breath, floating out into the air on a cold morning."
+  },
+  "小": {
+    "name": "splash",
+    "meaningMnemonic": "One drop falls straight down and two droplets jump out to either side. It is a little splash in a puddle."
+  },
+  "乙": {
+    "name": "swan",
+    "meaningMnemonic": "One stroke folds back on itself and curls out at the bottom, like a long graceful neck. It is a swan gliding across a pond."
+  },
+  "匕": {
+    "name": "ladle",
+    "meaningMnemonic": "A short slanted stroke and a long one that bends into a scoop at the bottom. It is a ladle for serving soup."
+  },
+  "言": {
+    "name": "megaphone",
+    "meaningMnemonic": "Lines of words pile up on top of an open mouth. It is a megaphone, making every word loud enough to hear across the field."
+  },
+  "舌": {
+    "name": "lollipop",
+    "meaningMnemonic": "A long stick with a crossbar pokes out of an open mouth. Someone is happily sucking on a lollipop."
+  },
+  "女": {
+    "name": "dancer",
+    "meaningMnemonic": "A figure with crossed legs and one arm swung wide, caught in the middle of a spin. It is a dancer twirling on the stage."
+  },
+  "爿": {
+    "name": "ladder",
+    "meaningMnemonic": "A tall post with short rungs sticking out on one side. It is a ladder leaning on the wall, waiting to be climbed."
+  },
+  "白": {
+    "name": "milk carton",
+    "meaningMnemonic": "A tall box with a little slanted spout on top. It is a milk carton, full of something white."
+  },
+  "聿": {
+    "name": "quill",
+    "meaningMnemonic": "A hand grips a long upright stick crossed by several lines. It is a quill held ready to write."
+  },
+  "川": {
+    "name": "creek",
+    "meaningMnemonic": "Three lines run down side by side, the middle one a little shorter. Water trickles along between them like a creek."
+  },
+  "水": {
+    "name": "fountain",
+    "meaningMnemonic": "A tall jet shoots up the middle with water spraying out to both sides. It is a fountain in the town square."
+  },
+  "力": {
+    "name": "muscle",
+    "meaningMnemonic": "A bent stroke with a hook, like an arm curled up tight. Flex it and show off your muscle."
+  },
+  "西": {
+    "name": "cookie jar",
+    "meaningMnemonic": "A square jar with a lid on top and two lines poking up inside. It is a cookie jar, and somebody keeps sneaking a hand in."
+  },
+  "雨": {
+    "name": "drizzle",
+    "meaningMnemonic": "A wide roof of cloud with four drops falling inside it. It is a steady drizzle that soaks everything."
+  },
+  "父": {
+    "name": "scissors",
+    "meaningMnemonic": "Two blades cross in the middle with two little handles poking up on top. It is a pair of scissors, open and ready to snip."
+  },
+  "耳": {
+    "name": "earlobe",
+    "meaningMnemonic": "A tall frame with ridges inside and one side stretching down low. It is an earlobe, the soft bit you can tug."
+  },
+  "食": {
+    "name": "lunchbox",
+    "meaningMnemonic": "A lid on top, a box of food underneath, and a little spoon at the side. It is your lunchbox, packed and ready."
+  },
+  "車": {
+    "name": "wagon",
+    "meaningMnemonic": "A box on an axle with a wheel at each end, seen from above. It is a wagon rolling down the road."
+  },
+  "化": {
+    "name": "sidekick",
+    "meaningMnemonic": "A slim figure standing tall at the left edge of a kanji, always beside someone else. It is a sidekick, never the hero but always there."
+  },
+  "亅": {
+    "name": "fishhook",
+    "meaningMnemonic": "A straight line drops down and curls back up at the bottom. It is a fishhook dangling on its line."
+  },
+  "母": {
+    "name": "bird nest",
+    "meaningMnemonic": "A rounded frame with two little eggs tucked inside. It is a bird nest, warm and well guarded."
+  },
+  "毋": {
+    "name": "barricade",
+    "meaningMnemonic": "A frame with one long bar slashing straight through it. It is a barricade that says nobody gets past."
+  },
+  "火": {
+    "name": "campfire",
+    "meaningMnemonic": "A figure in the middle with sparks leaping off both sides. It is a campfire crackling in the dark."
+  },
+  "士": {
+    "name": "knight",
+    "meaningMnemonic": "Like soil, but here the top line is the long one, standing proud over a short base. It is a knight with chest out, ready to serve."
+  },
+  "又": {
+    "name": "crossed fingers",
+    "meaningMnemonic": "A stroke folds over and crosses itself, like two fingers twisted together. Keep your crossed fingers up and hope for luck."
   }
 }

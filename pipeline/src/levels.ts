@@ -1,13 +1,14 @@
 // 0001 §5.3 level building: order, pack, place radicals and vocab, assign stable ids.
 import type { ContentSubject } from "../../src/lib/content/types";
 import type { SubjectType } from "../../src/lib/types";
+import { idEntry, subjectKey, type IdEntry } from "./content";
 import type { SelectedKanji, Selection } from "./select";
 
 export const KANJI_PER_LEVEL = 25;
 
 const TYPE_ORDER: Record<SubjectType, number> = { radical: 0, kanji: 1, vocab: 2 };
 
-const key = (type: SubjectType, characters: string) => `${type}:${characters}`;
+const key = (type: SubjectType, characters: string) => subjectKey({ type, characters });
 
 // N5 first, then N4, then N3; within a level most frequent first, missing frequency last.
 export function orderKanji(kanji: SelectedKanji[]): SelectedKanji[] {
@@ -21,12 +22,20 @@ export function orderKanji(kanji: SelectedKanji[]): SelectedKanji[] {
 
 type Draft = Omit<ContentSubject, "id" | "componentIds"> & { components: string[] };
 
+export type Levels = { subjects: ContentSubject[]; retired: IdEntry[] };
+
 /**
- * Builds every level. `previous` is the last content/subjects.json: an item matched by type and
- * characters keeps its id, and new items get ids above the highest one used so far, so an id is
- * never renumbered or reused (0001 §5.3 step 6).
+ * Builds every level. `previous` is the last content/subjects.json and `retired` the last
+ * content/retired.json: an item matched by type and characters in either keeps its id (a retired
+ * item that comes back leaves the list), a previous item the selection lacks joins the list, and
+ * new items get ids above every id in both, so an id is never renumbered or reused (0001 §5.3
+ * step 6, spec 0005 AC-9).
  */
-export function buildLevels(selection: Selection, previous: ContentSubject[]): ContentSubject[] {
+export function buildLevels(
+  selection: Selection,
+  previous: ContentSubject[],
+  retired: IdEntry[] = [],
+): Levels {
   const ordered = orderKanji(selection.kanji);
   const kanjiLevel = new Map<string, number>();
   const kanjiIndex = new Map<string, number>();
@@ -83,19 +92,43 @@ export function buildLevels(selection: Selection, previous: ContentSubject[]): C
     d.position = next;
   }
 
-  const ids = new Map(previous.map((s) => [key(s.type, s.characters), s.id]));
-  let nextId = previous.reduce((max, s) => Math.max(max, s.id), 0) + 1;
+  // Known ids: the previous subjects.json first, then retired.json.
+  const known = [...previous.map(idEntry), ...retired.map(idEntry)];
+  const ids = new Map<string, number>();
+  for (const e of known) if (!ids.has(subjectKey(e))) ids.set(subjectKey(e), e.id);
+  let nextId = known.reduce((max, e) => Math.max(max, e.id), 0) + 1;
   for (const d of drafts) {
     const k = key(d.type, d.characters);
     if (!ids.has(k)) ids.set(k, nextId++);
   }
 
   const componentType = (t: SubjectType): SubjectType => (t === "kanji" ? "radical" : "kanji");
-  return drafts.map(({ components, ...d }) => ({
+  const subjects = drafts.map(({ components, ...d }) => ({
     id: ids.get(key(d.type, d.characters))!,
     ...d,
     componentIds: components.map((c) => ids.get(key(componentType(d.type), c))!),
   }));
+
+  // Everything known that is not in the course now stays retired, so its id stays taken.
+  const live = new Set(subjects.map(subjectKey));
+  const seen = new Set<string>();
+  const stillRetired = known.filter((e) => {
+    const k = subjectKey(e);
+    if (live.has(k) || seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  return { subjects, retired: stillRetired.sort((a, b) => a.id - b.id) };
+}
+
+/** What a build changed in retired.json: items it retired, and retired items it brought back. */
+export function retiredChanges(before: IdEntry[], after: IdEntry[]) {
+  const was = new Set(before.map(subjectKey));
+  const now = new Set(after.map(subjectKey));
+  return {
+    retired: after.filter((e) => !was.has(subjectKey(e))),
+    restored: before.filter((e) => !now.has(subjectKey(e))),
+  };
 }
 
 function draft(

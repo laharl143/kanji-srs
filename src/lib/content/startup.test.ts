@@ -1,5 +1,9 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 
+import { sql } from "drizzle-orm";
+import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } from "vitest";
+
+import shippedBundle from "../../../content/bundle.json";
 import { subject } from "../../../tests/unit/db/fixtures";
 import { createTestDb, type TestDb } from "../../../tests/unit/db/harness";
 import { getAssignments, updateAssignment } from "@/lib/db/queries/assignments";
@@ -8,7 +12,7 @@ import { getSettings } from "@/lib/db/queries/settings";
 import { getSubject, getSubjectsWithMnemonics } from "@/lib/db/queries/subjects";
 
 import { CONTENT_VERSION_KEY, runStartup } from "./startup";
-import type { BundledContent, BundleSubject } from "./types";
+import type { Bundle, BundledContent, BundleSubject } from "./types";
 
 const USER = "local";
 const NOW = new Date("2026-11-02T10:30:00Z");
@@ -87,6 +91,93 @@ describe("runStartup", () => {
     expect(await getMeta(db, CONTENT_VERSION_KEY)).toBeUndefined();
     expect(await getSettings(db, USER)).toBeUndefined();
     expect(await getAssignments(db, USER)).toEqual([]);
+  });
+});
+
+describe("runStartup, progress outside the bundle (spec 0005 AC-8)", () => {
+  let warn: MockInstance<typeof console.warn>;
+  beforeEach(() => {
+    warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  });
+  afterEach(() => {
+    warn.mockRestore();
+  });
+
+  it("after a reseed, warns about assignments whose subject left the bundle and keeps them", async () => {
+    await runStartup(db, USER, content("v1"), NOW);
+    expect(warn).not.toHaveBeenCalled();
+
+    // Subject 4 has an assignment and is gone from the new bundle.
+    const next = subjects.filter((s) => s.id !== 4);
+    expect(await runStartup(db, USER, content("v2", next), NOW)).toEqual({ reseeded: true });
+
+    expect(warn).toHaveBeenCalledExactlyOnceWith(
+      "reseed: 1 assignments point at subjects not in the bundle: 4",
+    );
+    expect((await getAssignments(db, USER)).map((a) => a.subjectId)).toEqual([1, 2, 4]);
+    expect(await getSubject(db, 4)).toBeDefined();
+  });
+
+  it("lists the count and only the first 20 ids", async () => {
+    const many = Array.from({ length: 25 }, (_, i) =>
+      subject({ id: i + 1, type: "radical", level: 1 }),
+    ) as BundleSubject[];
+    await runStartup(db, USER, content("v1", many), NOW);
+    const other = [subject({ id: 30, type: "radical", level: 1 })] as BundleSubject[];
+    await runStartup(db, USER, content("v2", other), NOW);
+    const first20 = Array.from({ length: 20 }, (_, i) => i + 1).join(", ");
+    expect(warn).toHaveBeenCalledExactlyOnceWith(
+      `reseed: 25 assignments point at subjects not in the bundle: ${first20}`,
+    );
+  });
+
+  it("checks nothing when the version did not change", async () => {
+    await runStartup(db, USER, content("v1"), NOW);
+    const next = subjects.filter((s) => s.id !== 4);
+    expect(await runStartup(db, USER, content("v1", next), NOW)).toEqual({ reseeded: false });
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it("never fails startup when the check itself fails", async () => {
+    await runStartup(db, USER, content("v1"), NOW);
+    db.run(sql`DROP TABLE assignments`);
+
+    await expect(runStartup(db, USER, content("v2"), NOW)).resolves.toEqual({ reseeded: true });
+
+    expect(await getMeta(db, CONTENT_VERSION_KEY)).toBe("v2");
+    expect(warn).toHaveBeenCalledExactlyOnceWith(
+      "reseed: could not check assignments against the bundle",
+      expect.any(Error),
+    );
+  });
+});
+
+describe("runStartup with the shipped bundle (spec 0005 AC-7)", () => {
+  const read = (file: string) =>
+    readFileSync(new URL(`../../../content/${file}`, import.meta.url), "utf8");
+
+  it("reseeds every level 1 to 3 subject in the course, mnemonics included", async () => {
+    // The course comes from subjects.json, so a subject missing from the bundle fails here.
+    const course = JSON.parse(read("subjects.json")) as { id: number; level: number }[];
+    const wanted = course
+      .filter((s) => s.level <= 3)
+      .map((s) => s.id)
+      .sort((a, b) => a - b);
+    const shipped: BundledContent = {
+      bundle: shippedBundle as Bundle,
+      version: read("content-version.txt").trim(),
+    };
+
+    expect(await runStartup(db, USER, shipped, NOW)).toEqual({ reseeded: true });
+
+    const rows = await getSubjectsWithMnemonics(db, wanted);
+    expect(rows.map((r) => r.id)).toEqual(wanted);
+    const unwritten = rows.filter((r) =>
+      r.type === "vocab"
+        ? !r.readingMnemonic
+        : !r.meaningMnemonic || (r.type === "kanji" && !r.readingMnemonic),
+    );
+    expect(unwritten.map((r) => `${r.type}:${r.characters}`)).toEqual([]);
   });
 });
 

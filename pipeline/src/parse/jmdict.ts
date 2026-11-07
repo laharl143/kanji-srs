@@ -17,7 +17,8 @@ export type JmdictIndex = Map<string, JmdictWord[]>;
 const HIDDEN_KANA_TAGS = new Set(["sK", "sk", "ok", "ik", "rk"]);
 const MAX_MEANINGS = 3;
 
-const applies = (list: string[], value: string) => list.includes("*") || list.includes(value);
+export const applies = (list: string[], value: string) =>
+  list.includes("*") || list.includes(value);
 
 // Written form -> entries that list it, common entries first.
 export function indexJmdict(json: JmdictJson): JmdictIndex {

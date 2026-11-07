@@ -16,7 +16,10 @@
     "db:generate": "drizzle-kit generate",
     "pipeline:download": "tsx pipeline/src/download.ts",
     "pipeline:build": "tsx pipeline/src/build.ts",
-    "pipeline:bundle": "tsx pipeline/src/bundle.ts"
+    "pipeline:bundle": "tsx pipeline/src/bundle.ts",
+    "pipeline:validate": "tsx pipeline/src/validate.ts",
+    "pipeline:batch": "tsx pipeline/src/batch.ts",
+    "pipeline:merge": "tsx pipeline/src/merge.ts"
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-jp": "^0.4.4",

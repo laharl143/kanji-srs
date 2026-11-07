@@ -20,7 +20,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 3 | Data model | Foundation | done |
 | 4 | UI foundation | Foundation | done |
 | 5 | Core study loop | Slice 1 | done |
-| 6 | Full content pipeline | Slice 2 | in-progress |
+| 6 | Full content pipeline | Slice 2 | done |
 | 7 | SRS progression | Slice 3 | in-progress |
 | 8 | Answer checking | Slice 4 | in-progress |
 | 9 | Dashboard | Slice 5 | in-progress |
@@ -88,17 +88,18 @@ Spec [0004](../specs/0004-core-loop/index.md) · code in `pipeline/src/`, `conte
 
 ## Slice 2: Full content pipeline
 
-### 6. Full content pipeline · in-progress
+### 6. Full content pipeline · done
 Make the pipeline safe to rerun: license check, stable ids, full validation, build report, and the batch workflow for writing mnemonics.
-**Done when:** levels 1 to 3 pass validation and are playable, and rebuilding never changes an existing id.
-- [x] Design it (spec): `/architect full content pipeline`
-- [ ] Build it: `/develop full content pipeline`
+**Done when:** levels 1 to 3 pass validation and are playable, and rebuilding never changes or reuses an id.
+- [x] Design it (spec, updated 2026-11-02: Claude Code writes the batches, retired ids, vocab fallback, cross checked): `/architect full content pipeline`
+- [x] Build it: `/develop full content pipeline`
    - [x] License check and stable ids (AC-1, AC-2) (built with feature 5 on 2026-11-02: `pipeline/src/sources.ts` records the tanos license, and `pipeline/src/levels.test.ts` proves ids stay stable across two builds)
-   - [ ] Validator and build report (AC-3, AC-4, AC-8)
-   - [ ] Batch and merge workflow, sound hooks (AC-5, AC-6)
-   - [ ] Levels 2 and 3 written and enabled (AC-7)
-- [ ] Verify it: `/check verify full content pipeline`
-Spec 0005
+   - [x] Validator, retired ids, bundle guard, and reseed log (AC-3, AC-6, AC-8, AC-9) (built 2026-11-02)
+   - [x] Batch and merge workflow, proven on one level 2 radical batch (AC-5, AC-6) (built 2026-11-02: batch 001 merged the 23 level 2 radical names)
+   - [x] Vocab fallback and build report (AC-4, AC-10) (built 2026-11-07: off by default, so the real tanos build stays byte identical; a dry run on the full raw data picks 1,939 common words)
+   - [x] Levels 2 and 3 written and enabled (AC-7) (built 2026-11-07: batches 002 to 012 merged, 222 items; `enabled-levels.json` is `[1, 2, 3]` and the bundle holds 357 subjects; the reseed was checked in Expo Go on the emulator, because no screen lists level 2 and 3 items until features 7 and 10)
+- [x] Verify it (verified 2026-11-07: all 16 steps in `verify.md` passed, plus live merge and bundle refusals, a vocab fallback dry run on the real raw data, and a reseed from the older level 1 content version to the new one in Expo Go on the emulator): `/check verify full content pipeline`
+Spec [0005](../specs/0005-content-pipeline/index.md) · code in `pipeline/src/`, `content/`, `src/lib/content/startup.ts`
 
 ## Slice 3: SRS progression
 

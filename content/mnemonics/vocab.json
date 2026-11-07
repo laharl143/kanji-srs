@@ -298,5 +298,537 @@
   "四": {
     "meaningMnemonic": "Alone, the kanji is the number four.",
     "readingMnemonic": "Alone it keeps the on'yomi し, the sheep from the kanji. People also say よん."
+  },
+  "今日": {
+    "meaningMnemonic": "Now plus day: this day, today.",
+    "readingMnemonic": "A special reading: きょう. Learn it as one word; the formal こんにち uses both on'yomi, as in こんにちは."
+  },
+  "今年": {
+    "meaningMnemonic": "Now plus year: this year.",
+    "readingMnemonic": "An irregular reading: ことし. It uses neither こん nor ねん, so learn it as a whole word."
+  },
+  "今": {
+    "meaningMnemonic": "Alone, the kanji means now, the present moment.",
+    "readingMnemonic": "Alone it uses the kun'yomi いま, not the cone reading."
+  },
+  "今月": {
+    "meaningMnemonic": "Now plus month: this month.",
+    "readingMnemonic": "Both on'yomi: こん, the cone from now, plus げつ, the get from month: こんげつ."
+  },
+  "今にも": {
+    "meaningMnemonic": "Now with にも on the end: at any moment, right on the verge of happening.",
+    "readingMnemonic": "It uses the kun'yomi いま plus にも: いまにも."
+  },
+  "今後": {
+    "meaningMnemonic": "Now plus after (the kanji for behind): everything after now, from now on.",
+    "readingMnemonic": "Both on'yomi: こん, the cone, plus ご, the goat from behind: こんご."
+  },
+  "今に": {
+    "meaningMnemonic": "Now with に added: before long, any time now.",
+    "readingMnemonic": "It uses the kun'yomi いま plus に: いまに."
+  },
+  "お金": {
+    "meaningMnemonic": "Gold with the polite お in front: money.",
+    "readingMnemonic": "It uses the kun'yomi かね after the polite お: おかね."
+  },
+  "金": {
+    "meaningMnemonic": "Alone, the kanji can mean money, or metal in general.",
+    "readingMnemonic": "Alone it uses the kun'yomi かね, not the king reading."
+  },
+  "九": {
+    "meaningMnemonic": "Alone, the kanji is the number nine.",
+    "readingMnemonic": "Alone it keeps the on'yomi きゅう, the cue from the kanji. You will also hear く."
+  },
+  "九日": {
+    "meaningMnemonic": "Nine plus day: nine days, or the ninth day of the month.",
+    "readingMnemonic": "A special date reading: ここのか. Nine is read ここの and day is read か."
+  },
+  "九つ": {
+    "meaningMnemonic": "Nine plus the つ counting ending: nine things.",
+    "readingMnemonic": "It uses the kun'yomi ここの plus つ: ここのつ."
+  },
+  "入れる": {
+    "meaningMnemonic": "To make something enter: to put it in, or to let someone in.",
+    "readingMnemonic": "It uses the kun'yomi い plus れる: いれる."
+  },
+  "入る": {
+    "meaningMnemonic": "Enter as a verb: to go in or come in.",
+    "readingMnemonic": "It uses the kun'yomi はい plus る: はいる. Compare いれる, where you put something else in."
+  },
+  "大学": {
+    "meaningMnemonic": "Large plus study: the large place of study, a university.",
+    "readingMnemonic": "Both on'yomi: だい, the dye, plus がく, the gawk: だいがく."
+  },
+  "学生": {
+    "meaningMnemonic": "Study plus life: someone whose life is study, a student.",
+    "readingMnemonic": "Both on'yomi: がく, the gawk, plus せい, the say from life: がくせい."
+  },
+  "入学": {
+    "meaningMnemonic": "Enter plus study: entering a school, admission.",
+    "readingMnemonic": "Both on'yomi: にゅう, the newt, plus がく, the gawk: にゅうがく."
+  },
+  "大学生": {
+    "meaningMnemonic": "University plus life: a university student.",
+    "readingMnemonic": "All three on'yomi: だい plus がく plus せい: だいがくせい."
+  },
+  "中学": {
+    "meaningMnemonic": "Middle (the kanji for in) plus study: the middle stage of school, junior high school.",
+    "readingMnemonic": "Both on'yomi: ちゅう, the chew, plus がく, the gawk: ちゅうがく."
+  },
+  "学ぶ": {
+    "meaningMnemonic": "Study as a verb: to learn.",
+    "readingMnemonic": "It uses the kun'yomi まな plus ぶ: まなぶ."
+  },
+  "学": {
+    "meaningMnemonic": "Alone, the kanji means learning or scholarship.",
+    "readingMnemonic": "Alone it keeps the on'yomi がく, the gawk from the kanji."
+  },
+  "高い": {
+    "meaningMnemonic": "Tall plus the い ending: the adjective tall or high. A high price is expensive, so it means that too.",
+    "readingMnemonic": "It uses the kun'yomi たか plus い: たかい."
+  },
+  "円い": {
+    "meaningMnemonic": "Circle plus the い ending: the adjective round.",
+    "readingMnemonic": "It uses the kun'yomi まる plus い: まるい."
+  },
+  "円": {
+    "meaningMnemonic": "Alone, the kanji means a circle, and also the yen, the money of Japan.",
+    "readingMnemonic": "Alone it keeps the on'yomi えん, the end from the kanji."
+  },
+  "子": {
+    "meaningMnemonic": "Alone, the kanji means a child or a kid.",
+    "readingMnemonic": "Alone it uses the kun'yomi こ, not the sheep reading."
+  },
+  "外国": {
+    "meaningMnemonic": "Outside plus country: a country outside your own, a foreign country.",
+    "readingMnemonic": "Both on'yomi: がい, the guy, plus こく, the cook: がいこく."
+  },
+  "外国人": {
+    "meaningMnemonic": "Foreign country plus person: a person from a foreign country, a foreigner.",
+    "readingMnemonic": "All three on'yomi: がい plus こく plus じん, the gin from person: がいこくじん."
+  },
+  "外": {
+    "meaningMnemonic": "Alone, the kanji means the outside, out in the open air.",
+    "readingMnemonic": "Alone it uses the kun'yomi そと, not the guy reading."
+  },
+  "外出": {
+    "meaningMnemonic": "Outside plus exit: you exit to the outside, so it means going out.",
+    "readingMnemonic": "Both on'yomi: がい, the guy, plus しゅつ, the shoots from exit: がいしゅつ."
+  },
+  "外す": {
+    "meaningMnemonic": "To put something outside its place: to remove it, take it off, or undo it.",
+    "readingMnemonic": "It uses the kun'yomi はず plus す: はずす."
+  },
+  "八つ": {
+    "meaningMnemonic": "Eight plus the つ counting ending: eight things.",
+    "readingMnemonic": "It uses the kun'yomi やっ plus つ: やっつ. The shorter やつ also appears."
+  },
+  "八日": {
+    "meaningMnemonic": "Eight plus day: eight days, or the eighth day of the month.",
+    "readingMnemonic": "A special date reading: ようか. Eight is read よう and day is read か."
+  },
+  "八": {
+    "meaningMnemonic": "Alone, the kanji is the number eight.",
+    "readingMnemonic": "Alone it keeps the on'yomi はち, the hatchet from the kanji."
+  },
+  "六つ": {
+    "meaningMnemonic": "Six plus the つ counting ending: six things.",
+    "readingMnemonic": "It uses the kun'yomi むっ plus つ: むっつ."
+  },
+  "六日": {
+    "meaningMnemonic": "Six plus day: six days, or the sixth day of the month.",
+    "readingMnemonic": "A special date reading: むいか. Six is read むい and day is read か."
+  },
+  "六": {
+    "meaningMnemonic": "Alone, the kanji is the number six.",
+    "readingMnemonic": "Alone it keeps the on'yomi ろく, the rock from the kanji."
+  },
+  "下": {
+    "meaningMnemonic": "Alone, the kanji means below, the space down under something.",
+    "readingMnemonic": "Alone it uses the kun'yomi した, not the car reading."
+  },
+  "下りる": {
+    "meaningMnemonic": "Below as a verb: to go down, or to come down from somewhere high.",
+    "readingMnemonic": "It uses the kun'yomi お plus りる: おりる."
+  },
+  "下げる": {
+    "meaningMnemonic": "To make something go below: to lower it, or to let it hang down.",
+    "readingMnemonic": "It uses the kun'yomi さ plus げる: さげる."
+  },
+  "下る": {
+    "meaningMnemonic": "Below as a verb: to come down, to go down, to fall.",
+    "readingMnemonic": "It uses the kun'yomi さ plus がる: さがる. It is usually spelled 下がる, while 下る on its own is often read くだる."
+  },
+  "下り": {
+    "meaningMnemonic": "Going below: the way down, such as a downhill slope or a train heading out to the end of its line.",
+    "readingMnemonic": "It uses the kun'yomi くだ plus り: くだり."
+  },
+  "下す": {
+    "meaningMnemonic": "To bring something below: to take it down, or to lower it.",
+    "readingMnemonic": "It uses the kun'yomi お plus ろす: おろす. It is usually spelled 下ろす, while 下す on its own is often read くだす."
+  },
+  "下さる": {
+    "meaningMnemonic": "Something handed down to you from above: someone kindly gives it to you.",
+    "readingMnemonic": "It uses the kun'yomi くだ plus さる: くださる. It is the polite verb behind ください."
+  },
+  "来年": {
+    "meaningMnemonic": "Come plus year: the year that is coming, next year.",
+    "readingMnemonic": "Both on'yomi: らい, the rye, plus ねん, the nun from year: らいねん."
+  },
+  "さ来年": {
+    "meaningMnemonic": "さ in front of next year pushes it one further: the year after next.",
+    "readingMnemonic": "It is さ plus らいねん: さらいねん."
+  },
+  "来月": {
+    "meaningMnemonic": "Come plus month: the month that is coming, next month.",
+    "readingMnemonic": "Both on'yomi: らい, the rye, plus げつ, the get from month: らいげつ."
+  },
+  "来る": {
+    "meaningMnemonic": "Come as a verb: to come, or to arrive.",
+    "readingMnemonic": "It uses the kun'yomi く plus る: くる."
+  },
+  "さ来月": {
+    "meaningMnemonic": "さ in front of next month pushes it one further: the month after next.",
+    "readingMnemonic": "It is さ plus らいげつ: さらいげつ."
+  },
+  "出来るだけ": {
+    "meaningMnemonic": "Exit plus come makes できる, to be able to. Add だけ and it means as much as you can.",
+    "readingMnemonic": "Exit is read で and come is read き: できる, then だけ: できるだけ."
+  },
+  "来": {
+    "meaningMnemonic": "Alone, the kanji means next or coming, as in next year or next spring.",
+    "readingMnemonic": "Alone it keeps the on'yomi らい, the rye from the kanji."
+  },
+  "気": {
+    "meaningMnemonic": "Alone, the kanji means spirit, mind, or the feeling in your heart.",
+    "readingMnemonic": "Alone it keeps the on'yomi き, the key from the kanji."
+  },
+  "大気": {
+    "meaningMnemonic": "Large plus spirit (air): the great body of air around the earth, the atmosphere.",
+    "readingMnemonic": "Large uses its other on'yomi たい, plus き, the key: たいき."
+  },
+  "気に入る": {
+    "meaningMnemonic": "Something enters your spirit and suits it well: you like it.",
+    "readingMnemonic": "Spirit is read き, then に, then enter is the kun'yomi い plus る: きにいる."
+  },
+  "人気": {
+    "meaningMnemonic": "Person plus spirit: the warm feeling people have for something, popularity.",
+    "readingMnemonic": "Person uses its second on'yomi にん, plus き, the key: にんき."
+  },
+  "小さい": {
+    "meaningMnemonic": "Little plus さい: the adjective small or little.",
+    "readingMnemonic": "It uses the kun'yomi ちい plus さい: ちいさい."
+  },
+  "小さな": {
+    "meaningMnemonic": "Like 小さい, but it sits right before a noun: a small something.",
+    "readingMnemonic": "It uses the kun'yomi ちい plus さな: ちいさな."
+  },
+  "小": {
+    "meaningMnemonic": "Alone, the kanji marks something small, such as a small size or a short month.",
+    "readingMnemonic": "Alone it keeps the on'yomi しょう, the show from the kanji."
+  },
+  "七日": {
+    "meaningMnemonic": "Seven plus day: seven days, or the seventh day of the month.",
+    "readingMnemonic": "A special date reading: なのか. Seven is read なの and day is read か."
+  },
+  "七": {
+    "meaningMnemonic": "Alone, the kanji is the number seven.",
+    "readingMnemonic": "Alone it keeps the on'yomi しち, the sheet from the kanji. You will hear なな just as often."
+  },
+  "七つ": {
+    "meaningMnemonic": "Seven plus the つ counting ending: seven things.",
+    "readingMnemonic": "It uses the kun'yomi なな plus つ: ななつ."
+  },
+  "山": {
+    "meaningMnemonic": "Alone, the kanji means a mountain or a hill.",
+    "readingMnemonic": "Alone it uses the kun'yomi やま, not the sand reading."
+  },
+  "話す": {
+    "meaningMnemonic": "Tale as a verb: to talk, or to speak.",
+    "readingMnemonic": "It uses the kun'yomi はな plus す: はなす."
+  },
+  "話": {
+    "meaningMnemonic": "Alone, the kanji means a talk, a chat, or a story someone tells.",
+    "readingMnemonic": "Alone it uses the kun'yomi はなし, not the waffle reading."
+  },
+  "女の子": {
+    "meaningMnemonic": "Woman plus の plus child: a female child, a girl.",
+    "readingMnemonic": "Both kun'yomi: おんな, then の, then こ: おんなのこ."
+  },
+  "女": {
+    "meaningMnemonic": "Alone, the kanji means a woman.",
+    "readingMnemonic": "Alone it uses the kun'yomi おんな, not the jog reading."
+  },
+  "女子": {
+    "meaningMnemonic": "Woman plus child: a girl, or women as a group, as on a girls' team.",
+    "readingMnemonic": "Both on'yomi: じょ, the jog, plus し, the sheep from child: じょし."
+  },
+  "北": {
+    "meaningMnemonic": "Alone, the kanji means the north.",
+    "readingMnemonic": "Alone it uses the kun'yomi きた, not the hockey reading."
+  },
+  "午後": {
+    "meaningMnemonic": "Noon plus behind: the part of the day behind noon, the afternoon.",
+    "readingMnemonic": "Both on'yomi: ご, the goat from noon, plus ご, the goat from behind: ごご."
+  },
+  "午前": {
+    "meaningMnemonic": "Noon plus in front: the part of the day in front of noon, the morning.",
+    "readingMnemonic": "Both on'yomi: ご, the goat, plus ぜん, the zen from in front: ごぜん."
+  },
+  "百": {
+    "meaningMnemonic": "Alone, the kanji is the number one hundred.",
+    "readingMnemonic": "Alone it keeps the on'yomi ひゃく, the yak from the kanji."
+  },
+  "書く": {
+    "meaningMnemonic": "Write as a verb: to write something down.",
+    "readingMnemonic": "It uses the kun'yomi か plus く: かく."
+  },
+  "先": {
+    "meaningMnemonic": "Alone, the kanji means the point or tip, the part that goes before the rest.",
+    "readingMnemonic": "Alone it uses the kun'yomi さき, not the cent reading."
+  },
+  "先生": {
+    "meaningMnemonic": "Before plus life: someone whose life started before yours and who now guides you, a teacher.",
+    "readingMnemonic": "Both on'yomi: せん, the cent, plus せい, the say from life: せんせい."
+  },
+  "先月": {
+    "meaningMnemonic": "Before plus month: the month before this one, last month.",
+    "readingMnemonic": "Both on'yomi: せん, the cent, plus げつ, the get from month: せんげつ."
+  },
+  "先ず": {
+    "meaningMnemonic": "Before everything else: first of all, to begin with.",
+    "readingMnemonic": "It uses the rare kun'yomi ま plus ず: まず. You will often see it written in kana."
+  },
+  "先日": {
+    "meaningMnemonic": "Before plus day: a day before today, the other day.",
+    "readingMnemonic": "Both on'yomi: せん, the cent, plus じつ, the second on'yomi of day: せんじつ."
+  },
+  "名前": {
+    "meaningMnemonic": "Name plus in front: the name you put in front of yourself, your name.",
+    "readingMnemonic": "Both kun'yomi: な plus まえ: なまえ."
+  },
+  "名": {
+    "meaningMnemonic": "Alone, the kanji means a name or a title.",
+    "readingMnemonic": "Alone it uses the kun'yomi な, not the mane reading."
+  },
+  "名人": {
+    "meaningMnemonic": "Name plus person: a person who has made a name for themselves, a master or expert.",
+    "readingMnemonic": "Both on'yomi: めい, the mane, plus じん, the gin from person: めいじん."
+  },
+  "千": {
+    "meaningMnemonic": "Alone, the kanji is the number one thousand.",
+    "readingMnemonic": "Alone it keeps the on'yomi せん, the cent from the kanji."
+  },
+  "半": {
+    "meaningMnemonic": "Alone, the kanji means half, or partly.",
+    "readingMnemonic": "Alone it keeps the on'yomi はん, the hand from the kanji."
+  },
+  "半ば": {
+    "meaningMnemonic": "Half plus ば: the halfway point, the middle of something.",
+    "readingMnemonic": "It uses the kun'yomi なか plus ば: なかば."
+  },
+  "大半": {
+    "meaningMnemonic": "Large plus half: the larger half, more than half, the majority.",
+    "readingMnemonic": "Large uses its other on'yomi たい, plus はん, the hand: たいはん."
+  },
+  "語学": {
+    "meaningMnemonic": "Word plus study: the study of words and languages.",
+    "readingMnemonic": "Both on'yomi: ご, the goat, plus がく, the gawk: ごがく."
+  },
+  "語": {
+    "meaningMnemonic": "Alone, the kanji means a word or a language.",
+    "readingMnemonic": "Alone it keeps the on'yomi ご, the goat from the kanji."
+  },
+  "語る": {
+    "meaningMnemonic": "Word as a verb: to tell, or to talk about something at length.",
+    "readingMnemonic": "It uses the kun'yomi かた plus る: かたる."
+  },
+  "国語": {
+    "meaningMnemonic": "Country plus language: a country's own language, such as the Japanese class at school.",
+    "readingMnemonic": "Both on'yomi: こく, the cook, plus ご, the goat: こくご."
+  },
+  "土": {
+    "meaningMnemonic": "Alone, the kanji means earth, soil, or dirt.",
+    "readingMnemonic": "Alone it uses the kun'yomi つち, not the dough reading."
+  },
+  "木": {
+    "meaningMnemonic": "Alone, the kanji means a tree or a bush.",
+    "readingMnemonic": "Alone it uses the kun'yomi き, not the bouquet reading."
+  },
+  "南": {
+    "meaningMnemonic": "Alone, the kanji means the south.",
+    "readingMnemonic": "Alone it uses the kun'yomi みなみ, not the naan reading."
+  },
+  "万": {
+    "meaningMnemonic": "Alone, the kanji is the number ten thousand, or a huge number of things.",
+    "readingMnemonic": "Alone it keeps the on'yomi まん, the man from the kanji."
+  },
+  "万一": {
+    "meaningMnemonic": "Ten thousand plus one: a one in ten thousand chance, the unlikely worst case.",
+    "readingMnemonic": "Both on'yomi: まん, the man, plus いち, the itch from one: まんいち."
+  },
+  "白": {
+    "meaningMnemonic": "Alone, the kanji means the color white, and from that, innocence.",
+    "readingMnemonic": "Alone it uses the kun'yomi しろ, not the hawk reading."
+  },
+  "白い": {
+    "meaningMnemonic": "White plus the い ending: the adjective white, or blank like an empty page.",
+    "readingMnemonic": "It uses the kun'yomi しろ plus い: しろい."
+  },
+  "天気": {
+    "meaningMnemonic": "Heavens plus spirit: the mood of the sky, the weather.",
+    "readingMnemonic": "Both on'yomi: てん, the tent, plus き, the key: てんき."
+  },
+  "右": {
+    "meaningMnemonic": "Alone, the kanji means the right side, or your right hand.",
+    "readingMnemonic": "Alone it uses the kun'yomi みぎ, not the ooze reading."
+  },
+  "川": {
+    "meaningMnemonic": "Alone, the kanji means a river or a stream.",
+    "readingMnemonic": "Alone it uses the kun'yomi かわ, not the cent reading. After a place name it often softens to がわ."
+  },
+  "水": {
+    "meaningMnemonic": "Alone, the kanji means water, especially cool water.",
+    "readingMnemonic": "Alone it uses the kun'yomi みず, not the sweet reading."
+  },
+  "男の子": {
+    "meaningMnemonic": "Male plus の plus child: a male child, a boy.",
+    "readingMnemonic": "Both kun'yomi: おとこ, then の, then こ: おとこのこ."
+  },
+  "男": {
+    "meaningMnemonic": "Alone, the kanji means a man.",
+    "readingMnemonic": "Alone it uses the kun'yomi おとこ, not the dance reading."
+  },
+  "男の人": {
+    "meaningMnemonic": "Male plus の plus person: a male person, a man.",
+    "readingMnemonic": "Both kun'yomi: おとこ, then の, then ひと: おとこのひと."
+  },
+  "男子": {
+    "meaningMnemonic": "Male plus child: a boy, or men as a group, as on a boys' team.",
+    "readingMnemonic": "Both on'yomi: だん, the dance, plus し, the sheep from child: だんし."
+  },
+  "西": {
+    "meaningMnemonic": "Alone, the kanji means the west.",
+    "readingMnemonic": "Alone it uses the kun'yomi にし, not the say reading."
+  },
+  "電気": {
+    "meaningMnemonic": "Electricity plus spirit: the power in the wires, and the electric light it gives.",
+    "readingMnemonic": "Both on'yomi: でん, the den, plus き, the key: でんき."
+  },
+  "電話": {
+    "meaningMnemonic": "Electricity plus talk: talk carried by electricity, a telephone call.",
+    "readingMnemonic": "Both on'yomi: でん, the den, plus わ, the waffle from tale: でんわ."
+  },
+  "電子": {
+    "meaningMnemonic": "Electricity plus child: the tiny child of electricity, an electron, and so electronic.",
+    "readingMnemonic": "Both on'yomi: でん, the den, plus し, the sheep from child: でんし."
+  },
+  "学校": {
+    "meaningMnemonic": "Study plus school: a place for study, a school.",
+    "readingMnemonic": "Both on'yomi, squeezed together: がく becomes がっ before こう, the coat: がっこう."
+  },
+  "中学校": {
+    "meaningMnemonic": "Middle plus school: the middle school, junior high school.",
+    "readingMnemonic": "ちゅう, the chew, plus がっこう, the school word you already know: ちゅうがっこう."
+  },
+  "校長": {
+    "meaningMnemonic": "School plus chief (the kanji for long also means leader): the head of a school, the principal.",
+    "readingMnemonic": "Both on'yomi: こう, the coat, plus ちょう, the chow from long: こうちょう."
+  },
+  "小学校": {
+    "meaningMnemonic": "Little plus school: the school for little ones, elementary school.",
+    "readingMnemonic": "しょう, the show, plus がっこう: しょうがっこう."
+  },
+  "高校生": {
+    "meaningMnemonic": "High school plus life: someone living the high school life, a high school student.",
+    "readingMnemonic": "こうこう, the word for high school, plus せい, the say from life: こうこうせい."
+  },
+  "高校": {
+    "meaningMnemonic": "Tall plus school: the high school, senior high school.",
+    "readingMnemonic": "Both on'yomi, and both are こう, two coats in a row: こうこう."
+  },
+  "聞く": {
+    "meaningMnemonic": "Hear as a verb: to hear, to listen, or to ask.",
+    "readingMnemonic": "It uses the kun'yomi き plus く: きく."
+  },
+  "聞こえる": {
+    "meaningMnemonic": "Hear with こえる on the end: a sound reaches your ears, so it can be heard.",
+    "readingMnemonic": "It uses the kun'yomi き plus こえる: きこえる."
+  },
+  "食べる": {
+    "meaningMnemonic": "Eat as a verb: to eat.",
+    "readingMnemonic": "It uses the kun'yomi た plus べる: たべる."
+  },
+  "食う": {
+    "meaningMnemonic": "A rougher way to say eat: to eat, or to make a living.",
+    "readingMnemonic": "It uses the kun'yomi く plus う: くう."
+  },
+  "電車": {
+    "meaningMnemonic": "Electricity plus car: a car that runs on electricity, an electric train.",
+    "readingMnemonic": "Both on'yomi: でん, the den, plus しゃ, the shark: でんしゃ."
+  },
+  "車": {
+    "meaningMnemonic": "Alone, the kanji means a car, or any vehicle.",
+    "readingMnemonic": "Alone it uses the kun'yomi くるま, not the shark reading."
+  },
+  "何": {
+    "meaningMnemonic": "Alone, the kanji means what, or how many.",
+    "readingMnemonic": "Alone it uses the kun'yomi なん here, and なに in other places, not the car reading."
+  },
+  "何か": {
+    "meaningMnemonic": "What plus か: some what, so something or anything.",
+    "readingMnemonic": "It uses the kun'yomi なに plus か: なにか. In casual speech it shrinks to なんか."
+  },
+  "何で": {
+    "meaningMnemonic": "What plus で: by what, so why or how.",
+    "readingMnemonic": "It uses the kun'yomi なん plus で: なんで."
+  },
+  "何でも": {
+    "meaningMnemonic": "What plus でも: whatever it is, so anything at all.",
+    "readingMnemonic": "It uses the kun'yomi なん plus でも: なんでも."
+  },
+  "何とか": {
+    "meaningMnemonic": "What plus とか: something or other, or getting by somehow.",
+    "readingMnemonic": "It uses the kun'yomi なん plus とか: なんとか."
+  },
+  "毎日": {
+    "meaningMnemonic": "Every plus day: every day, daily.",
+    "readingMnemonic": "Both on'yomi: まい, the mice, plus にち, the niche from day: まいにち."
+  },
+  "毎年": {
+    "meaningMnemonic": "Every plus year: every year, yearly.",
+    "readingMnemonic": "Both on'yomi: まい, the mice, plus ねん, the nun: まいねん. People also say まいとし, with the kun'yomi of year."
+  },
+  "毎月": {
+    "meaningMnemonic": "Every plus month: every month, monthly.",
+    "readingMnemonic": "Both on'yomi: まい, the mice, plus げつ, the get: まいげつ. You will also hear まいつき."
+  },
+  "お母さん": {
+    "meaningMnemonic": "Mother with the polite お in front and さん after it: mom.",
+    "readingMnemonic": "An irregular reading: mother is read かあ here, so おかあさん. Learn it as a whole word."
+  },
+  "火": {
+    "meaningMnemonic": "Alone, the kanji means fire or a flame.",
+    "readingMnemonic": "Alone it uses the kun'yomi ひ, not the car reading."
+  },
+  "読む": {
+    "meaningMnemonic": "Read as a verb: to read, or to recite aloud.",
+    "readingMnemonic": "It uses the kun'yomi よ plus む: よむ."
+  },
+  "読書": {
+    "meaningMnemonic": "Read plus write: reading what others have written, the reading of books.",
+    "readingMnemonic": "Both on'yomi: どく, the dock, plus しょ, the shore from write: どくしょ."
+  },
+  "読み": {
+    "meaningMnemonic": "Read as a noun: a reading, such as the reading of a kanji.",
+    "readingMnemonic": "It uses the kun'yomi よ plus み: よみ."
+  },
+  "友": {
+    "meaningMnemonic": "Alone, the kanji means a friend or a companion.",
+    "readingMnemonic": "Alone it uses the kun'yomi とも, not the unicorn reading."
+  },
+  "友人": {
+    "meaningMnemonic": "Friend plus person: a person who is your friend.",
+    "readingMnemonic": "Both on'yomi: ゆう, the unicorn, plus じん, the gin from person: ゆうじん."
   }
 }

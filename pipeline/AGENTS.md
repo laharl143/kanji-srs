@@ -1,6 +1,6 @@
 # pipeline
 
-The content pipeline: turns free open data into `content/`, which the app bundles and reseeds on launch. Runs on Node with `tsx`. Governing specs: [0004 core study loop](../docs/specs/0004-core-loop/index.md) (first run, level 1) and [0005 full content pipeline](../docs/specs/0005-content-pipeline.md) (validator, batches, more levels). Product rules: 0001 §5.
+The content pipeline: turns free open data into `content/`, which the app bundles and reseeds on launch. Runs on Node with `tsx`. Governing specs: [0004 core study loop](../docs/specs/0004-core-loop/index.md) (first run, level 1) and [0005 full content pipeline](../docs/specs/0005-content-pipeline/index.md) (validator, batches, more levels). Product rules: 0001 §5.
 
 ## Steps
 

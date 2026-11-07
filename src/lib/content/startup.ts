@@ -1,4 +1,4 @@
-import { insertAssignmentsIfMissing } from "@/lib/db/queries/assignments";
+import { getAssignments, insertAssignmentsIfMissing } from "@/lib/db/queries/assignments";
 import { getMeta, setMeta } from "@/lib/db/queries/meta";
 import { getOrCreateSettings, getSettings } from "@/lib/db/queries/settings";
 import { getInitialUnlockIds, upsertSubjects } from "@/lib/db/queries/subjects";
@@ -14,6 +14,7 @@ export const CONTENT_VERSION_KEY = "content_version";
  * one, or on first launch, upserts every bundled subject and writes the version in one
  * transaction. On first launch it also creates the settings and unlocks the starting set at
  * stage 0. Never deletes a subject and never touches existing progress. Throws on a DB failure.
+ * After a reseed commits it logs progress rows whose subject left the bundle (spec 0005 AC-8).
  */
 export async function runStartup(
   db: Db,
@@ -40,5 +41,26 @@ export async function runStartup(
     }
     await setMeta(tx, CONTENT_VERSION_KEY, content.version);
   });
+  await warnOutsideBundle(db, userId, content);
   return { reseeded: true };
+}
+
+const ORPHAN_LOG_LIMIT = 20;
+
+// A subject that drops out of the course keeps its row and its progress on the phone. Nothing
+// changes here; the warning only makes it visible. A failure of this check never fails startup.
+async function warnOutsideBundle(db: Db, userId: string, content: BundledContent) {
+  try {
+    const bundled = new Set(content.bundle.subjects.map((s) => s.id));
+    const ids = (await getAssignments(db, userId))
+      .map((a) => a.subjectId)
+      .filter((id) => !bundled.has(id));
+    if (ids.length > 0) {
+      console.warn(
+        `reseed: ${ids.length} assignments point at subjects not in the bundle: ${ids.slice(0, ORPHAN_LOG_LIMIT).join(", ")}`,
+      );
+    }
+  } catch (error) {
+    console.warn("reseed: could not check assignments against the bundle", error);
+  }
 }

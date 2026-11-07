@@ -1,11 +1,21 @@
 // npm run pipeline:build
-// Reads pipeline/raw, writes content/subjects.json, and prints the build report (spec 0004 AC-3).
+// Reads pipeline/raw, writes content/subjects.json and content/retired.json, and prints the build
+// report (spec 0004 AC-3, spec 0005 AC-4).
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import type { ContentSubject } from "../../src/lib/content/types";
+import {
+  readRetired,
+  readSubjects,
+  RETIRED_JSON,
+  subjectKey,
+  SUBJECTS_JSON,
+  writeJson,
+  type IdEntry,
+} from "./content";
 import { loadCodepoints, missingGlyphs, NOTO_SANS_JP } from "./glyphs";
-import { buildLevels } from "./levels";
+import { buildLevels, retiredChanges } from "./levels";
 import { indexJmdict, type JmdictJson } from "./parse/jmdict";
 import {
   fallbackKanjiLevels,
@@ -17,9 +27,8 @@ import {
 import { parseKanjidic, type KanjidicJson } from "./parse/kanjidic";
 import { parseKradfile, type KradfileJson } from "./parse/kradfile";
 import { select, type Selection } from "./select";
-import { RAW, RAW_DIR, tanosLicense } from "./sources";
+import { RAW, RAW_DIR, tanosLicense, type TanosLicense } from "./sources";
 
-export const SUBJECTS_JSON = "content/subjects.json";
 const LEVELS: JlptLevel[] = [5, 4, 3];
 
 function readJson<T>(file: string): T {
@@ -28,26 +37,38 @@ function readJson<T>(file: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
 }
 
-export function readSubjects(path = SUBJECTS_JSON): ContentSubject[] {
-  return existsSync(path) ? (JSON.parse(readFileSync(path, "utf8")) as ContentSubject[]) : [];
-}
-
 export type BuildReportInput = {
   subjects: ContentSubject[];
   selection: Selection;
-  usedFallback: boolean;
+  // The tanos license decision; anything but "usable" means the fallbacks ran.
+  license: TanosLicense;
   noGlyph: string[];
+  // What this build changed in retired.json (spec 0005 AC-9).
+  ids?: { retired: IdEntry[]; restored: IdEntry[] };
 };
 
-export function formatReport({ subjects, selection, usedFallback, noGlyph }: BuildReportInput) {
+const idList = (entries: IdEntry[]) =>
+  entries.length ? entries.map((e) => `${subjectKey(e)} (id ${e.id})`).join(", ") : "none";
+
+export function formatReport({
+  subjects,
+  selection,
+  license,
+  noGlyph,
+  ids = { retired: [], restored: [] },
+}: BuildReportInput) {
   const lines: string[] = [];
-  if (usedFallback) {
+  const words = selection.vocab.length;
+  if (license !== "usable") {
     lines.push(
-      `JLPT source: KANJIDIC2 old JLPT fallback (tanos license is "${tanosLicense}"). ` +
-        "Vocab lists come only from tanos, so no vocab was selected.",
+      `JLPT source: KANJIDIC2 old JLPT fallback (tanos license is "${license}").`,
+      `Vocab source: JMdict common words fallback (tanos license is "${license}"): ${words} words`,
     );
   } else {
-    lines.push("JLPT source: tanos N5 to N3 lists (license confirmed usable).");
+    lines.push(
+      "JLPT source: tanos N5 to N3 lists (license confirmed usable).",
+      `Vocab source: tanos N5 to N3 vocab lists: ${words} words`,
+    );
   }
   const levels = [...new Set(subjects.map((s) => s.level))].sort((a, b) => a - b);
   lines.push("", "Level  radicals  kanji  vocab");
@@ -77,7 +98,11 @@ export function formatReport({ subjects, selection, usedFallback, noGlyph }: Bui
     lines.push(`Kanji with no KRADFILE components: ${selection.noComponents.join(" ")}`);
   }
   lines.push(
-    `Components with no Noto Sans JP glyph (kept; substitutes come in 0005): ${noGlyph.length ? noGlyph.join(" ") : "none"}`,
+    `Components with no Noto Sans JP glyph (kept; review by hand): ${noGlyph.length ? noGlyph.join(" ") : "none"}`,
+  );
+  lines.push(
+    `Retired by this build (${ids.retired.length}): ${idList(ids.retired)}`,
+    `Restored by this build (${ids.restored.length}): ${idList(ids.restored)}`,
   );
   return lines.join("\n");
 }
@@ -104,14 +129,25 @@ function main() {
     }
   }
 
-  const selection = select({ kanjiLevels, vocabRows, kanjidic, kradfile, jmdict });
-  const subjects = buildLevels(selection, readSubjects());
+  const selection = select({
+    kanjiLevels,
+    vocabRows,
+    kanjidic,
+    kradfile,
+    jmdict,
+    vocabFallback: usedFallback,
+  });
+  const retiredBefore = readRetired();
+  const { subjects, retired } = buildLevels(selection, readSubjects(), retiredBefore);
   writeFileSync(SUBJECTS_JSON, JSON.stringify(subjects, null, 1) + "\n");
+  writeJson(RETIRED_JSON, retired);
 
   const radicals = subjects.filter((s) => s.type === "radical").map((s) => s.characters);
   const noGlyph = missingGlyphs(radicals, loadCodepoints(NOTO_SANS_JP));
-  console.log(formatReport({ subjects, selection, usedFallback, noGlyph }));
+  const ids = retiredChanges(retiredBefore, retired);
+  console.log(formatReport({ subjects, selection, license: tanosLicense, noGlyph, ids }));
   console.log(`\nwrote ${SUBJECTS_JSON} (${subjects.length} subjects)`);
+  console.log(`wrote ${RETIRED_JSON} (${retired.length} retired)`);
 }
 
 if (process.argv[1]?.endsWith("build.ts")) main();

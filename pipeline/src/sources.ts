@@ -10,8 +10,10 @@ const EDRDG_LICENSE =
   "CC BY-SA 4.0 (EDRDG, https://www.edrdg.org/edrdg/licence.html), JSON by jmdict-simplified";
 
 // tanos license, read from https://www.tanos.co.uk/jlpt/sharing/ and confirmed by the owner on
-// 2026-11-02. Anything but "usable" makes the build fall back to KANJIDIC2 old JLPT levels.
-export const tanosLicense: "usable" | "unusable" | "unconfirmed" = "usable";
+// 2026-11-02. Anything but "usable" makes the build fall back to KANJIDIC2 old JLPT levels for
+// kanji and JMdict common words for vocab (spec 0005 AC-10).
+export type TanosLicense = "usable" | "unusable" | "unconfirmed";
+export const tanosLicense: TanosLicense = "usable";
 export const TANOS_LICENSE_TEXT =
   'Creative Commons "BY": "Everything on this site (that I\'m not selling), is licenced under ' +
   'Creative Commons "BY"." Credit: Jonathan Waller, https://www.tanos.co.uk/jlpt/';

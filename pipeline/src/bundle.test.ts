@@ -2,7 +2,9 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import type { ContentSubject } from "../../src/lib/content/types";
-import { BUNDLE_JSON, bundleSubjects, contentVersion, VERSION_TXT, type Mnemonics } from "./bundle";
+import { buildBundle, bundleSubjects, contentVersion } from "./bundle";
+import { BUNDLE_JSON, VERSION_TXT, type Content } from "./content";
+import { formatLine } from "./validate";
 
 const subject = (
   id: number,
@@ -17,40 +19,48 @@ const subject = (
   level,
   position: id,
   meanings: type === "radical" ? [] : [{ text: characters, primary: true }],
-  readings: type === "radical" ? [] : [{ text: "x", primary: true }],
+  readings:
+    type === "radical"
+      ? []
+      : [{ text: type === "kanji" ? "じょう" : "うえ", kind: "onyomi", primary: true }],
   componentIds,
   jlpt: type === "radical" ? null : 5,
   frequency: type === "kanji" ? 10 : null,
 });
 
-const subjects: ContentSubject[] = [
-  subject(1, "radical", "一", 1),
-  subject(2, "radical", "卜", 1),
-  subject(3, "kanji", "上", 1, [1, 2]),
-  subject(4, "vocab", "上", 1, [3]),
-  subject(5, "kanji", "下", 2, [1, 2]),
-];
-
-const mnemonics = (): Mnemonics => ({
-  radicals: {
-    一: { name: "Plank", meaningMnemonic: "A plank." },
-    卜: { name: "fortune stick", meaningMnemonic: "A stick." },
-  },
-  kanji: {
-    上: {
-      meaningMnemonic: "A FORTUNE STICK stands on a plank, pointing above.",
-      readingMnemonic: "A joker.",
+const content = (): Content => ({
+  subjects: [
+    subject(1, "radical", "一", 1),
+    subject(2, "radical", "卜", 1),
+    subject(3, "kanji", "上", 1, [1, 2]),
+    subject(4, "vocab", "上", 1, [3]),
+    subject(5, "kanji", "下", 2, [1, 2]),
+  ],
+  mnemonics: {
+    radicals: {
+      一: { name: "Plank", meaningMnemonic: "A plank." },
+      卜: { name: "fortune stick", meaningMnemonic: "A stick." },
     },
+    kanji: {
+      上: {
+        meaningMnemonic: "A FORTUNE STICK stands on a plank, pointing above.",
+        readingMnemonic: "A joker.",
+      },
+    },
+    vocab: { 上: { readingMnemonic: "Uses うえ." } },
   },
-  vocab: { 上: { readingMnemonic: "Uses うえ." } },
+  soundHooks: { じょう: "joker" },
+  enabledLevels: [1],
+  shipped: [],
+  retired: [],
 });
 
 describe("bundleSubjects", () => {
   it("bundles only enabled levels and turns a radical's name into its primary meaning", () => {
-    const result = bundleSubjects(subjects, mnemonics(), [1]);
-    if (!result.ok) throw new Error(result.errors.join("\n"));
-    expect(result.bundle.subjects.map((s) => s.id)).toEqual([1, 2, 3, 4]);
-    expect(result.bundle.subjects[0]).toMatchObject({
+    const c = content();
+    const bundle = bundleSubjects(c.subjects, c.mnemonics, [1]);
+    expect(bundle.subjects.map((s) => s.id)).toEqual([1, 2, 3, 4]);
+    expect(bundle.subjects[0]).toMatchObject({
       meanings: [{ text: "Plank", primary: true }],
       readings: [],
       meaningMnemonic: "A plank.",
@@ -58,36 +68,51 @@ describe("bundleSubjects", () => {
       jlpt: null,
       frequency: null,
     });
-    expect(result.bundle.subjects[2]).toMatchObject({ readingMnemonic: "A joker." });
-    expect(result.bundle.subjects[3]).toMatchObject({
+    expect(bundle.subjects[2]).toMatchObject({ readingMnemonic: "A joker." });
+    expect(bundle.subjects[3]).toMatchObject({
       meaningMnemonic: "",
       readingMnemonic: "Uses うえ.",
     });
   });
+});
+
+describe("buildBundle", () => {
+  it("bundles content that passes validation", () => {
+    const result = buildBundle(content());
+    if (!result.ok) throw new Error(result.failures.map(formatLine).join("\n"));
+    expect(result.bundle.subjects).toHaveLength(4);
+  });
 
   it("refuses when an enabled subject has no mnemonic", () => {
-    const m = mnemonics();
-    delete m.vocab["上"];
-    const result = bundleSubjects(subjects, m, [1]);
-    expect(result).toEqual({
-      ok: false,
-      errors: ["vocab 上 (id 4, level 1): missing reading mnemonic"],
-    });
+    const c = content();
+    delete c.mnemonics.vocab["上"];
+    const result = buildBundle(c);
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.failures.map(formatLine)).toEqual([
+      "[enabled-has-mnemonic] vocab:上 (level 1): level is enabled, but vocab.json has no readingMnemonic",
+    ]);
   });
 
   it("refuses when a kanji meaning mnemonic does not name every radical", () => {
-    const m = mnemonics();
-    m.kanji["上"].meaningMnemonic = "A plank points above.";
-    const result = bundleSubjects(subjects, m, [1]);
-    expect(result).toEqual({
-      ok: false,
-      errors: ['kanji 上 (id 3, level 1): meaning mnemonic does not name radical "fortune stick"'],
-    });
+    const c = content();
+    c.mnemonics.kanji["上"].meaningMnemonic = "A plank points above.";
+    const result = buildBundle(c);
+    expect(result.ok ? [] : result.failures.map(formatLine)).toEqual([
+      '[kanji-names-radicals] kanji:上 (level 1): meaning mnemonic does not name radical "fortune stick" (卜)',
+    ]);
+  });
+
+  it("refuses on any rule, such as a reading mnemonic that skips its sound hook", () => {
+    const c = content();
+    c.mnemonics.kanji["上"].readingMnemonic = "Read it じょう.";
+    const result = buildBundle(c);
+    expect(result.ok ? [] : result.failures.map((f) => f.rule)).toEqual(["sound-hook"]);
   });
 
   it("ignores missing mnemonics outside the enabled levels", () => {
-    expect(bundleSubjects(subjects, mnemonics(), [1]).ok).toBe(true);
-    expect(bundleSubjects(subjects, mnemonics(), [1, 2]).ok).toBe(false);
+    expect(buildBundle(content()).ok).toBe(true);
+    expect(buildBundle({ ...content(), enabledLevels: [1, 2] }).ok).toBe(false);
   });
 });
 

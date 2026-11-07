@@ -217,10 +217,10 @@ All scripts live in `pipeline/src/`, run on Node via `npm run pipeline:<step>`, 
 | Kanji meanings, readings, frequency | KANJIDIC2 (EDRDG) | CC BY-SA 4.0 | kanji fields |
 | Vocabulary meanings, readings | JMdict English (EDRDG) | CC BY-SA 4.0 | vocab fields |
 | Kanji → components | KRADFILE / kradfile-u (EDRDG) | CC BY-SA 4.0 | radical links |
-| Which kanji and words are N5 to N3 | Jonathan Waller's JLPT lists (tanos.co.uk) | Check before use (believed Creative Commons BY) | item selection |
+| Which kanji and words are N5 to N3 | Jonathan Waller's JLPT lists (tanos.co.uk), fetched from pinned Internet Archive snapshots because the corporate proxy blocks the site | Creative Commons BY (confirmed 2026-11-02, recorded in `pipeline/src/sources.ts`) | item selection |
 | Japanese font | Noto Sans JP (Google Fonts) | SIL Open Font License 1.1 | app text |
 
-The `download` script records each file's URL, date, and SHA-256 in `pipeline/raw/SOURCES.json`. **Before using the tanos lists, confirm their license on the site and record it in `SOURCES.json`.** If they are not usable, fall back to the pre 2010 JLPT levels in KANJIDIC2 (`<jlpt>` 4 and 3 → treat old 4+3 as N5+N4, plus old 2 kanji ranked by frequency until ~650 kanji total) and report the change.
+The three EDRDG files are downloaded as JSON from a pinned jmdict-simplified release (same license). The `download` script records each file's URL, date, and SHA-256 in `pipeline/raw/SOURCES.json`. The tanos license decision lives in `pipeline/src/sources.ts`. If it is ever not usable, fall back to the pre 2010 JLPT levels in KANJIDIC2 (`<jlpt>` 4 and 3 → treat old 4+3 as N5+N4, plus old 2 kanji ranked by frequency until ~650 kanji total), take vocab from JMdict common words (spec 0005, *Vocab fallback*), and report the change.
 
 #### 5.2 Selection
 
@@ -235,16 +235,16 @@ The `download` script records each file's URL, date, and SHA-256 in `pipeline/ra
 3. **Radical placement:** each radical goes in the level of the first kanji that uses it.
 4. **Vocab placement:** each word goes in the level of its latest introduced kanji.
 5. **Position:** within a level, radicals then kanji then vocab, each in the order above.
-6. IDs: assign once and persist. A rebuild keeps existing IDs for existing items (match on `type + characters`) and appends new IDs for new items. Never renumber.
+6. IDs: assign once and persist. A rebuild keeps existing IDs for existing items (match on `type + characters`) and appends new IDs for new items. Never renumber. An item that drops out of the selection is recorded in `content/retired.json`, so its ID is never given to another item and comes back if the item returns (spec 0005).
 
 Output: `content/subjects.json` (array of subject objects matching §4, without mnemonics) and a printed build report (counts per level, dropped items, warnings).
 
-#### 5.4 Mnemonics (written by Bob)
+#### 5.4 Mnemonics (written by Claude Code)
 
 Mnemonics are stored separately in `content/mnemonics/*.json` so rebuilding levels never erases them.
 
 - `npm run pipeline:batch -- --levels 1-3` writes files like `pipeline/work/batch-001.json` with up to 25 items that have no mnemonic yet. Each item includes the data needed to write a mnemonic (characters, meanings, readings, and for kanji the radical names it uses).
-- Bob fills in each item's fields in place.
+- Claude Code fills in each item's fields in place, in a session, and you review the diff.
 - `npm run pipeline:merge` validates each filled batch and merges it into `content/mnemonics/*.json`.
 
 **Order matters:** write radical names for a level before that level's kanji mnemonics, because kanji mnemonics must use the radical names.
@@ -271,6 +271,8 @@ Fails if any of these hold:
 - A kanji meaning mnemonic does not contain the name of every one of its radicals (case insensitive).
 - Two radicals share a name.
 - Duplicate IDs, or an ID changed for an existing item.
+
+Spec 0005 lists the full rule set, including sound hooks and radical name shape.
 
 #### 5.6 Reseeding (in the app, `src/lib/content`)
 
@@ -407,7 +409,7 @@ This is the stack decision; the scaffold steps are derived by `/develop stack & 
 
 ## Follow-up
 
-- [ ] Confirm the tanos.co.uk JLPT list license before first pipeline run (0005).
+- [x] Confirm the tanos.co.uk JLPT list license before first pipeline run (0005). Confirmed usable on 2026-11-02.
 - [ ] Update stale feature specs for Android before building them: 0002 (expo-sqlite client, `withTransaction`, `better-sqlite3` tests, no progress foreign keys, `reviews.id` UUID, `user_notes.updated_at`, `app_meta`, reminder columns; also name every primary key and index, including `assignments(user_id, available_at)` and `reviews(user_id, created_at)`), 0003 (also the stage to color mapping, including a "locked" state), 0006 (unlock eligibility by `subject.level <= current_level` in one function inside the review transaction; level up as `passed * 10 >= total * 9`, with a level of 0 kanji leveling up at once; skip ahead sets all timestamps to now and `available_at` null, writes no review rows, and only moves up), 0004 and 0006 (lesson quiz writes no review rows; review queue order and cap; session state is in memory only; accuracy = questions right on the first try / questions answered), 0010 (batch size bounds and the time picker component), 0003 (NativeWind tokens, React Native base components, dev preview screen), 0004 (Maestro instead of Playwright, debug clock screen instead of a test clock route, bundled content reseed instead of `db:seed`), 0007 (`toKana` in the input handler instead of `wanakana.bind`), 0009 (`expo-speech` instead of browser speech), 0010 (reminder settings, credits for the font).
 - [ ] Review reminders (§6.5) has no feature spec or scope row yet; enroll it as a scope feature.
 - [ ] Root `AGENTS.md` stack, commands, and rule 5 (add `src/lib/reminders` to the pure modules) need updating after the re scaffold (`/sync`).
