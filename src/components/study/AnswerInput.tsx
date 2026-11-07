@@ -50,10 +50,15 @@ export function AnswerInput({
       autoCorrect={false}
       autoComplete="off"
       spellCheck={false}
-      placeholder={reading ? "Type the reading (romaji becomes kana)" : "Type the meaning"}
+      // Short enough to fit on one line at 360dp with the largest font scale (1.4).
+      placeholder={reading ? "Type the reading" : "Type the meaning"}
       placeholderTextColor={palette.muted}
       accessibilityLabel={`${reading ? "Reading" : "Meaning"} answer${verdict}`}
       maxFontSizeMultiplier={1.4}
+      // Android pads an empty field's line to the font's bounding box. Noto Sans JP's is over twice
+      // the line height, so the placeholder got cut off (in either mode: the field can keep that
+      // font after a reading question).
+      style={{ includeFontPadding: false }}
       className={`min-h-14 rounded-md border-2 px-4 py-3 text-center text-2xl text-text ${reading ? "font-jp" : ""} ${statusClasses[status]}`}
     />
   );
