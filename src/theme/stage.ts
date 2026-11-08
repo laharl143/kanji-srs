@@ -11,6 +11,10 @@ const labels: Record<StageGroup, string> = {
   retired: "Retired",
 };
 
+export function groupLabel(group: StageGroup): string {
+  return labels[group];
+}
+
 // `null` means no assignment row (locked). Any number outside 0 to 9 is a bug, so it throws.
 export function stageGroup(srsStage: number | null): { group: StageGroup; label: string } {
   const group = groupOf(srsStage);

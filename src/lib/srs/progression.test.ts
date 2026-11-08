@@ -5,6 +5,7 @@ import type { Bundle } from "@/lib/content/types";
 
 import {
   checkLevelUp,
+  kanjiToLevelUp,
   computeUnlocks,
   planProgression,
   type ProgressionAssignment,
@@ -212,3 +213,29 @@ describe("planProgression (spec 0006 AC-3)", () => {
 function unlockOfId(subjectId: number) {
   return { subjectId, srsStage: 0, unlockedAt: AT };
 }
+
+describe("kanjiToLevelUp", () => {
+  it("matches checkLevelUp at the 90% boundary", () => {
+    expect(kanjiToLevelUp(17, 20, false)).toBe(1);
+    expect(kanjiToLevelUp(18, 20, false)).toBe(0);
+    expect(kanjiToLevelUp(20, 20, false)).toBe(0);
+    // 9 of 11: ceil(9.9) = 10 needed, and checkLevelUp agrees 9 is not enough.
+    expect(kanjiToLevelUp(9, 11, false)).toBe(1);
+    expect(kanjiToLevelUp(0, 0, false)).toBe(0);
+  });
+
+  it("agrees with checkLevelUp for every passed count", () => {
+    const total = 13;
+    const subjects = Array.from({ length: total }, (_, i) => kanji(i + 1, 1));
+    const withNext = [...subjects, radical(100, 2)];
+    for (let passed = 0; passed <= total; passed++) {
+      const assignments = at(5, ...subjects.slice(0, passed).map((s) => s.id));
+      const levelsUp = checkLevelUp(withNext, assignments, 1) !== null;
+      expect(kanjiToLevelUp(passed, total, false) === 0).toBe(levelsUp);
+    }
+  });
+
+  it("is null at the highest level", () => {
+    expect(kanjiToLevelUp(3, 20, true)).toBeNull();
+  });
+});

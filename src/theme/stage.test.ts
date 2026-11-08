@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { stageClasses, stageGroup } from "./stage";
+import { groupLabel, stageClasses, stageGroup } from "./stage";
 
 describe("stageGroup", () => {
   it.each([
@@ -25,5 +25,12 @@ describe("stageGroup", () => {
     for (const stage of [null, 0, 1, 5, 7, 8, 9]) {
       expect(stageClasses[stageGroup(stage).group].bg).toMatch(/^bg-stage-[a-z]+$/);
     }
+  });
+});
+
+describe("groupLabel", () => {
+  it("matches the labels stageGroup returns", () => {
+    expect(groupLabel("seed")).toBe(stageGroup(1).label);
+    expect(groupLabel("retired")).toBe("Retired");
   });
 });

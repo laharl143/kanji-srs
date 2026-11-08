@@ -75,6 +75,9 @@ function pairs(): Pair[] {
     ] as const) {
       const token = `stage-${stage}` as const;
       add(`${token} on bg`, p[token], p.bg, 3);
+      if (stage !== "locked" && stage !== "lesson") {
+        add(`on-primary on ${token} (bold dashboard stage tile)`, p["on-primary"], p[token], 3);
+      }
     }
   }
   if (out.length === 0) throw new Error("no pairs");

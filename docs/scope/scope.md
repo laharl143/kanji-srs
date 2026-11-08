@@ -23,7 +23,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 6 | Full content pipeline | Slice 2 | done |
 | 7 | SRS progression | Slice 3 | done |
 | 8 | Answer checking | Slice 4 | done |
-| 9 | Dashboard | Slice 5 | in-progress |
+| 9 | Dashboard | Slice 5 | done |
 | 10 | Item pages & level browser | Slice 6 | in-progress |
 | 11 | Settings & credits | Slice 7 | in-progress |
 | 14 | Review reminders | Slice 8 | planned |
@@ -131,15 +131,17 @@ Spec [0007](../specs/0007-answer-checking/index.md) · code in `src/lib/answer/`
 
 ## Slice 5: Dashboard
 
-### 9. Dashboard · in-progress
+### 9. Dashboard · done
 What is waiting now, the next 24 hours of reviews, level progress, and items per stage.
 **Done when:** the home page shows all four sections with correct numbers for a seeded user.
-- [x] Design it (spec): `/architect dashboard`
-- [ ] Build it: `/develop dashboard`
-   - [ ] Forecast helper with tests (AC-2)
-   - [ ] Query bundle and sections (AC-1, AC-3 to AC-5)
-- [ ] Verify it: `/check verify dashboard`
-Spec 0008
+- [x] Design it (spec): `/architect dashboard` (updated 2026-11-08 for Android: layout picked from mockups, keep the Lessons and Reviews cards and add Next 24 hours, Level N with radical, kanji, and vocabulary bars, and five stage tiles)
+- [x] Build it: `/develop dashboard`
+   - [x] Forecast and level up helpers with tests (AC-2, AC-3)
+   - [x] `getDashboard` service, Home switched to it, and the Next 24 hours card (AC-1, AC-2, AC-5)
+   - [x] Level N and Stages cards (AC-3, AC-4)
+   - [x] Emulator pass at 360dp and font scale 1.3, light and dark (AC-5)
+- [x] Verify it (verified 2026-11-08: every AC met in Expo Go on the emulator, among them the debug clock shift, the zero state, 360dp at a 1.3 font scale in light and dark, the forced load failure with Try again, and the time zone move; not run on the device were the level up via the progress shortcut, the hidden line at the highest level, and a live "This hour" row, which unit tests cover, and the Levels screen count match, which needs feature 10): `/check verify dashboard`
+Spec [0008](../specs/0008-dashboard/index.md) · code in `src/lib/srs/forecast.ts`, `src/lib/study/dashboard.ts`, `src/components/home/`, `src/app/(tabs)/index.tsx`
 
 ## Slice 6: Item pages & level browser
 

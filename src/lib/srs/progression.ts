@@ -89,3 +89,17 @@ export function planProgression(input: {
   }
   return { level, unlocks: computeUnlocks(subjects, assignments, level, now) };
 }
+
+/**
+ * How many more kanji at the current level must pass to level up (spec 0008 AC-3), from the same
+ * rule as `checkLevelUp` (`passed * 10 >= total * 9`): `max(0, ceil(total * 0.9) - passed)`.
+ * Null at the highest level, where there is no next level.
+ */
+export function kanjiToLevelUp(
+  passed: number,
+  total: number,
+  atHighestLevel: boolean,
+): number | null {
+  if (atHighestLevel) return null;
+  return Math.max(0, Math.ceil((total * 9) / 10) - passed);
+}

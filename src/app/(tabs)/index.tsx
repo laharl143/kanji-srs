@@ -3,28 +3,32 @@ import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState, type ComponentProps } from "react";
 import { Text, View } from "react-native";
 
+import { ForecastCard, LevelCard, StagesCard } from "@/components/home/DashboardCards";
 import { Button, Card, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { CLOCK_DEBUG_ENABLED, now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
 import { getMeta, setMeta } from "@/lib/db/queries/meta";
 import { withTransaction } from "@/lib/db/transaction";
-import { getHomeCounts } from "@/lib/study/home";
+import { getDashboard, type Dashboard } from "@/lib/study/dashboard";
 import { usePalette } from "@/theme/use-palette";
 
-type Counts = { lessons: number; reviews: number };
 type Load =
-  { status: "loading" } | { status: "error"; message: string } | ({ status: "ready" } & Counts);
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "ready"; data: Dashboard; at: number };
 
-// Home (spec 0004 AC-12): lessons and reviews waiting now, refreshed whenever Home regains focus.
+// Home (spec 0004 AC-12, spec 0008): lessons and reviews waiting now, the next 24 hours, level
+// progress, and stage counts, all from getDashboard, refreshed whenever Home regains focus.
 export default function HomeScreen() {
   const router = useRouter();
   const [load, setLoad] = useState<Load>({ status: "loading" });
 
   const refresh = useCallback(() => {
     let active = true;
-    getHomeCounts(getDb(), getCurrentUserId(), now()).then(
-      (counts) => active && setLoad({ status: "ready", ...counts }),
+    const at = now();
+    getDashboard(getDb(), getCurrentUserId(), at).then(
+      (data) => active && setLoad({ status: "ready", data, at: at.getTime() }),
       (e) =>
         active && setLoad({ status: "error", message: e instanceof Error ? e.message : String(e) }),
     );
@@ -33,8 +37,12 @@ export default function HomeScreen() {
     };
   }, []);
   useFocusEffect(refresh);
+  const retry = useCallback(() => {
+    setLoad({ status: "loading" });
+    refresh();
+  }, [refresh]);
 
-  const counts = load.status === "ready" ? load : undefined;
+  const data = load.status === "ready" ? load.data : undefined;
   return (
     <Screen bottomInset={false}>
       <View className="gap-1 px-1">
@@ -47,9 +55,9 @@ export default function HomeScreen() {
       </View>
 
       {load.status === "error" && (
-        <Card title="Counts could not load">
+        <Card title="Dashboard could not load">
           <Text className="text-base text-muted">{load.message}</Text>
-          <Button label="Try again" variant="secondary" onPress={refresh} />
+          <Button label="Try again" variant="secondary" testID="home-retry" onPress={retry} />
         </Card>
       )}
 
@@ -57,7 +65,7 @@ export default function HomeScreen() {
         title="Lessons"
         icon="book-open-page-variant"
         tone="bg-kanji"
-        count={counts?.lessons}
+        count={data?.lessons}
         idle="No new items right now."
         waiting="new items ready to learn"
         countTestID="home-lessons-count"
@@ -68,13 +76,21 @@ export default function HomeScreen() {
         title="Reviews"
         icon="cards"
         tone="bg-radical"
-        count={counts?.reviews}
+        count={data?.reviews}
         idle="Nothing is due. Reviews appear as items come due."
         waiting="items due for review"
         countTestID="home-reviews-count"
         startTestID="home-start-reviews"
         onStart={() => router.push("/reviews")}
       />
+
+      {load.status !== "error" && (
+        <>
+          <ForecastCard data={data} now={load.status === "ready" ? load.at : 0} />
+          <LevelCard data={data} />
+          <StagesCard data={data} />
+        </>
+      )}
 
       {CLOCK_DEBUG_ENABLED && <DevTools />}
     </Screen>
