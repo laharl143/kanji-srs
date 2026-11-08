@@ -13,9 +13,10 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 - **Database**: `expo-sqlite` with Drizzle ORM 0.45 and drizzle-kit 0.31; Vitest runs the same schema and migrations on `better-sqlite3` in memory. See [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md)
 - **UI**: NativeWind 4.2 with Tailwind CSS 3.4 (`tailwind.config.js`, tokens in `src/global.css`), Reanimated 4.7, Noto Sans JP Regular and Bold via `expo-font`. See [src/theme/AGENTS.md](src/theme/AGENTS.md) and [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md)
 - **Study and pipeline libraries** (spec 0004): `wanakana` (romaji to kana in the reading field), `expo-crypto` (`randomUUID` for review ids); dev only `tsx` (runs `pipeline/src`) and `undici` (proxy aware downloads)
-- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, `expo-speech`, the Maestro CLI (flows are written in `maestro/`)
+- **Speech** (spec 0009): `expo-speech` reads vocab readings aloud with an on device Japanese voice when one exists
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, the Maestro CLI (flows are written in `maestro/`)
 - **Package manager**: npm
-- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`, `pipeline:download`, `pipeline:build`, `pipeline:bundle`
+- **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`, `pipeline:download`, `pipeline:build`, `pipeline:bundle`, `pipeline:validate`, `pipeline:batch`, `pipeline:merge`
 - **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
 
 ## Build approach
@@ -92,3 +93,5 @@ Declined: Agent Skill and MCP search for NativeWind and Reanimated (2026-11-02)
 - [pipeline/AGENTS.md](pipeline/AGENTS.md): content pipeline steps, pinned sources, and the `content/` files
 - [src/lib/study/AGENTS.md](src/lib/study/AGENTS.md): lesson and review services, the session queue, and the loop test
 - [src/components/study/AGENTS.md](src/components/study/AGENTS.md): shared quiz and lesson screen pieces, leave guard, Maestro testIDs
+- [src/components/home/AGENTS.md](src/components/home/AGENTS.md): Home dashboard cards (Next 24 hours, Level N, Stages) and forecast row labels
+- [src/components/subject/AGENTS.md](src/components/subject/AGENTS.md): item page and level page pieces, notes and synonym editors, next review text, the speak button

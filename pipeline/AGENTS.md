@@ -5,26 +5,33 @@ The content pipeline: turns free open data into `content/`, which the app bundle
 ## Steps
 
 1. `npm run pipeline:download` (`src/download.ts`): fetches every pinned source into `pipeline/raw/` (gitignored) and writes `raw/SOURCES.json` (url, origin, date, sha256, license). Present files are skipped; `-- --force` fetches again. Goes through `HTTPS_PROXY` via undici's `EnvHttpProxyAgent`.
-2. `npm run pipeline:build` (`src/build.ts`): parses, selects (`src/select.ts`), builds levels (`src/levels.ts`), writes `content/subjects.json`, and prints the build report.
-3. `npm run pipeline:bundle` (`src/bundle.ts`): merges `content/subjects.json` with `content/mnemonics/*.json` for the levels in `content/enabled-levels.json` into `content/bundle.json`, and writes its SHA-256 to `content/content-version.txt`. Refuses on a missing mnemonic or a kanji story that does not name every radical.
+2. `npm run pipeline:build` (`src/build.ts`): parses, selects (`src/select.ts`), builds levels (`src/levels.ts`), writes `content/subjects.json` and `content/retired.json`, and prints the build report.
+3. `npm run pipeline:bundle` (`src/bundle.ts`): merges `content/subjects.json` with `content/mnemonics/*.json` for the levels in `content/enabled-levels.json` into `content/bundle.json`, and writes its SHA-256 to `content/content-version.txt`. Refuses (exit 1) on any failure from `validateAll`, the same rules `pipeline:validate` runs.
+4. `npm run pipeline:validate` (`src/validate.ts`): runs every content rule (pure functions behind `validateAll`) and prints one line per failure as `[rule] subject (level N): message` (`-` when there is no level), then warnings and a coverage line per level. Exits 1 on any failure.
+5. `npm run pipeline:batch -- --levels A-B` (`src/batch.ts`): writes `work/batch-NNN.json` files for subjects with no mnemonic yet (at most 25 items of one type, radicals before kanji before vocab) and lists the items it holds back until their radicals or kanji are written. Claude Code fills them in a session; the loop is in `work/README.md`.
+6. `npm run pipeline:merge` (`src/merge.ts`): checks each filled batch with `validateBatch` and merges it into `content/mnemonics/*.json` and `sound-hooks.json`, all or nothing per batch. A refused batch stays in `work/` with its failures printed; a merged one moves to `work/merged/`, and merging it again changes nothing.
 
 ## Files
 
-- `src/sources.ts`: the only place sources are pinned: the jmdict-simplified release tag, the tanos Internet Archive snapshots (the proxy blocks tanos.co.uk), and the `tanosLicense` decision. Anything but `"usable"` switches kanji selection to the KANJIDIC2 old JLPT fallback.
+- `src/sources.ts`: the only place sources are pinned: the jmdict-simplified release tag, the tanos Internet Archive snapshots (the proxy blocks tanos.co.uk), and the `tanosLicense` decision. Anything but `"usable"` switches kanji selection to the KANJIDIC2 old JLPT fallback and vocab to the JMdict common words fallback (`commonWords` in `src/select.ts`).
 - `src/parse/`: one parser per source (`kanjidic.ts`, `kradfile.ts`, `jmdict.ts`, `jlpt.ts` for the tanos Anki 1.x decks, read with `better-sqlite3`). Kanji reading normalisation lives in `kanjidic.ts`.
 - `src/glyphs.ts`: reads the Noto Sans JP cmap for the "no glyph" report line.
-- `fixtures/`: small JSON samples the parser tests use.
+- `src/content.ts`: the `Content` types and `loadContent()`, which reads every `content/` file (only `subjects.json` is required; shipped ids come from `bundle.json`); validate, batch, merge, bundle, and `content.test.ts` all start from it.
+- `fixtures/`: small JSON samples the parser tests use, plus `course.ts`, a small course the batch and merge tests build on.
 
 ## Content files (`../content/`)
 
-- `subjects.json`: generated; also the id registry. A rebuild keeps ids by `type + characters` and gives new items ids above the highest one. Never renumber (root ground rule 7).
-- `mnemonics/{radicals,kanji,vocab}.json`: hand written, keyed by characters. Radical `name` becomes its primary meaning. `sound-hooks.json`: one English hook word per reading, reused by every kanji with that reading.
+- `subjects.json`: generated; also the id registry. A rebuild keeps ids by `type + characters` and gives new items ids above the highest one in `subjects.json` and `retired.json`. Never renumber (root ground rule 7).
+- `retired.json`: ids that left the course (`{ id, type, characters }`, sorted by id), written only by `pipeline:build`. A returning item gets its old id back, so no id is ever given to another item.
+- `enabled-levels.json`: the levels the bundle ships, `1..N` with no gaps. The pipeline never writes it: enabling a level is a deliberate hand edit, then `pipeline:bundle`.
+- `mnemonics/{radicals,kanji,vocab}.json`: hand written, keyed by characters. Radical `name` becomes its primary meaning. `sound-hooks.json`: one English hook word per reading, reused by every kanji with that reading. A hook is one lowercase word that no other reading uses, and a kanji's reading mnemonic must contain the hook for its first primary reading at a word start.
 - `bundle.json` and `content-version.txt`: generated by `pipeline:bundle`; commit both together. `.gitattributes` stores them byte for byte, and a test checks the version is the bundle's hash.
 
 ## Rules
 
 - Write radical names for a level before its kanji stories (the bundle check needs them).
 - After any change to `subjects.json`, a mnemonics file, or `enabled-levels.json`, run `pipeline:bundle`, or `npm test` fails on the version check.
+- Every content rule lives in `src/validate.ts`. `pipeline:validate`, `pipeline:merge`, `pipeline:bundle`, and `npm test` (`src/content.test.ts`, over the committed content) all run it, so invalid content fails the pre commit hook. Add a new rule there, never inside one script.
 - A new source or license goes in `src/sources.ts`, then shows up in `SOURCES.json` (root ground rule 4).
 - Pipeline code may import types from `src/lib` (relative paths), never app runtime code.
 

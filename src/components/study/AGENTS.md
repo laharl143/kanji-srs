@@ -15,7 +15,9 @@ Import from the barrel `@/components/study` (`index.ts`).
 - `use-leave-guard.ts` and `LeaveDialog.tsx`: asks before leaving once an answer is in, through expo-router's `usePreventRemove` (the stack's `beforeRemove`).
 - `SessionStates.tsx`: loading, message (empty and error), and "Done, N items" cards. `HeaderCount.tsx`: the "N left" app bar pill, with the accuracy ("66% | 25 left") once the first answer is in; its accessibility label says both numbers.
 - `ReviewSummary.tsx`: the end of session summary that replaces the Done card on `/reviews` (title, tiles, level banner, new lessons line, Correct and Incorrect groups, Home plus Start lessons and Keep reviewing). The lesson quiz keeps the Done card.
+- `quiz-details.ts`: `detailsFor(details, kind)` picks the mnemonic and your note for the question's kind for the Not quite card's Show details toggle (hidden when both are empty; collapsed again on every new question).
 - `subject-style.ts`: literal subject color classes and labels.
+- `LessonPage` and `QuizView` reuse `Section`, `Mnemonic`, `NoteText`, `Readings`, and `SpeakButton` from `../subject/`.
 
 ## Rules
 
