@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { Keyboard } from "react-native";
 
 import { useToast } from "@/components/ui";
-import { checkMeaning, checkReading, type Verdict } from "@/lib/answer/check";
-import { finishReadingInput } from "@/lib/answer/kana";
 import type { SubjectSummary } from "@/lib/db/queries/subjects";
 import {
   accuracy,
@@ -20,10 +18,20 @@ import {
 } from "@/lib/study/queue";
 import type { ServiceError, ServiceResult } from "@/lib/study/result";
 
+import {
+  checkAnswer,
+  clearAnswer,
+  editAnswer,
+  initialAnswer,
+  type AnswerState,
+  type QuizVerdict,
+} from "./answer-state";
+
+// A subject in play, with your synonyms for it from `user_notes` (spec 0007 AC-12).
 export type QuizSubject = Pick<
   SubjectSummary,
   "id" | "type" | "characters" | "meanings" | "readings"
->;
+> & { synonyms: string[] };
 
 // What the screen's save step returns: a service result (`R` when saved), or a thrown DB failure.
 export type SaveItem<R extends { ok: true } = { ok: true }> = (
@@ -44,7 +52,12 @@ export type QuizSession<R extends { ok: true } = { ok: true }> = {
   subject: QuizSubject | undefined;
   input: string;
   setInput: (text: string) => void;
-  verdict: Verdict | null;
+  verdict: QuizVerdict | null;
+  // A shake hint for an answer that does not count, keyed by `shakeKey` (spec 0007 AC-7, AC-8).
+  hint: string | null;
+  shakeKey: number;
+  // The nearest meaning's original text after a "Close enough" answer (spec 0007 AC-9).
+  closeTo: string | null;
   submit: () => void;
   // Items not yet completed: in play plus waiting, or in play only while wrapping up.
   remaining: number;
@@ -68,12 +81,13 @@ export type QuizSession<R extends { ok: true } = { ok: true }> = {
  * The first submit checks the answer, the second moves on. When an item's last question is
  * right, `save` writes it; a failed write shows a toast and drops the item, and is never retried
  * (0004 AC-9). With `windowSize`, at most that many items are in play and the rest join as items
- * finish; without it every item is in play at once.
+ * finish; without it every item is in play at once. Answers are checked per spec 0007:
+ * `close` counts as right, and `wrong_kind` or `invalid` only shake with a hint.
  */
 export function useQuizSession<R extends { ok: true } = { ok: true }>(
   subjects: QuizSubject[],
   save: SaveItem<R>,
-  options: { windowSize?: number } = {},
+  options: { windowSize?: number; courseForms: ReadonlySet<string> },
 ): QuizSession<R> {
   const toast = useToast();
   const [byId] = useState(() => new Map(subjects.map((s) => [s.id, s])));
@@ -84,8 +98,7 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
       { windowSize: options.windowSize },
     ),
   );
-  const [input, setInputState] = useState("");
-  const [verdict, setVerdict] = useState<Verdict | null>(null);
+  const [answer, setAnswer] = useState<AnswerState>(initialAnswer);
   const [results, setResults] = useState<SavedItem<R>[]>([]);
   const [answeredAny, setAnsweredAny] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -98,9 +111,9 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
   }, [done]);
   const subject = question ? byId.get(question.subjectId) : undefined;
 
-  // The answer is frozen while its result shows.
+  // The answer is frozen while its result shows; editing clears a hint.
   function setInput(text: string) {
-    if (verdict === null) setInputState(text);
+    setAnswer((a) => editAnswer(a, text));
   }
 
   async function persist(item: CompletedItem) {
@@ -125,20 +138,15 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
 
   function submit() {
     if (!question || !subject || saving) return;
-    if (verdict === null) {
-      if (input.trim() === "") return;
-      const answer = question.kind === "reading" ? finishReadingInput(input) : input;
-      setInputState(answer);
-      setVerdict(
-        question.kind === "meaning" ? checkMeaning(answer, subject) : checkReading(answer, subject),
-      );
-      setAnsweredAny(true);
+    if (answer.verdict === null) {
+      const checked = checkAnswer(answer, question.kind, subject, options.courseForms);
+      setAnswer(checked.state);
+      if (checked.counted) setAnsweredAny(true);
       return;
     }
-    const { state, completed } = answerCurrent(queue, verdict === "correct");
+    const { state, completed } = answerCurrent(queue, answer.verdict !== "wrong");
     setQueue(state);
-    setVerdict(null);
-    setInputState("");
+    setAnswer(clearAnswer(answer));
     if (completed) void persist(completed);
   }
 
@@ -150,9 +158,12 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
   return {
     question,
     subject,
-    input,
+    input: answer.input,
     setInput,
-    verdict,
+    verdict: answer.verdict,
+    hint: answer.hint,
+    shakeKey: answer.shakeKey,
+    closeTo: answer.closeTo,
     submit,
     remaining: remainingItems(queue),
     saved: results.length,

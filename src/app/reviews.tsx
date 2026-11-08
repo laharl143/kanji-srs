@@ -18,6 +18,7 @@ import { Button, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
+import { loadCourseForms } from "@/lib/study/answers";
 import { getHomeCounts } from "@/lib/study/home";
 import { REVIEW_WINDOW_SIZE } from "@/lib/study/queue";
 import { loadReviewSession, submitReview, type ReviewItem } from "@/lib/study/reviews";
@@ -25,7 +26,7 @@ import { loadReviewSession, submitReview, type ReviewItem } from "@/lib/study/re
 type Load =
   | { status: "loading" }
   | { status: "error"; message: string }
-  | { status: "ready"; items: ReviewItem[] };
+  | { status: "ready"; items: ReviewItem[]; courseForms: ReadonlySet<string> };
 
 // Reviews (spec 0004 AC-8 to AC-11, spec 0006 AC-6 to AC-10): every due item, 10 in play at a
 // time, with Wrap up, then the session summary.
@@ -36,8 +37,13 @@ export default function ReviewsScreen() {
   const [run, setRun] = useState(0);
 
   const fetchSession = useCallback(() => {
-    loadReviewSession(getDb(), getCurrentUserId(), now()).then(
-      (items) => setLoad({ status: "ready", items }),
+    // The course word forms load with the session; either failing shows the error card
+    // (spec 0007 AC-12). Keep reviewing reloads both.
+    Promise.all([
+      loadReviewSession(getDb(), getCurrentUserId(), now()),
+      loadCourseForms(getDb()),
+    ]).then(
+      ([items, courseForms]) => setLoad({ status: "ready", items, courseForms }),
       (e) => setLoad({ status: "error", message: e instanceof Error ? e.message : String(e) }),
     );
   }, []);
@@ -62,6 +68,7 @@ export default function ReviewsScreen() {
       <ReviewSession
         key={run}
         items={load.items}
+        courseForms={load.courseForms}
         onHome={home}
         onStartLessons={startLessons}
         onKeepReviewing={keepReviewing}
@@ -98,20 +105,24 @@ export default function ReviewsScreen() {
 
 function ReviewSession({
   items,
+  courseForms,
   onHome,
   onStartLessons,
   onKeepReviewing,
 }: {
   items: ReviewItem[];
+  courseForms: ReadonlySet<string>;
   onHome: () => void;
   onStartLessons: () => void;
   onKeepReviewing: () => void;
 }) {
+  // The summary reads plain subjects; the quiz also gets your synonyms (spec 0007 AC-12).
   const [subjects] = useState(() => items.map((i) => i.subject));
+  const [quizSubjects] = useState(() => items.map((i) => ({ ...i.subject, synonyms: i.synonyms })));
   const session = useQuizSession(
-    subjects,
+    quizSubjects,
     (item) => submitReview(getDb(), getCurrentUserId(), item, now(), randomUUID),
-    { windowSize: REVIEW_WINDOW_SIZE },
+    { windowSize: REVIEW_WINDOW_SIZE, courseForms },
   );
   const guard = useLeaveGuard(session.answeredAny && !session.done);
   const next = useNextCounts(session.done);

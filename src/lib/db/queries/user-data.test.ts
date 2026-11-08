@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { createTestDb, type TestDb } from "../../../../tests/unit/db/harness";
 import { getAssignments, insertAssignmentsIfMissing } from "./assignments";
 import { getMeta, setMeta } from "./meta";
-import { getNote, upsertNote } from "./notes";
+import { getNote, getSynonyms, upsertNote } from "./notes";
 import { resetProgress } from "./progress";
 import { getReviews, insertReview } from "./reviews";
 import { getOrCreateSettings, updateSettings } from "./settings";
@@ -95,6 +95,18 @@ describe("notes", () => {
       synonyms: [],
       updatedAt: 30,
     });
+  });
+});
+
+describe("getSynonyms (spec 0007 AC-12)", () => {
+  it("returns your trimmed synonyms per subject, leaving out blank and empty lists", async () => {
+    await upsertNote(db, U, 1, { synonyms: [" sunshine ", "", "  ", "daylight"] }, 1);
+    await upsertNote(db, U, 2, { synonyms: ["   "] }, 1);
+    await upsertNote(db, U, 3, { meaningNote: "no synonyms" }, 1);
+    await upsertNote(db, "other", 4, { synonyms: ["theirs"] }, 1);
+    const map = await getSynonyms(db, U);
+    expect([...map.entries()]).toEqual([[1, ["sunshine", "daylight"]]]);
+    expect(map.get(5)).toBeUndefined();
   });
 });
 

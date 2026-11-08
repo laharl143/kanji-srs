@@ -1,5 +1,7 @@
 import { and, asc, eq, inArray, lte, sql } from "drizzle-orm";
 
+import type { Meaning } from "@/lib/types";
+
 import { assignments, subjects, type NewSubject, type Subject } from "../schema";
 import type { Db } from "../types";
 import { chunk, passedCount, subjectSummary, typeOrder } from "./shared";
@@ -36,6 +38,12 @@ export async function getSubjectsWithMnemonics(db: Db, ids: readonly number[]): 
     .from(subjects)
     .where(inArray(subjects.id, [...ids]))
     .orderBy(asc(subjects.id));
+}
+
+// One meaning list per subject, for the course word guard (spec 0007 AC-3).
+export async function getAllMeanings(db: Db): Promise<Meaning[][]> {
+  const rows = await db.select({ meanings: subjects.meanings }).from(subjects);
+  return rows.map((r) => r.meanings);
 }
 
 // Subjects that list `subjectId` among their components.

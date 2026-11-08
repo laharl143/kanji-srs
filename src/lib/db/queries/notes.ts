@@ -3,6 +3,22 @@ import { and, eq } from "drizzle-orm";
 import { userNotes, type UserNote } from "../schema";
 import type { Db } from "../types";
 
+// Your synonyms per subject (spec 0007 AC-12): trimmed, blanks dropped, empty lists left out.
+// One query over all of your notes, never an IN list, so a large session cannot hit SQLite's
+// variable limit.
+export async function getSynonyms(db: Db, userId: string): Promise<Map<number, string[]>> {
+  const rows = await db
+    .select({ subjectId: userNotes.subjectId, synonyms: userNotes.synonyms })
+    .from(userNotes)
+    .where(eq(userNotes.userId, userId));
+  const out = new Map<number, string[]>();
+  for (const row of rows) {
+    const list = (row.synonyms ?? []).map((s) => s.trim()).filter((s) => s !== "");
+    if (list.length > 0) out.set(row.subjectId, list);
+  }
+  return out;
+}
+
 export type NotePatch = Partial<Pick<UserNote, "meaningNote" | "readingNote" | "synonyms">>;
 
 export async function getNote(

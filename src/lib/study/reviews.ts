@@ -1,4 +1,5 @@
 import { getAssignments, getDueReviews, updateAssignment } from "@/lib/db/queries/assignments";
+import { getSynonyms } from "@/lib/db/queries/notes";
 import { insertReview } from "@/lib/db/queries/reviews";
 import type { SubjectSummary } from "@/lib/db/queries/subjects";
 import type { Assignment } from "@/lib/db/schema";
@@ -10,7 +11,8 @@ import { runProgression } from "./progression";
 import type { CompletedItem } from "./queue";
 import type { ServiceResult } from "./result";
 
-export type ReviewItem = { assignment: Assignment; subject: SubjectSummary };
+// A due item, with your synonyms for it beside the subject (spec 0007 AC-12).
+export type ReviewItem = { assignment: Assignment; subject: SubjectSummary; synonyms: string[] };
 
 // A saved review: the stage before and after, how many subjects it unlocked, and the level it
 // opened (null when the level did not change).
@@ -24,7 +26,9 @@ export type ReviewResult = {
 
 // Every due item (stage 1 to 8, available_at <= now), no cap (spec 0004 AC-8).
 export async function loadReviewSession(db: Db, userId: string, now: Date): Promise<ReviewItem[]> {
-  return getDueReviews(db, userId, now.getTime());
+  const due = await getDueReviews(db, userId, now.getTime());
+  const synonyms = await getSynonyms(db, userId);
+  return due.map((d) => ({ ...d, synonyms: synonyms.get(d.subject.id) ?? [] }));
 }
 
 /**

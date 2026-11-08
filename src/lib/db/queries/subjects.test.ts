@@ -4,6 +4,7 @@ import { subject } from "../../../../tests/unit/db/fixtures";
 import { createTestDb, type TestDb } from "../../../../tests/unit/db/harness";
 import { insertAssignmentsIfMissing } from "./assignments";
 import {
+  getAllMeanings,
   getLevelSummaries,
   getSubject,
   getSubjectsByIds,
@@ -27,6 +28,12 @@ beforeEach(async () => {
 });
 
 describe("subjects queries", () => {
+  it("getAllMeanings returns one meaning list per subject (spec 0007 AC-3)", async () => {
+    const lists = await getAllMeanings(db);
+    expect(lists).toHaveLength(5);
+    expect(lists).toContainEqual([{ text: "meaning 3", primary: true }]);
+  });
+
   it("getSubject returns the full row or undefined", async () => {
     const s = await getSubject(db, 3);
     expect(s?.meaningMnemonic).toBe("mnemonic 3");

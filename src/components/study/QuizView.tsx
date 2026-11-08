@@ -25,8 +25,22 @@ export function QuizView({ session }: { session: QuizSession }) {
         onChangeText={session.setInput}
         onSubmit={session.submit}
         status={verdict ?? "idle"}
+        shakeKey={session.shakeKey}
         testID="answer-input"
       />
+
+      {session.hint !== null && verdict === null && (
+        <View
+          key={session.shakeKey}
+          testID="answer-hint"
+          className="flex-row items-center justify-center gap-2"
+          accessible
+          accessibilityLiveRegion="assertive"
+        >
+          <MaterialCommunityIcons name="information" size={20} color={palette.muted} />
+          <Text className="text-base font-bold text-text">{session.hint}</Text>
+        </View>
+      )}
 
       {verdict === "wrong" && (
         <Card>
@@ -45,7 +59,7 @@ export function QuizView({ session }: { session: QuizSession }) {
             testID="accepted-answers"
             className={`text-lg text-text ${question.kind === "reading" ? "font-jp" : ""}`}
           >
-            {acceptedAnswers(question.kind, subject).join(", ")}
+            {acceptedAnswers(question.kind, subject, subject.synonyms).join(", ")}
           </Text>
         </Card>
       )}
@@ -61,6 +75,16 @@ export function QuizView({ session }: { session: QuizSession }) {
         </View>
       )}
 
+      {verdict === "close" && (
+        <View testID="answer-close" className="items-center gap-1" accessible>
+          <View className="flex-row items-center gap-2" accessibilityLiveRegion="polite">
+            <MaterialCommunityIcons name="check-circle" size={20} color={palette.correct} />
+            <Text className="text-base font-bold text-correct">Close enough</Text>
+          </View>
+          <Text className="text-base text-text">{`Answer: ${session.closeTo ?? ""}`}</Text>
+        </View>
+      )}
+
       <Button
         label={verdict === null ? "Check" : "Next"}
         icon={verdict === null ? "check" : "arrow-right"}
@@ -70,9 +94,11 @@ export function QuizView({ session }: { session: QuizSession }) {
         onPress={session.submit}
       />
       <Text className="text-center text-sm text-muted">
-        {verdict === null
-          ? "Press the keyboard's enter key to check."
-          : "Press enter again for the next question."}
+        {verdict !== null
+          ? "Press enter again for the next question."
+          : question.kind === "reading"
+            ? "Romaji turns into kana as you type. Press enter to check."
+            : "Press the keyboard's enter key to check."}
       </Text>
     </View>
   );

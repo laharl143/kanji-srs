@@ -22,7 +22,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 5 | Core study loop | Slice 1 | done |
 | 6 | Full content pipeline | Slice 2 | done |
 | 7 | SRS progression | Slice 3 | done |
-| 8 | Answer checking | Slice 4 | in-progress |
+| 8 | Answer checking | Slice 4 | done |
 | 9 | Dashboard | Slice 5 | in-progress |
 | 10 | Item pages & level browser | Slice 6 | in-progress |
 | 11 | Settings & credits | Slice 7 | in-progress |
@@ -117,17 +117,17 @@ Spec [0006](../specs/0006-srs-progression/index.md) · code in `src/lib/srs/prog
 
 ## Slice 4: Answer checking
 
-### 8. Answer checking · in-progress · spec stale for Android
+### 8. Answer checking · done
 Forgiving answers: typo tolerance, synonyms, katakana treated as hiragana, and a hint (not a penalty) for the wrong kind of kanji reading.
 **Done when:** a small meaning typo is accepted as close, and a kun'yomi typed for an on'yomi question shakes with a hint.
-**Before building:** spec 0007 was written for Next.js. Update it for Android first with `/architect answer checking` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0007 for Android): `/architect answer checking`
-- [ ] Build it: `/develop answer checking`
-   - [ ] Meaning normalizer and typo tolerance (AC-1, AC-2)
-   - [ ] Reading rules: kana, wrong kind, invalid (AC-3 to AC-5)
-   - [ ] UI feedback (AC-4 to AC-7)
-- [ ] Verify it: `/check verify answer checking`
-Spec 0007
+- [x] Design it (spec, update 0007 for Android): `/architect answer checking` (updated 2026-11-08: adds a course word guard, optional brackets and "to", every vocab reading accepted, and synonyms wired now)
+- [x] Build it: `/develop answer checking`
+   - [x] Reading rules, hint, and shake: kana normalization, every vocab reading, wrong kind, invalid, does not count (AC-4 to AC-8, AC-10, AC-11)
+   - [x] Meaning forms, typo tolerance, and close enough (AC-1, AC-2, AC-6, AC-9)
+   - [x] Course word guard and synonyms loaded with each session (AC-3, AC-11, AC-12)
+   - [x] Reading helper line and the emulator pass (AC-8, AC-9, AC-13)
+- [x] Verify it: `/check verify answer checking` (skipped 2026-11-08, marked done by you: every verify step passed on the emulator except the two synonym steps for AC-11 and AC-12, which need feature 10's synonym editor; the load failure step passed in a throwaway worktree)
+Spec [0007](../specs/0007-answer-checking/index.md) · code in `src/lib/answer/`, `src/components/study/` (answer state, field, quiz view), `src/lib/study/answers.ts`
 
 ## Slice 5: Dashboard
 

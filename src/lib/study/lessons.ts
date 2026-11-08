@@ -1,4 +1,5 @@
 import { getAssignments, getLessonQueue, updateAssignment } from "@/lib/db/queries/assignments";
+import { getSynonyms } from "@/lib/db/queries/notes";
 import { getSettings } from "@/lib/db/queries/settings";
 import {
   getSubjectsByIds,
@@ -12,8 +13,9 @@ import { completeLesson } from "@/lib/srs/schedule";
 
 import type { ServiceResult } from "./result";
 
-// One lesson page: the subject with its mnemonics, plus its components' characters and meanings.
-export type LessonItem = { subject: Subject; components: SubjectSummary[] };
+// One lesson page: the subject with its mnemonics, plus its components' characters and meanings,
+// and your synonyms for the quiz (spec 0007 AC-12).
+export type LessonItem = { subject: Subject; components: SubjectSummary[]; synonyms: string[] };
 
 /**
  * Up to `lesson_batch_size` stage 0 items in 0001 §6.2 order (lowest level, radicals, kanji,
@@ -27,9 +29,11 @@ export async function loadLessonBatch(db: Db, userId: string): Promise<LessonIte
   const full = new Map((await getSubjectsWithMnemonics(db, ids)).map((s) => [s.id, s]));
   const componentIds = [...new Set(queue.flatMap((q) => q.subject.componentIds))];
   const components = new Map((await getSubjectsByIds(db, componentIds)).map((s) => [s.id, s]));
+  const synonyms = await getSynonyms(db, userId);
   return queue.map((q) => ({
     subject: full.get(q.subject.id)!,
     components: q.subject.componentIds.flatMap((id) => components.get(id) ?? []),
+    synonyms: synonyms.get(q.subject.id) ?? [],
   }));
 }
 

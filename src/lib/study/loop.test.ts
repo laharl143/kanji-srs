@@ -11,9 +11,11 @@ import {
   insertAssignmentsIfMissing,
   updateAssignment,
 } from "@/lib/db/queries/assignments";
+import { upsertNote } from "@/lib/db/queries/notes";
 import { getReviews } from "@/lib/db/queries/reviews";
 import type { Meaning, Reading } from "@/lib/types";
 
+import { loadCourseForms } from "./answers";
 import { getHomeCounts } from "./home";
 import { completeLessonItem, loadLessonBatch } from "./lessons";
 import {
@@ -76,11 +78,11 @@ function answerAll(items: Answerable[]): CompletedItem[] {
   const completed: CompletedItem[] = [];
   for (let q = currentQuestion(state); q; q = currentQuestion(state)) {
     const s = byId.get(q.subjectId)!;
-    const verdict =
+    const checked =
       q.kind === "meaning"
-        ? checkMeaning(s.meanings[0].text.toUpperCase(), s)
+        ? checkMeaning(s.meanings[0].text.toUpperCase(), s, [], new Set())
         : checkReading(s.readings.find((r) => r.primary)!.text, s);
-    const result = answerCurrent(state, verdict === "correct");
+    const result = answerCurrent(state, checked.result === "correct");
     state = result.state;
     if (result.completed) completed.push(result.completed);
   }
@@ -186,6 +188,29 @@ describe("core study loop (spec 0004 AC-14)", () => {
     const [item] = await loadLessonBatch(db, USER);
     expect(item.subject).toMatchObject({ id: 4, meaningMnemonic: "mnemonic 4" });
     expect(item.components.map((c) => c.characters)).toEqual(["一", "卜"]);
+  });
+});
+
+describe("answers loaded with a session (spec 0007 AC-3, AC-12)", () => {
+  it("attaches your synonyms to lesson and review items, and [] without a notes row", async () => {
+    await upsertNote(db, USER, 1, { synonyms: [" line ", ""] }, 0);
+    const batch = await loadLessonBatch(db, USER);
+    expect(batch.map((i) => [i.subject.id, i.synonyms])).toEqual([
+      [1, ["line"]],
+      [2, []],
+      [3, []],
+    ]);
+    for (const done of answerAll(batch.map((i) => i.subject))) {
+      await completeLessonItem(db, USER, done.subjectId, START);
+    }
+    const session = await loadReviewSession(db, USER, new Date(START.getTime() + 4 * HOUR));
+    expect(session.find((i) => i.subject.id === 1)?.synonyms).toEqual(["line"]);
+    expect(session.find((i) => i.subject.id === 2)?.synonyms).toEqual([]);
+  });
+
+  it("loads every subject's meaning forms as the course word set", async () => {
+    const forms = await loadCourseForms(db);
+    expect([...forms].sort()).toEqual([1, 2, 3, 4, 5].map((id) => `meaning ${id}`));
   });
 });
 

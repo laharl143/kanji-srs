@@ -18,12 +18,13 @@ import { Button, ProgressBar, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
+import { loadCourseForms } from "@/lib/study/answers";
 import { completeLessonItem, loadLessonBatch, type LessonItem } from "@/lib/study/lessons";
 
 type Load =
   | { status: "loading" }
   | { status: "error"; message: string }
-  | { status: "ready"; items: LessonItem[] };
+  | { status: "ready"; items: LessonItem[]; courseForms: ReadonlySet<string> };
 
 // Lessons (spec 0004 AC-6, AC-7, AC-11): one page per item, then the quiz, then "Done".
 export default function LessonsScreen() {
@@ -31,8 +32,9 @@ export default function LessonsScreen() {
   const [load, setLoad] = useState<Load>({ status: "loading" });
 
   const fetchBatch = useCallback(() => {
-    loadLessonBatch(getDb(), getCurrentUserId()).then(
-      (items) => setLoad({ status: "ready", items }),
+    // The course word forms load with the batch; either failing shows the error card (0007 AC-12).
+    Promise.all([loadLessonBatch(getDb(), getCurrentUserId()), loadCourseForms(getDb())]).then(
+      ([items, courseForms]) => setLoad({ status: "ready", items, courseForms }),
       (e) => setLoad({ status: "error", message: e instanceof Error ? e.message : String(e) }),
     );
   }, []);
@@ -74,13 +76,15 @@ export default function LessonsScreen() {
       </Screen>
     );
   }
-  return <LessonFlow items={load.items} onHome={home} />;
+  return <LessonFlow items={load.items} courseForms={load.courseForms} onHome={home} />;
 }
 
-function LessonFlow({ items, onHome }: { items: LessonItem[]; onHome: () => void }) {
+type FlowProps = { items: LessonItem[]; courseForms: ReadonlySet<string>; onHome: () => void };
+
+function LessonFlow({ items, courseForms, onHome }: FlowProps) {
   const [page, setPage] = useState(0);
   const [quiz, setQuiz] = useState(false);
-  if (quiz) return <LessonQuiz items={items} onHome={onHome} />;
+  if (quiz) return <LessonQuiz items={items} courseForms={courseForms} onHome={onHome} />;
 
   const last = page === items.length - 1;
   return (
@@ -121,10 +125,11 @@ function LessonFlow({ items, onHome }: { items: LessonItem[]; onHome: () => void
   );
 }
 
-function LessonQuiz({ items, onHome }: { items: LessonItem[]; onHome: () => void }) {
+function LessonQuiz({ items, courseForms, onHome }: FlowProps) {
   const session = useQuizSession(
-    items.map((i) => i.subject),
+    items.map((i) => ({ ...i.subject, synonyms: i.synonyms })),
     (item) => completeLessonItem(getDb(), getCurrentUserId(), item.subjectId, now()),
+    { courseForms },
   );
   const guard = useLeaveGuard(session.answeredAny && !session.done);
 

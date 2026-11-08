@@ -15,6 +15,9 @@ import { usePalette } from "@/theme/use-palette";
 
 import type { QuizSubject, SavedItem } from "./use-quiz-session";
 
+// The summary reads plain subjects; synonyms only matter while answering.
+type SummarySubject = Omit<QuizSubject, "synonyms">;
+
 // Home's counts, read when the summary opens, for the next step buttons (spec 0006 AC-10).
 export type NextCounts =
   | { status: "loading" }
@@ -23,7 +26,7 @@ export type NextCounts =
 
 type ReviewSummaryProps = {
   results: readonly SavedItem<ReviewResult>[];
-  subjects: readonly QuizSubject[];
+  subjects: readonly SummarySubject[];
   accuracy: number | null;
   next: NextCounts;
   onHome: () => void;
@@ -298,7 +301,7 @@ const SummaryRow = memo(function SummaryRow({
   subject,
 }: {
   entry: SummaryEntry;
-  subject: QuizSubject;
+  subject: SummarySubject;
 }) {
   const palette = usePalette();
   const meaning = primaryMeaning(subject.meanings);
