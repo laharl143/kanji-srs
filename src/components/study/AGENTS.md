@@ -8,6 +8,7 @@ Import from the barrel `@/components/study` (`index.ts`).
 
 - `use-quiz-session.ts`: drives one session over the pure queue in `@/lib/study/queue`. First submit checks, second moves on. Saves a finished item through the `save` callback; an error result shows a toast and drops the item, never retried. Generic over the save result (the lesson quiz keeps `{ ok: true }`); takes `windowSize` and exposes `accuracy`, `wrappingUp`, `canWrapUp`, `toggleWrapUp`, and `results` (each saved item with its service result).
 - `QuizView.tsx`: prompt, answer field, result, and the Check / Next button.
+- `answer-state.ts`: pure answer state for one question (spec [0007](../../../docs/specs/0007-answer-checking/index.md)): `checkAnswer` turns an `AnswerResult` into a verdict (`correct`, `close`, `wrong`) or a hint that does not count, `hintFor` gives the hint text, `editAnswer` clears a hint as you type, and `shakeKey` bumps on each wrong kind or invalid submit.
 - `PromptBand.tsx`: characters on the subject color, the type badge, and the Meaning / Reading strip (inverted for reading).
 - `AnswerInput.tsx`: the one answer field. Reading mode converts romaji to hiragana with `toReadingInput` from `@/lib/answer/kana`.
 - `LessonPage.tsx`: one lesson item (meanings, readings, components, mnemonics).
@@ -23,5 +24,7 @@ Import from the barrel `@/components/study` (`index.ts`).
 - The `testID`s here (`prompt-characters`, `answer-input`, `answer-submit`, `session-remaining`, `session-done`, `session-home`) are used by `maestro/core-loop.yaml`; rename them in both places.
 - The review summary keeps the title "Done, N items" and the `session-done` and `session-home` IDs so that flow still passes. Its own IDs (`summary-level-up`, `summary-new-lessons`, `summary-correct`, `summary-incorrect`, `summary-start-lessons`, `summary-keep-reviewing`), plus `session-accuracy` and `review-wrap-up`, are for tests and scripted checks.
 - Turn the leave guard off once the session is done, so finishing never asks.
+- `AnswerInput` uses `keyboardType="visible-password"` for meaning questions on Android, because Gboard ignores `autoCorrect={false}` and commits its suggestion on Enter. Keep `key={kind}` on the `TextInput`: switching kind on a mounted field would leak that keyboard into the reading field.
+- The hint (`answer-hint`) remounts with `key={shakeKey}` so TalkBack reads it again on every repeat. `answer-close` and `accepted-answers` are test IDs for scripted checks.
 
 _Drafted by /sync from the introducing change, worth a quick human pass._

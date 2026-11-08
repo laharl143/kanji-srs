@@ -10,6 +10,7 @@ The lesson and review services and the in memory session queue: everything the s
 - `progression.ts`: `runProgression(tx, userId, now)` loads subjects, assignments, and the level, asks the pure planner in `../srs/progression.ts`, inserts the unlocks, and raises `current_level`. Used by reviews and by launch.
 - `summary.ts`: pure data for the review summary: `summarizeReviews`, `stageName` (fine names like "Seed 4", from `STAGES`), `stageChange`, `describeChange` (the row's accessibility label).
 - `dev.ts`: `promoteCurrentLevel` and `getCurrentLevel` for the progress shortcut on `/dev/clock`: moves the level's stage 0 to 4 items to stage 4, due now, and writes no `reviews` rows.
+- `answers.ts`: `loadCourseForms(db)` builds the course word guard from every subject's meanings (spec 0007 AC-3, AC-12). Both screens load it with the session, uncached, and a rejection shows the error card. The lesson and review loaders attach your `synonyms` to each item through `getSynonyms`.
 - `home.ts`: `getHomeCounts`.
 - `result.ts`: the `ServiceResult` type.
 - `loop.test.ts`: the end to end loop test (lesson, 4 hours, review, stage 2) on `better-sqlite3`. Keep it passing; it is the slice's main guard.
@@ -18,7 +19,7 @@ The lesson and review services and the in memory session queue: everything the s
 ## Related modules
 
 - `../srs/`: stage table (`config.ts`), the pure schedule math (`schedule.ts`), and the pure unlock and level up rules (`progression.ts`: `computeUnlocks`, `checkLevelUp`, `planProgression`), the only place those rules live.
-- `../answer/`: exact `checkMeaning` / `checkReading`, and `kana.ts` for romaji to hiragana.
+- `../answer/`: `checkMeaning` / `checkReading` (typo tolerance, course word guard, wrong kind and invalid results), `meaning.ts` (normalization and forms), `distance.ts` (edit distance), and `kana.ts` for romaji to hiragana.
 - `../clock/`: `now()` plus the debug offset. The only code that reads the device clock.
 - `../content/`: `runStartup` (the launch reseed when the content version changed, then `runProgression` in its own transaction on every launch, which does the first launch unlock and any launch level up) and the bundled content import.
 
