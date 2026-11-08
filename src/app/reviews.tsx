@@ -118,7 +118,9 @@ function ReviewSession({
 }) {
   // The summary reads plain subjects; the quiz also gets your synonyms (spec 0007 AC-12).
   const [subjects] = useState(() => items.map((i) => i.subject));
-  const [quizSubjects] = useState(() => items.map((i) => ({ ...i.subject, synonyms: i.synonyms })));
+  const [quizSubjects] = useState(() =>
+    items.map((i) => ({ ...i.subject, synonyms: i.synonyms, details: i.details })),
+  );
   const session = useQuizSession(
     quizSubjects,
     (item) => submitReview(getDb(), getCurrentUserId(), item, now(), randomUUID),

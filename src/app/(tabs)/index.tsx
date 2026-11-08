@@ -88,7 +88,7 @@ export default function HomeScreen() {
         <>
           <ForecastCard data={data} now={load.status === "ready" ? load.at : 0} />
           <LevelCard data={data} />
-          <StagesCard data={data} />
+          <StagesCard stages={data?.stages} />
         </>
       )}
 

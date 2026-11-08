@@ -3,6 +3,7 @@ import { Keyboard } from "react-native";
 
 import { useToast } from "@/components/ui";
 import type { SubjectSummary } from "@/lib/db/queries/subjects";
+import type { ItemDetails } from "@/lib/study/lessons";
 import {
   accuracy,
   answerCurrent,
@@ -27,11 +28,12 @@ import {
   type QuizVerdict,
 } from "./answer-state";
 
-// A subject in play, with your synonyms for it from `user_notes` (spec 0007 AC-12).
+// A subject in play, with your synonyms for it from `user_notes` (spec 0007 AC-12), and its
+// mnemonics and your notes for "Show details" (spec 0009 AC-7), all read once at session start.
 export type QuizSubject = Pick<
   SubjectSummary,
   "id" | "type" | "characters" | "meanings" | "readings"
-> & { synonyms: string[] };
+> & { synonyms: string[]; details: ItemDetails };
 
 // What the screen's save step returns: a service result (`R` when saved), or a thrown DB failure.
 export type SaveItem<R extends { ok: true } = { ok: true }> = (

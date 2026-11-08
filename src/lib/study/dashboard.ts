@@ -62,17 +62,7 @@ export async function getDashboard(db: Db, userId: string, now: Date): Promise<D
   let highest = -Infinity;
   for (const s of await getLevelSummaries(db, userId)) highest = Math.max(highest, s.level);
 
-  const stages: Record<DashboardStage, number> = {
-    seed: 0,
-    sprout: 0,
-    bloom: 0,
-    harvest: 0,
-    retired: 0,
-  };
-  for (const { stage, count } of await getStageCounts(db, userId)) {
-    const { group } = stageGroup(stage);
-    if (group in stages) stages[group as DashboardStage] += count;
-  }
+  const stages = await countStageGroups(db, userId);
 
   return {
     lessons,
@@ -87,4 +77,26 @@ export async function getDashboard(db: Db, userId: string, now: Date): Promise<D
     },
     stages,
   };
+}
+
+/**
+ * Your items per stage group (Seed to Retired), the one count Home and the Levels tab share
+ * (spec 0008 AC-4, spec 0009 AC-8). Lesson (stage 0) and locked items are in no group.
+ */
+export async function countStageGroups(
+  db: Db,
+  userId: string,
+): Promise<Record<DashboardStage, number>> {
+  const stages: Record<DashboardStage, number> = {
+    seed: 0,
+    sprout: 0,
+    bloom: 0,
+    harvest: 0,
+    retired: 0,
+  };
+  for (const { stage, count } of await getStageCounts(db, userId)) {
+    const { group } = stageGroup(stage);
+    if (group in stages) stages[group as DashboardStage] += count;
+  }
+  return stages;
 }

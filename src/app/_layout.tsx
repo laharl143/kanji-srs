@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, useColorScheme } from "react-native";
 
+import { startJapaneseVoiceCheck } from "@/components/subject/use-japanese-voice";
 import { AppBar, ToastProvider } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { CLOCK_DEBUG_ENABLED, loadClockOffset, now } from "@/lib/clock";
@@ -20,6 +21,8 @@ import { useDbMigrations } from "@/lib/db/migrate";
 import { paletteFor, type Palette } from "@/theme/colors";
 
 SplashScreen.preventAutoHideAsync();
+// The speak button's Japanese voice check starts at launch (spec 0009 AC-10).
+void startJapaneseVoiceCheck();
 
 const FONT_TIMEOUT_MS = 3000;
 

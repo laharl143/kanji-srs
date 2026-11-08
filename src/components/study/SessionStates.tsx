@@ -15,6 +15,8 @@ type MessageCardProps = {
   onAction: () => void;
   testID?: string;
   secondary?: { label: string; onPress: () => void };
+  actionIcon?: IconName;
+  actionTestID?: string;
 };
 
 // A centered card with an icon, a message, and one main action: empty, done, and error states.
@@ -26,6 +28,8 @@ export function MessageCard({
   onAction,
   testID,
   secondary,
+  actionIcon = "home",
+  actionTestID = "session-home",
 }: MessageCardProps) {
   const palette = usePalette();
   return (
@@ -40,7 +44,7 @@ export function MessageCard({
         <Text className="text-center text-base text-muted">{body}</Text>
       </View>
       <View className="gap-2">
-        <Button label={actionLabel} icon="home" testID="session-home" onPress={onAction} />
+        <Button label={actionLabel} icon={actionIcon} testID={actionTestID} onPress={onAction} />
         {secondary && (
           <Button label={secondary.label} variant="secondary" onPress={secondary.onPress} />
         )}

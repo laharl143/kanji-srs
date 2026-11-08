@@ -24,7 +24,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 7 | SRS progression | Slice 3 | done |
 | 8 | Answer checking | Slice 4 | done |
 | 9 | Dashboard | Slice 5 | done |
-| 10 | Item pages & level browser | Slice 6 | in-progress |
+| 10 | Item pages & level browser | Slice 6 | done |
 | 11 | Settings & credits | Slice 7 | in-progress |
 | 14 | Review reminders | Slice 8 | planned |
 | 12 | Mnemonic waves | Slice 9 | planned |
@@ -145,17 +145,18 @@ Spec [0008](../specs/0008-dashboard/index.md) · code in `src/lib/srs/forecast.t
 
 ## Slice 6: Item pages & level browser
 
-### 10. Item pages & level browser · in-progress · spec stale for Android
+### 10. Item pages & level browser · done
 A page per item with used in, your notes and synonyms, spoken audio for vocab, and a level browser colored by stage.
 **Done when:** a synonym added on an item page is accepted in reviews, and every level shows its items by stage.
-**Before building:** spec 0009 was written for Next.js. Update it for Android first with `/architect item pages & level browser` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0009 for Android): `/architect item pages & level browser`
-- [ ] Build it: `/develop item pages & level browser`
-   - [ ] Item page and used in (AC-1, AC-2, AC-7)
-   - [ ] Notes and synonyms everywhere (AC-3, AC-4)
-   - [ ] Level browser and speak button (AC-5, AC-6)
-- [ ] Verify it: `/check verify item pages & level browser`
-Spec 0009
+- [x] Design it (spec, updated 2026-11-08 for Android: layout picked from mockups, notes and synonyms edited inside the Meaning and Reading cards, Levels tab of level rows under a stage tile row, level grids of type colored tiles with a stage bar, Show details after a wrong answer, speak button on vocab item and lesson pages): `/architect item pages & level browser`
+- [x] Build it: `/develop item pages & level browser`
+   - [x] Item page with stage strip, next review text, components, and used in (AC-1, AC-2, AC-3, AC-11, AC-12) (built 2026-11-08)
+   - [x] Notes and synonyms edited in place (AC-4, AC-5, AC-6) (built 2026-11-08)
+   - [x] Notes in lessons and Show details in quizzes (AC-7) (built 2026-11-08)
+   - [x] Levels tab and level pages (AC-8, AC-9, AC-11, AC-12) (built 2026-11-08)
+   - [x] Speak button and emulator pass at 360dp, font scale 1.3, light and dark (AC-10, AC-12) (speak button built 2026-11-08; emulator pass done 2026-11-08 after the `inlineRem: 16` fix, every control 48dp or more)
+- [x] Verify it: `/check verify item pages & level browser` (skipped 2026-11-08, marked done by you: no step failed on the emulator, and AC-12 passed at 360dp and a 1.3 font scale in light and dark after the rem fix; still not run on a device are the Retired label and the time zone step (AC-3), the kana refusal and "huge" in a review (AC-5; a lesson quiz accepted a synonym), radical Show details and the next session note (AC-7), and audible speech (AC-10; this emulator has no Japanese voice); also unblocks the 0007 synonym steps and the 0008 stage count step)
+Spec [0009](../specs/0009-item-pages-and-levels/index.md) · code in `src/app/subjects/`, `src/app/levels/`, `src/app/(tabs)/levels.tsx`, `src/components/subject/`, `src/lib/study/items.ts`, `src/lib/study/levels.ts`, `src/lib/answer/synonym.ts`
 
 ## Slice 7: Settings & credits
 

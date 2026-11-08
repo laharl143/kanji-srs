@@ -1,6 +1,6 @@
 import { and, asc, eq, inArray, lte, sql } from "drizzle-orm";
 
-import type { Meaning } from "@/lib/types";
+import type { Meaning, SubjectType } from "@/lib/types";
 
 import { assignments, subjects, type NewSubject, type Subject } from "../schema";
 import type { Db } from "../types";
@@ -30,14 +30,15 @@ export async function getSubjectsByIds(db: Db, ids: readonly number[]): Promise<
     .orderBy(asc(subjects.id));
 }
 
-// Full rows, mnemonics included, for the lesson pages (spec 0004).
+// Full rows, mnemonics included, for the lesson pages (spec 0004) and the review session's
+// "Show details" (spec 0009 AC-7). In batches, so a large review session cannot hit SQLite's
+// variable limit.
 export async function getSubjectsWithMnemonics(db: Db, ids: readonly number[]): Promise<Subject[]> {
-  if (ids.length === 0) return [];
-  return db
-    .select()
-    .from(subjects)
-    .where(inArray(subjects.id, [...ids]))
-    .orderBy(asc(subjects.id));
+  const out: Subject[] = [];
+  for (const batch of chunk(ids)) {
+    out.push(...(await db.select().from(subjects).where(inArray(subjects.id, batch))));
+  }
+  return out.sort((a, b) => a.id - b.id);
 }
 
 // One meaning list per subject, for the course word guard (spec 0007 AC-3).
@@ -85,6 +86,29 @@ export async function getLevelSummaries(
     )
     .groupBy(subjects.level)
     .orderBy(asc(subjects.level));
+}
+
+// Totals and passed counts per level and type (spec 0009 AC-8), for the Levels tab. Only levels
+// that have subjects appear; a type with no subjects at a level has no row.
+export async function getLevelTypeSummaries(
+  db: Db,
+  userId: string,
+): Promise<{ level: number; type: SubjectType; total: number; passed: number }[]> {
+  const rows = await db
+    .select({
+      level: subjects.level,
+      type: subjects.type,
+      total: sql<number>`count(*)`,
+      passed: passedCount,
+    })
+    .from(subjects)
+    .leftJoin(
+      assignments,
+      and(eq(assignments.subjectId, subjects.id), eq(assignments.userId, userId)),
+    )
+    .groupBy(subjects.level, subjects.type)
+    .orderBy(asc(subjects.level), typeOrder);
+  return rows.map((r) => ({ ...r, total: Number(r.total), passed: Number(r.passed) }));
 }
 
 // Reseed only (0001 §5.6): inserts or updates by id, never deletes, never touches progress.

@@ -16,7 +16,7 @@ import { usePalette } from "@/theme/use-palette";
 import type { QuizSubject, SavedItem } from "./use-quiz-session";
 
 // The summary reads plain subjects; synonyms only matter while answering.
-type SummarySubject = Omit<QuizSubject, "synonyms">;
+type SummarySubject = Omit<QuizSubject, "synonyms" | "details">;
 
 // Home's counts, read when the summary opens, for the next step buttons (spec 0006 AC-10).
 export type NextCounts =

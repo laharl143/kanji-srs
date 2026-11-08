@@ -127,7 +127,7 @@ function LessonFlow({ items, courseForms, onHome }: FlowProps) {
 
 function LessonQuiz({ items, courseForms, onHome }: FlowProps) {
   const session = useQuizSession(
-    items.map((i) => ({ ...i.subject, synonyms: i.synonyms })),
+    items.map((i) => ({ ...i.subject, synonyms: i.synonyms, details: i.details })),
     (item) => completeLessonItem(getDb(), getCurrentUserId(), item.subjectId, now()),
     { courseForms },
   );

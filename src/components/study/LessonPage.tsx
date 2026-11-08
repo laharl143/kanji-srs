@@ -1,18 +1,23 @@
-import type { ReactNode } from "react";
 import { Text, View } from "react-native";
 
-import { Card, SubjectChip } from "@/components/ui";
+import { Mnemonic, NoteText, Readings, Section } from "@/components/subject/Section";
+import { SpeakButton } from "@/components/subject/SpeakButton";
+import { SubjectChip } from "@/components/ui";
 import { primaryMeaning } from "@/lib/subjects";
 import type { LessonItem } from "@/lib/study/lessons";
-import type { Reading } from "@/lib/types";
 
 import { subjectBg, subjectLabel } from "./subject-style";
 
-// One lesson item (spec 0004 AC-6): characters, meanings, readings, components, and mnemonics.
+// One lesson item (spec 0004 AC-6): characters, meanings, readings, components, and mnemonics,
+// with your notes under the mnemonics and your synonyms after "Also accepted" (spec 0009 AC-7),
+// and the speak button for vocab (spec 0009 AC-10).
 export function LessonPage({ item }: { item: LessonItem }) {
-  const { subject, components } = item;
+  const { subject, components, synonyms, details } = item;
   const meaning = primaryMeaning(subject.meanings);
-  const others = subject.meanings.filter((m) => m.text !== meaning).map((m) => m.text);
+  const others = [
+    ...subject.meanings.filter((m) => m.text !== meaning).map((m) => m.text),
+    ...synonyms,
+  ];
 
   return (
     <View className="gap-4">
@@ -42,12 +47,22 @@ export function LessonPage({ item }: { item: LessonItem }) {
           <Text className="text-base text-muted">Also accepted: {others.join(", ")}</Text>
         )}
         <Mnemonic text={subject.meaningMnemonic} />
+        <NoteText label="Your meaning note" text={details.meaningNote} />
       </Section>
 
       {subject.type !== "radical" && (
         <Section title="Reading">
-          <Readings type={subject.type} readings={subject.readings} />
-          {subject.readingMnemonic ? <Mnemonic text={subject.readingMnemonic} /> : null}
+          <Readings
+            type={subject.type}
+            readings={subject.readings}
+            aside={
+              subject.type === "vocab" ? (
+                <SpeakButton text={subject.readings.find((r) => r.primary)?.text} />
+              ) : undefined
+            }
+          />
+          <Mnemonic text={subject.readingMnemonic} />
+          <NoteText label="Your reading note" text={details.readingNote} />
         </Section>
       )}
 
@@ -71,62 +86,6 @@ export function LessonPage({ item }: { item: LessonItem }) {
           </View>
         </Section>
       )}
-    </View>
-  );
-}
-
-function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <Card>
-      <Text accessibilityRole="header" className="text-sm font-bold uppercase text-muted">
-        {title}
-      </Text>
-      {children}
-    </Card>
-  );
-}
-
-function Mnemonic({ text }: { text: string }) {
-  if (!text) return null;
-  return (
-    <View className="mt-1 rounded-md border-l-4 border-primary bg-bg px-3 py-2">
-      <Text className="text-base leading-6 text-text">{text}</Text>
-    </View>
-  );
-}
-
-// Kanji readings grouped by kind, primary ones first and marked; vocab readings in a row.
-function Readings({ type, readings }: { type: "kanji" | "vocab"; readings: Reading[] }) {
-  const groups =
-    type === "kanji"
-      ? [
-          { label: "On'yomi", items: readings.filter((r) => r.kind === "onyomi") },
-          { label: "Kun'yomi", items: readings.filter((r) => r.kind === "kunyomi") },
-        ].filter((g) => g.items.length > 0)
-      : [{ label: "", items: readings }];
-
-  return (
-    <View className="gap-2">
-      {groups.map((g) => (
-        <View key={g.label} className="gap-1">
-          {g.label !== "" && <Text className="text-sm text-muted">{g.label}</Text>}
-          <View className="flex-row flex-wrap gap-2">
-            {g.items.map((r) => (
-              <View
-                key={r.text}
-                accessible
-                accessibilityLabel={`${r.text}${r.primary ? ", main reading" : ""}`}
-                className={`rounded-md px-3 py-1 ${r.primary ? "bg-primary" : "border border-border"}`}
-              >
-                <Text className={`font-jp text-lg ${r.primary ? "text-on-primary" : "text-muted"}`}>
-                  {r.text}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </View>
-      ))}
-      <Text className="text-sm text-muted">The highlighted reading is the one quizzes accept.</Text>
     </View>
   );
 }

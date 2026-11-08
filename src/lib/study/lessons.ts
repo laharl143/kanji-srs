@@ -1,5 +1,5 @@
 import { getAssignments, getLessonQueue, updateAssignment } from "@/lib/db/queries/assignments";
-import { getSynonyms } from "@/lib/db/queries/notes";
+import { getNotes, getSynonyms } from "@/lib/db/queries/notes";
 import { getSettings } from "@/lib/db/queries/settings";
 import {
   getSubjectsByIds,
@@ -13,9 +13,23 @@ import { completeLesson } from "@/lib/srs/schedule";
 
 import type { ServiceResult } from "./result";
 
+// Mnemonics and your notes, read once with the batch or session, for the lesson page and the
+// quiz's "Show details" (spec 0009 AC-7).
+export type ItemDetails = {
+  meaningMnemonic: string;
+  readingMnemonic: string | null;
+  meaningNote: string | null;
+  readingNote: string | null;
+};
+
 // One lesson page: the subject with its mnemonics, plus its components' characters and meanings,
-// and your synonyms for the quiz (spec 0007 AC-12).
-export type LessonItem = { subject: Subject; components: SubjectSummary[]; synonyms: string[] };
+// your synonyms for the quiz (spec 0007 AC-12), and the details with your notes (spec 0009 AC-7).
+export type LessonItem = {
+  subject: Subject;
+  components: SubjectSummary[];
+  synonyms: string[];
+  details: ItemDetails;
+};
 
 /**
  * Up to `lesson_batch_size` stage 0 items in 0001 §6.2 order (lowest level, radicals, kanji,
@@ -30,11 +44,22 @@ export async function loadLessonBatch(db: Db, userId: string): Promise<LessonIte
   const componentIds = [...new Set(queue.flatMap((q) => q.subject.componentIds))];
   const components = new Map((await getSubjectsByIds(db, componentIds)).map((s) => [s.id, s]));
   const synonyms = await getSynonyms(db, userId);
-  return queue.map((q) => ({
-    subject: full.get(q.subject.id)!,
-    components: q.subject.componentIds.flatMap((id) => components.get(id) ?? []),
-    synonyms: synonyms.get(q.subject.id) ?? [],
-  }));
+  const notes = await getNotes(db, userId);
+  return queue.map((q) => {
+    const subject = full.get(q.subject.id)!;
+    const note = notes.get(q.subject.id);
+    return {
+      subject,
+      components: q.subject.componentIds.flatMap((id) => components.get(id) ?? []),
+      synonyms: synonyms.get(q.subject.id) ?? [],
+      details: {
+        meaningMnemonic: subject.meaningMnemonic,
+        readingMnemonic: subject.readingMnemonic,
+        meaningNote: note?.meaningNote ?? null,
+        readingNote: note?.readingNote ?? null,
+      },
+    };
+  });
 }
 
 // The lesson quiz finished an item: stage 0 -> 1 in its own transaction (spec 0004 AC-7, AC-9).

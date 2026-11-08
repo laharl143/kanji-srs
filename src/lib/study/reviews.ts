@@ -1,18 +1,25 @@
 import { getAssignments, getDueReviews, updateAssignment } from "@/lib/db/queries/assignments";
-import { getSynonyms } from "@/lib/db/queries/notes";
+import { getNotes, getSynonyms } from "@/lib/db/queries/notes";
 import { insertReview } from "@/lib/db/queries/reviews";
-import type { SubjectSummary } from "@/lib/db/queries/subjects";
+import { getSubjectsWithMnemonics, type SubjectSummary } from "@/lib/db/queries/subjects";
 import type { Assignment } from "@/lib/db/schema";
 import { withTransaction } from "@/lib/db/transaction";
 import type { Db } from "@/lib/db/types";
 import { applyReview } from "@/lib/srs/schedule";
 
+import type { ItemDetails } from "./lessons";
 import { runProgression } from "./progression";
 import type { CompletedItem } from "./queue";
 import type { ServiceResult } from "./result";
 
-// A due item, with your synonyms for it beside the subject (spec 0007 AC-12).
-export type ReviewItem = { assignment: Assignment; subject: SubjectSummary; synonyms: string[] };
+// A due item, with your synonyms for it beside the subject (spec 0007 AC-12), and its mnemonics
+// and your notes for "Show details" (spec 0009 AC-7).
+export type ReviewItem = {
+  assignment: Assignment;
+  subject: SubjectSummary;
+  synonyms: string[];
+  details: ItemDetails;
+};
 
 // A saved review: the stage before and after, how many subjects it unlocked, and the level it
 // opened (null when the level did not change).
@@ -28,7 +35,29 @@ export type ReviewResult = {
 export async function loadReviewSession(db: Db, userId: string, now: Date): Promise<ReviewItem[]> {
   const due = await getDueReviews(db, userId, now.getTime());
   const synonyms = await getSynonyms(db, userId);
-  return due.map((d) => ({ ...d, synonyms: synonyms.get(d.subject.id) ?? [] }));
+  const notes = await getNotes(db, userId);
+  const mnemonics = new Map(
+    (
+      await getSubjectsWithMnemonics(
+        db,
+        due.map((d) => d.subject.id),
+      )
+    ).map((s) => [s.id, s] as const),
+  );
+  return due.map((d) => {
+    const full = mnemonics.get(d.subject.id);
+    const note = notes.get(d.subject.id);
+    return {
+      ...d,
+      synonyms: synonyms.get(d.subject.id) ?? [],
+      details: {
+        meaningMnemonic: full?.meaningMnemonic ?? "",
+        readingMnemonic: full?.readingMnemonic ?? null,
+        meaningNote: note?.meaningNote ?? null,
+        readingNote: note?.readingNote ?? null,
+      },
+    };
+  });
 }
 
 /**

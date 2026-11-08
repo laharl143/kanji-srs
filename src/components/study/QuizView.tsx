@@ -1,5 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import { useState } from "react";
+import { Pressable, Text, View } from "react-native";
+
+import { Mnemonic, NoteText } from "@/components/subject/Section";
 
 import { Button, Card } from "@/components/ui";
 import { acceptedAnswers } from "@/lib/answer/check";
@@ -7,7 +10,8 @@ import { usePalette } from "@/theme/use-palette";
 
 import { AnswerInput } from "./AnswerInput";
 import { PromptBand } from "./PromptBand";
-import type { QuizSession } from "./use-quiz-session";
+import { detailsFor } from "./quiz-details";
+import type { QuizSession, QuizSubject } from "./use-quiz-session";
 
 // The question, the answer field, and the result under it. Rendered while questions remain.
 export function QuizView({ session }: { session: QuizSession }) {
@@ -61,6 +65,7 @@ export function QuizView({ session }: { session: QuizSession }) {
           >
             {acceptedAnswers(question.kind, subject, subject.synonyms).join(", ")}
           </Text>
+          <ShowDetails kind={question.kind} subject={subject} />
         </Card>
       )}
 
@@ -100,6 +105,45 @@ export function QuizView({ session }: { session: QuizSession }) {
             ? "Romaji turns into kana as you type. Press enter to check."
             : "Press the keyboard's enter key to check."}
       </Text>
+    </View>
+  );
+}
+
+// "Show details" under a wrong answer (spec 0009 AC-7). Mounted with the Not quite card, so it
+// starts collapsed for every new question.
+function ShowDetails({ kind, subject }: { kind: "meaning" | "reading"; subject: QuizSubject }) {
+  const palette = usePalette();
+  const [open, setOpen] = useState(false);
+  const shown = detailsFor(kind, subject.details);
+  if (!shown) return null;
+  return (
+    <View className="gap-2">
+      <Pressable
+        testID="show-details"
+        accessibilityRole="button"
+        accessibilityLabel={open ? "Hide details" : "Show details"}
+        accessibilityState={{ expanded: open }}
+        onPress={() => setOpen((o) => !o)}
+        className="min-h-12 flex-row items-center gap-2 active:opacity-85"
+      >
+        <MaterialCommunityIcons
+          name={open ? "chevron-up" : "chevron-down"}
+          size={20}
+          color={palette.primary}
+        />
+        <Text className="text-base font-bold text-primary">
+          {open ? "Hide details" : "Show details"}
+        </Text>
+      </Pressable>
+      {open && (
+        <View testID="quiz-details" className="gap-2">
+          <Mnemonic text={shown.mnemonic} />
+          <NoteText
+            label={kind === "meaning" ? "Your meaning note" : "Your reading note"}
+            text={shown.note}
+          />
+        </View>
+      )}
     </View>
   );
 }

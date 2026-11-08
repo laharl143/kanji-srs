@@ -58,3 +58,28 @@ export async function upsertNote(
     })
     .onConflictDoUpdate({ target: [userNotes.userId, userNotes.subjectId], set });
 }
+
+export type NoteTexts = { meaningNote: string | null; readingNote: string | null };
+
+// Your meaning and reading notes per subject (spec 0009 AC-7), for lesson batches and review
+// sessions. Like getSynonyms, one query over all of your rows; rows with both notes empty are
+// left out, and a blank note reads as null.
+export async function getNotes(db: Db, userId: string): Promise<Map<number, NoteTexts>> {
+  const rows = await db
+    .select({
+      subjectId: userNotes.subjectId,
+      meaningNote: userNotes.meaningNote,
+      readingNote: userNotes.readingNote,
+    })
+    .from(userNotes)
+    .where(eq(userNotes.userId, userId));
+  const out = new Map<number, NoteTexts>();
+  for (const row of rows) {
+    const meaningNote = row.meaningNote?.trim() ? row.meaningNote : null;
+    const readingNote = row.readingNote?.trim() ? row.readingNote : null;
+    if (meaningNote !== null || readingNote !== null) {
+      out.set(row.subjectId, { meaningNote, readingNote });
+    }
+  }
+  return out;
+}

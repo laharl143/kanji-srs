@@ -92,16 +92,23 @@ export function LevelCard({ data }: { data: Dashboard | undefined }) {
 
 // Stages (spec 0008 AC-4): five tiles in the 0003 stage colors, zeros included. Two explicit rows
 // (3 + 2) instead of flex-wrap, which miscomputes the card height on Android.
-export function StagesCard({ data }: { data: Dashboard | undefined }) {
+// Also on the Levels tab (spec 0009 AC-8), fed by the same countStageGroups.
+export function StagesCard({
+  stages,
+  testID = "home-stages",
+}: {
+  stages: Dashboard["stages"] | undefined;
+  testID?: string;
+}) {
   const rows = [DASHBOARD_STAGES.slice(0, 3), DASHBOARD_STAGES.slice(3)];
   return (
-    <View testID="home-stages">
+    <View testID={testID}>
       <Card title="Stages">
         <View className="gap-2">
           {rows.map((row) => (
             <View key={row.join()} className="flex-row gap-2">
               {row.map((group) => (
-                <StageTile key={group} group={group} count={data?.stages[group]} />
+                <StageTile key={group} group={group} count={stages?.[group]} />
               ))}
             </View>
           ))}

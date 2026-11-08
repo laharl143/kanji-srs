@@ -30,6 +30,6 @@ export function forecastRowLabel(
   return `${spoken}, ${more}, ${row.runningTotal} total`;
 }
 
-function localHour(time: number): string {
+export function localHour(time: number): string {
   return new Date(time).toLocaleTimeString(undefined, { hour: "numeric" });
 }
