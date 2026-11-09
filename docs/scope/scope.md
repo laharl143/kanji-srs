@@ -186,14 +186,14 @@ Spec 0001 §6.5 · code in `src/lib/reminders/`, `src/lib/notifications/`, `src/
 ### 12. Mnemonic waves · in-progress
 Write original radical names and mnemonics for levels 4 to the last level, a few levels at a time, using the batch workflow and rules from 0001 §5.4 and 0005. Enable each wave once it passes validation.
 **Done when:** every level is enabled and `npm run pipeline:validate` passes.
-- [ ] Write and enable the next wave: `/develop mnemonic waves`
+- [x] Write and enable the next wave: `/develop mnemonic waves`
    - [x] Wave 1: levels 4 to 6 written (352 items: 49 radicals, 75 kanji, 228 vocab) and enabled (2026-11-09)
    - [x] Wave 2: levels 7 to 9 written (297 items: 32 radicals, 75 kanji, 190 vocab) and enabled (2026-11-09)
    - [x] Wave 3: levels 10 to 12 written (323 items: 16 radicals, 75 kanji, 232 vocab) and enabled (2026-11-09)
    - [x] Wave 4: levels 13 to 15 written (281 items: 8 radicals, 75 kanji, 198 vocab) and enabled (2026-11-09)
    - [x] Wave 5: levels 16 to 18 written (252 items: 8 radicals, 75 kanji, 169 vocab) and enabled (2026-11-09)
    - [x] Wave 6: levels 19 to 21 written (257 items: 6 radicals, 75 kanji, 176 vocab) and enabled (2026-11-09)
-   - [ ] Levels 22 to 25 (259 items left), a few levels per wave
+   - [x] Wave 7: levels 22 to 25 written (259 items: 9 radicals, 87 kanji, 163 vocab) and enabled (2026-11-09); all 25 levels are now enabled
 - [ ] Verify it: `/check verify mnemonic waves`
 code in `content/mnemonics/`, `content/enabled-levels.json` · spec [0005](../specs/0005-content-pipeline/index.md), rules 0001 §5.4
 

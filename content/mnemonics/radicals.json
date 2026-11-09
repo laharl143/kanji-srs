@@ -770,5 +770,41 @@
   "舟": {
     "name": "canoe",
     "meaningMnemonic": "A long hull with two dots for passengers and a pole. It is a canoe on the lake."
+  },
+  "犯": {
+    "name": "wild beast",
+    "meaningMnemonic": "A curved claw on the left with sharp strokes slashing across. It is a wild beast on the prowl."
+  },
+  "彑": {
+    "name": "snout",
+    "meaningMnemonic": "A shape folding back and forth like a nose poking forward. It is a pig's snout."
+  },
+  "皿": {
+    "name": "dish",
+    "meaningMnemonic": "A flat base with little walls standing up on it. It is a dish on the table."
+  },
+  "及": {
+    "name": "reach out",
+    "meaningMnemonic": "A bent arm stretching forward with a hand at the end. It is someone reaching out."
+  },
+  "歯": {
+    "name": "molar",
+    "meaningMnemonic": "A stop sign on top and a mouth full of little teeth below. It is a molar."
+  },
+  "比": {
+    "name": "twins",
+    "meaningMnemonic": "Two ladles standing side by side, nearly the same. They are twins."
+  },
+  "髟": {
+    "name": "ponytail",
+    "meaningMnemonic": "Long hair on one side and three strands swinging on the other. It is a ponytail."
+  },
+  "革": {
+    "name": "leather",
+    "meaningMnemonic": "A hide stretched flat, pinned at the top and middle. It is leather."
+  },
+  "禹": {
+    "name": "gecko",
+    "meaningMnemonic": "A head, a body, and a long curling tail. It is a gecko on the wall."
   }
 }
