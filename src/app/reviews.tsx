@@ -18,6 +18,7 @@ import { Button, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
+import { useSessionReminders } from "@/lib/notifications/use-reminders";
 import { loadCourseForms } from "@/lib/study/answers";
 import { getHomeCounts } from "@/lib/study/home";
 import { REVIEW_WINDOW_SIZE } from "@/lib/study/queue";
@@ -128,6 +129,7 @@ function ReviewSession({
   );
   const guard = useLeaveGuard(session.answeredAny && !session.done);
   const next = useNextCounts(session.done);
+  useSessionReminders(session.done, session.answeredAny);
 
   const header = (
     <Stack.Screen

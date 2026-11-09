@@ -18,6 +18,7 @@ import { Button, ProgressBar, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
+import { useSessionReminders } from "@/lib/notifications/use-reminders";
 import { loadCourseForms } from "@/lib/study/answers";
 import { completeLessonItem, loadLessonBatch, type LessonItem } from "@/lib/study/lessons";
 
@@ -132,6 +133,9 @@ function LessonQuiz({ items, courseForms, onHome }: FlowProps) {
     { courseForms },
   );
   const guard = useLeaveGuard(session.answeredAny && !session.done);
+  // New reviews from this batch change the reminders; the first finished batch asks once for the
+  // notification permission (0001 §6.5).
+  useSessionReminders(session.done, session.answeredAny, { askPermission: true });
 
   return (
     <Screen>

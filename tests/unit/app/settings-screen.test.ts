@@ -27,6 +27,10 @@ const h = vi.hoisted(() => ({
   },
 }));
 
+const notif = vi.hoisted(() => ({
+  reschedule: (() => Promise.resolve()) as (...args: unknown[]) => Promise<void>,
+}));
+
 const study = vi.hoisted(() => ({
   skipToLevel: (() => Promise.resolve()) as (...args: unknown[]) => Promise<unknown>,
   resetAllProgress: (() => Promise.resolve()) as (...args: unknown[]) => Promise<unknown>,
@@ -50,6 +54,7 @@ vi.mock("react", async (importOriginal) => {
 });
 
 vi.mock("react-native", () => ({
+  AppState: { addEventListener: () => ({ remove: () => {} }) },
   Pressable: () => null,
   Text: () => null,
   View: ({ children }: Passthrough) => children,
@@ -84,6 +89,12 @@ vi.mock("@/components/settings", () => ({
 vi.mock("@/lib/auth/current-user", () => ({ getCurrentUserId: () => "user-1" }));
 vi.mock("@/lib/clock", () => ({ now: () => new Date("2026-11-08T00:00:00Z") }));
 vi.mock("@/lib/db/client", () => ({ getDb: () => ({}) }));
+vi.mock("@/lib/notifications", () => ({
+  getPermissionState: () => new Promise(() => {}),
+  openAppSettings: () => Promise.resolve(),
+  requestPermission: () => Promise.resolve(true),
+  rescheduleReminders: (...args: unknown[]) => notif.reschedule(...args),
+}));
 vi.mock("@/lib/study/settings", () => ({
   BATCH_MIN: 3,
   BATCH_MAX: 20,
@@ -94,7 +105,7 @@ vi.mock("@/lib/study/settings", () => ({
   versionLine: () => "App 0.1.0 · content abc",
 }));
 
-const { default: SettingsScreen } = await import("./settings");
+const { default: SettingsScreen } = await import("@/app/(tabs)/settings");
 
 function deferred<T>() {
   let resolve!: (v: T) => void;
@@ -123,8 +134,11 @@ type Write = (...args: unknown[]) => Promise<unknown>;
 let toast: ReturnType<typeof vi.fn<(...args: unknown[]) => void>>;
 let skip: ReturnType<typeof vi.fn<Write>>;
 let reset: ReturnType<typeof vi.fn<Write>>;
+let reschedule: ReturnType<typeof vi.fn<(...args: unknown[]) => Promise<void>>>;
 
 beforeEach(() => {
+  reschedule = vi.fn<(...args: unknown[]) => Promise<void>>().mockResolvedValue(undefined);
+  notif.reschedule = reschedule;
   toast = vi.fn<(...args: unknown[]) => void>();
   h.toast = { show: toast };
   skip = vi.fn<Write>();
@@ -156,6 +170,14 @@ describe("Settings skip ahead confirm (spec 0010 AC-8)", () => {
     render("skip")(5);
     await flush();
     expect(toast).toHaveBeenCalledWith("Skipped to level 7", { tone: "success" });
+  });
+
+  // 0001 §6.5 "When to reschedule": after a skip, the reminders follow the new due times.
+  it("reschedules reminders after the skip", async () => {
+    skip.mockResolvedValue({ ok: true, level: 5 });
+    render("skip")(5);
+    await flush();
+    expect(reschedule).toHaveBeenCalledTimes(1);
   });
 
   // covers: AC-8

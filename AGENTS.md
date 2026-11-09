@@ -9,13 +9,14 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 - **Language / Runtime**: TypeScript (strict); Node 22+ for the pipeline and tooling
 - **Framework**: Expo SDK 58 with React Native 0.88 and React 19.3, Android only; Expo Router with routes in `src/app/`
 - **Build and install**: EAS Build (`eas.json` profiles `preview` and `e2e`, both APK); project owner `edduenas-apps`, Android package `com.edduenas.kanjisrs`
-- **Tooling installed**: ESLint (`eslint-config-expo` plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`), Husky plus lint-staged
+- **Tooling installed**: ESLint (`eslint-config-expo` plus `eslint-config-prettier`), Prettier (`.prettierrc.json`, markdown and `docs/` ignored), Vitest (`vitest.config.mts`, tests in `src/**/*.test.ts`, `tests/unit/`, `pipeline/**/*.test.ts`; never under `src/app/`, where Metro bundles every file as a route and the Android bundle fails, so screen tests go in `tests/unit/app/`), Husky plus lint-staged
 - **Database**: `expo-sqlite` with Drizzle ORM 0.45 and drizzle-kit 0.31; Vitest runs the same schema and migrations on `better-sqlite3` in memory. See [src/lib/db/AGENTS.md](src/lib/db/AGENTS.md)
 - **UI**: NativeWind 4.2 with Tailwind CSS 3.4 (`tailwind.config.js`, tokens in `src/global.css`), Reanimated 4.7, Noto Sans JP Regular and Bold via `expo-font`. See [src/theme/AGENTS.md](src/theme/AGENTS.md) and [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md)
 - **Study and pipeline libraries** (spec 0004): `wanakana` (romaji to kana in the reading field), `expo-crypto` (`randomUUID` for review ids); dev only `tsx` (runs `pipeline/src`) and `undici` (proxy aware downloads)
 - **Speech** (spec 0009): `expo-speech` reads vocab readings aloud with an on device Japanese voice when one exists
 - **Settings** (spec 0010): `@react-native-community/datetimepicker` (Android time dialog, also an `app.json` plugin)
-- **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, the Maestro CLI (flows are written in `maestro/`)
+- **Reminders** (0001 §6.5): `expo-notifications` (local one shot notifications only, also an `app.json` plugin). Expo Go cannot create the notification channel, so delivery is checked on the APK only. See [src/lib/notifications/AGENTS.md](src/lib/notifications/AGENTS.md)
+- **Planned, not installed yet** (see 0001 `## Proposed stack`): the Maestro CLI (flows are written in `maestro/`)
 - **Package manager**: npm
 - **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`, `pipeline:download`, `pipeline:build`, `pipeline:bundle`, `pipeline:validate`, `pipeline:batch`, `pipeline:merge`
 - **Pre-commit hook** (`.husky/pre-commit`): `lint-staged` (eslint + prettier on staged files), `npm run typecheck`, `npm test`
@@ -38,7 +39,7 @@ When the owner says "commit" (or picks a commit option), commit and then push th
 2. **No WaniKani name or logo.** The pink, blue, and purple colorway and a similar layout are allowed (owner's choice, 2026-11-01; see [docs/references/ui-inspiration.md](docs/references/ui-inspiration.md)). Use this app's own SRS stage names (Seed, Sprout, Bloom, Harvest, Retired).
 3. **Mnemonics and radical names are original.** Invent them. Follow the writing rules in 0001 §5.4.
 4. **Only the data sources in 0001 §5.1.** Record any new source and its license in `pipeline/raw/SOURCES.json` and on the Credits page.
-5. **Keep `src/lib/srs` and `src/lib/answer` pure.** No DB, framework, `Date.now()`, or env access. Pass `now` in.
+5. **Keep `src/lib/srs`, `src/lib/answer`, and `src/lib/reminders` pure.** No DB, framework, `Date.now()`, or env access. Pass `now` in.
 6. **Never write to content tables from app code.** Content only changes through the pipeline and the bundled content reseed on launch.
 7. **Never renumber subject IDs.**
 8. **Run `npm test` before every commit.** Do not commit failing tests.
@@ -97,3 +98,4 @@ Declined: Agent Skill and MCP search for NativeWind and Reanimated (2026-11-02)
 - [src/components/home/AGENTS.md](src/components/home/AGENTS.md): Home dashboard cards (Next 24 hours, Level N, Stages) and forecast row labels
 - [src/components/subject/AGENTS.md](src/components/subject/AGENTS.md): item page and level page pieces, notes and synonym editors, next review text, the speak button
 - [src/components/settings/AGENTS.md](src/components/settings/AGENTS.md): Settings tab cards, stepper, time rows, skip ahead and reset dialogs, credit cards
+- [src/lib/notifications/AGENTS.md](src/lib/notifications/AGENTS.md): review reminders, the pure planner in `src/lib/reminders`, the `expo-notifications` wrapper, permission, and when to reschedule

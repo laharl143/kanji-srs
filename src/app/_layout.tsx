@@ -18,6 +18,7 @@ import { bundledContent } from "@/lib/content/bundled";
 import { runStartup } from "@/lib/content/startup";
 import { getDb } from "@/lib/db/client";
 import { useDbMigrations } from "@/lib/db/migrate";
+import { useReminders } from "@/lib/notifications/use-reminders";
 import { paletteFor, type Palette } from "@/theme/colors";
 
 SplashScreen.preventAutoHideAsync();
@@ -81,7 +82,7 @@ function useContentStartup(migrated: boolean): { ready: boolean; error: Error | 
 }
 
 export default function RootLayout() {
-  // Startup work (0001 §3): migrations, content reseed, and fonts; reminders land later.
+  // Startup work (0001 §3): migrations, content reseed, and fonts; then reminders (§6.5).
   const migrations = useDbMigrations();
   const content = useContentStartup(migrations.ready);
   const ready = content.ready;
@@ -105,10 +106,17 @@ export default function RootLayout() {
         <Stack screenOptions={{ header: (props) => <AppBar {...props} /> }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
+        <Reminders />
       </ToastProvider>
       <StatusBar style="light" />
     </ThemeProvider>
   );
+}
+
+// Mounted after startup, beside the stack, so taps can navigate (0001 §3 step 5).
+function Reminders() {
+  useReminders();
+  return null;
 }
 
 function StartupError({ error, palette }: { error: Error; palette: Palette }) {

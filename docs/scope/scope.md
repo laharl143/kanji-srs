@@ -26,7 +26,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 9 | Dashboard | Slice 5 | done |
 | 10 | Item pages & level browser | Slice 6 | done |
 | 11 | Settings & credits | Slice 7 | done |
-| 14 | Review reminders | Slice 8 | planned |
+| 14 | Review reminders | Slice 8 | done |
 | 12 | Mnemonic waves | Slice 9 | planned |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
 
@@ -174,12 +174,12 @@ Spec [0010](../specs/0010-settings-and-credits/index.md) · code in `src/app/(ta
 
 ## Slice 8: Review reminders
 
-### 14. Review reminders
+### 14. Review reminders · done
 Local Android notifications so you keep the habit: a daily summary at your chosen time and a due ping when new reviews unlock, never during quiet hours. Builds straight from 0001 §6.5 (pure `src/lib/reminders` planner plus the `src/lib/notifications` wrapper); the reminder switches and times on the Settings screen belong to feature 11.
 **Done when:** with reviews waiting, the installed APK shows the daily summary at your chosen time and a due ping when new reviews unlock (at most one per hour), none during quiet hours, and the planner passes its unit tests (0001 AC-7).
-- [ ] Build it: `/develop review reminders`
-- [ ] Verify it on the installed APK: `/check verify review reminders`
-Spec 0001 §6.5
+- [x] Build it (built 2026-11-09; planner and service unit tested, Android bundle builds; not checked on a device yet): `/develop review reminders`
+- [x] Verify it on the installed APK: `/check verify review reminders` (skipped 2026-11-09, marked done by you: in Expo Go on the emulator the app starts, a reminder switch opens Android's permission dialog, Allow hides the permission row, and denied shows the row whose button opens Android's app settings; Expo Go cannot create the notification channel, so delivery, tap routing, and quiet hours are still unchecked on a device and stay in Release build checks)
+Spec 0001 §6.5 · code in `src/lib/reminders/`, `src/lib/notifications/`, `src/lib/study/reminders.ts`
 
 ## Slice 9: Mnemonic waves
 

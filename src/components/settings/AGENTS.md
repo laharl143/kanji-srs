@@ -17,6 +17,7 @@ Import from the barrel `@/components/settings` (`index.ts`).
 ## Rules
 
 - Every change saves at once through `saveSettings`. A failed save shows the toast "Could not save. Try again." and puts the control back to its saved value.
+- Reminders (feature 14): after a reminder save, skip, or reset the screen calls `rescheduleReminders`; switching a reminder on asks for the notification permission when it is not on. The permission row (`settings-notifications`) shows only when notifications are not allowed, and offers Android's dialog (never asked) or Android's app settings (denied).
 - Skip and reset pass `busy` to `ConfirmDialog` while the write runs, and the screen ignores a second confirm until the first finishes (AC-8). Close the dialog first, then show the toast.
 - A new data source is credited in `src/lib/credits.ts` (`sourceFiles` must cover `pipeline/src/sources.ts`); `src/lib/credits.test.ts` fails otherwise.
 - `testID`s (`credit-<id>`, the stepper's `-minus`, `-plus`, `-value`) are for scripted checks; every touch target is at least 48dp.

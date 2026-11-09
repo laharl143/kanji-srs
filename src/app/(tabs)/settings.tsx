@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback, useRef, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AppState, Pressable, Text, View } from "react-native";
 
 import {
   ResetDialog,
@@ -18,6 +18,13 @@ import { now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
 import type { UserSettings } from "@/lib/db/schema";
 import {
+  getPermissionState,
+  openAppSettings,
+  type PermissionState,
+  requestPermission,
+  rescheduleReminders,
+} from "@/lib/notifications";
+import {
   BATCH_MAX,
   BATCH_MIN,
   getSettingsPage,
@@ -31,6 +38,14 @@ import {
 import { usePalette } from "@/theme/use-palette";
 
 const SAVE_FAILED = "Could not save. Try again.";
+
+const REMINDER_KEYS = new Set<string>([
+  "reminderDailyEnabled",
+  "reminderDailyTime",
+  "reminderDueEnabled",
+  "quietHoursStart",
+  "quietHoursEnd",
+]);
 
 type Load =
   | { status: "loading" }
@@ -72,6 +87,29 @@ export default function SettingsScreen() {
     };
   }, []);
   useFocusEffect(refresh);
+
+  // The notification permission (0001 §6.5): read on focus and when you come back from Android's
+  // settings.
+  const [permission, setPermission] = useState<PermissionState | null>(null);
+  const readPermission = useCallback(() => {
+    getPermissionState().then(setPermission, () => setPermission(null));
+  }, []);
+  useFocusEffect(readPermission);
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (state) => {
+      if (state === "active") readPermission();
+    });
+    return () => sub.remove();
+  }, [readPermission]);
+  const askPermission = useCallback(async () => {
+    try {
+      await requestPermission();
+    } catch {
+      // No dialog: the row keeps showing the state.
+    }
+    readPermission();
+    void rescheduleReminders();
+  }, [readPermission]);
   const retry = () => {
     setLoad({ status: "loading" });
     refresh();
@@ -87,6 +125,9 @@ export default function SettingsScreen() {
           if (result.ok) {
             confirmed.current = result.settings;
             ok = true;
+          }
+          if (ok && Object.keys(patch).some((k) => REMINDER_KEYS.has(k))) {
+            void rescheduleReminders();
           }
         } catch {
           // A DB failure: same toast and roll back as a refused value.
@@ -124,6 +165,7 @@ export default function SettingsScreen() {
     } catch {
       finish(SAVE_FAILED, "error");
     }
+    void rescheduleReminders();
     refresh();
   };
 
@@ -137,6 +179,7 @@ export default function SettingsScreen() {
     } catch {
       finish(SAVE_FAILED, "error");
     }
+    void rescheduleReminders();
     refresh();
   };
 
@@ -184,7 +227,10 @@ export default function SettingsScreen() {
         <SwitchRow
           label="Daily summary"
           value={shown.reminderDailyEnabled}
-          onChange={(v) => save({ reminderDailyEnabled: v })}
+          onChange={(v) => {
+            save({ reminderDailyEnabled: v });
+            if (v && permission !== "on") void askPermission();
+          }}
           testID="settings-daily"
         />
         <TimeRow
@@ -197,7 +243,10 @@ export default function SettingsScreen() {
         <SwitchRow
           label="Ping when reviews unlock"
           value={shown.reminderDueEnabled}
-          onChange={(v) => save({ reminderDueEnabled: v })}
+          onChange={(v) => {
+            save({ reminderDueEnabled: v });
+            if (v && permission !== "on") void askPermission();
+          }}
           testID="settings-due"
         />
         <TimeRow
@@ -217,6 +266,11 @@ export default function SettingsScreen() {
         {shown.quietHoursStart === shown.quietHoursEnd && (
           <Text className="text-base text-muted">Same start and end: no quiet hours</Text>
         )}
+        <PermissionRow
+          state={permission}
+          onAsk={() => void askPermission()}
+          onOpenSettings={() => void openAppSettings()}
+        />
       </SettingsCard>
 
       <SettingsCard title="Progress" testID="settings-progress">
@@ -265,6 +319,37 @@ export default function SettingsScreen() {
         onCancel={() => setDialog("none")}
       />
     </Screen>
+  );
+}
+
+// Shows only when reminders cannot show (0001 §6.5 "Permission"): never asked offers Android's
+// dialog; denied offers Android's app settings.
+function PermissionRow({
+  state,
+  onAsk,
+  onOpenSettings,
+}: {
+  state: PermissionState | null;
+  onAsk: () => void;
+  onOpenSettings: () => void;
+}) {
+  if (state === null || state === "on") return null;
+  const off = state === "off";
+  return (
+    <View testID="settings-notifications" className="gap-2">
+      <View className="h-px bg-border" />
+      <Text className="text-base text-text">
+        {off
+          ? "Notifications are off for this app, so reminders cannot show."
+          : "Allow notifications so reminders can show."}
+      </Text>
+      <Button
+        label={off ? "Open Android settings" : "Allow notifications"}
+        variant="secondary"
+        testID={off ? "settings-notifications-open" : "settings-notifications-allow"}
+        onPress={off ? onOpenSettings : onAsk}
+      />
+    </View>
   );
 }
 
