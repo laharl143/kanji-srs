@@ -27,7 +27,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 10 | Item pages & level browser | Slice 6 | done |
 | 11 | Settings & credits | Slice 7 | done |
 | 14 | Review reminders | Slice 8 | done |
-| 12 | Mnemonic waves | Slice 9 | in-progress |
+| 12 | Mnemonic waves | Slice 9 | done |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
 
 ## Foundations
@@ -183,7 +183,7 @@ Spec 0001 §6.5 · code in `src/lib/reminders/`, `src/lib/notifications/`, `src/
 
 ## Slice 9: Mnemonic waves
 
-### 12. Mnemonic waves · in-progress
+### 12. Mnemonic waves · done
 Write original radical names and mnemonics for levels 4 to the last level, a few levels at a time, using the batch workflow and rules from 0001 §5.4 and 0005. Enable each wave once it passes validation.
 **Done when:** every level is enabled and `npm run pipeline:validate` passes.
 - [x] Write and enable the next wave: `/develop mnemonic waves`
@@ -195,7 +195,7 @@ Write original radical names and mnemonics for levels 4 to the last level, a few
    - [x] Wave 6: levels 19 to 21 written (257 items: 6 radicals, 75 kanji, 176 vocab) and enabled (2026-11-09)
    - [x] Wave 7: levels 22 to 25 written (259 items: 9 radicals, 87 kanji, 163 vocab) and enabled (2026-11-09); all 25 levels are now enabled
    - [x] Verify fix: the 392 one sentence kanji meaning stories (levels 4 to 25) rewritten as 2 to 4 sentence stories, the rule restored in `pipeline/work/README.md`, and the new `kanji-story-length` validator rule added to spec 0005 (2026-11-09)
-- [ ] Verify it: `/check verify mnemonic waves`
+- [x] Verify it: `/check verify mnemonic waves` (2026-11-09: validate passes with all 25 levels enabled, the story length scratch break fails as expected, bundle rebuild is unchanged, 486 tests pass, and in Expo Go a fresh build reseeds and shows the new 箱 story on level 25)
 code in `content/mnemonics/`, `content/enabled-levels.json` · spec [0005](../specs/0005-content-pipeline/index.md), rules 0001 §5.4
 
 ## Release build checks
