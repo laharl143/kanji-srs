@@ -43,7 +43,7 @@ const content = (): Content => ({
     },
     kanji: {
       上: {
-        meaningMnemonic: "A FORTUNE STICK stands on a plank, pointing above.",
+        meaningMnemonic: "A FORTUNE STICK stands on a plank. It points above.",
         readingMnemonic: "A joker.",
       },
     },
@@ -96,7 +96,7 @@ describe("buildBundle", () => {
 
   it("refuses when a kanji meaning mnemonic does not name every radical", () => {
     const c = content();
-    c.mnemonics.kanji["上"].meaningMnemonic = "A plank points above.";
+    c.mnemonics.kanji["上"].meaningMnemonic = "A plank stands up. It points above.";
     const result = buildBundle(c);
     expect(result.ok ? [] : result.failures.map(formatLine)).toEqual([
       '[kanji-names-radicals] kanji:上 (level 1): meaning mnemonic does not name radical "fortune stick" (卜)',

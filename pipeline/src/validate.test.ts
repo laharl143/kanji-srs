@@ -6,6 +6,7 @@ import {
   CONTENT_RULES,
   coverage,
   formatLine,
+  sentenceCount,
   usesHook,
   validateAll,
   type ContentRuleName,
@@ -59,7 +60,7 @@ function course(): Content {
       },
       kanji: {
         上: {
-          meaningMnemonic: "A Fortune Stick stands on a plank, pointing above.",
+          meaningMnemonic: "A Fortune Stick stands on a plank. It points above.",
           readingMnemonic: "A joker juggles above you. Joker sounds like じょう.",
         },
       },
@@ -94,6 +95,7 @@ describe("validateAll", () => {
       "has-meaning-reading",
       "enabled-has-mnemonic",
       "kanji-names-radicals",
+      "kanji-story-length",
       "radical-name-shape",
       "unique-radical-names",
       "hook-format",
@@ -160,6 +162,28 @@ describe("validateAll", () => {
     expect(lines(c, "kanji-names-radicals")).toEqual([
       "[kanji-names-radicals] kanji:中 (level 2): radical 口 has no name",
     ]);
+  });
+
+  it("kanji-story-length: fails a kanji story under 2 or over 4 sentences", () => {
+    const c = course();
+    c.mnemonics.kanji["上"].meaningMnemonic = "A fortune stick on a plank points above.";
+    expect(lines(c, "kanji-story-length")).toEqual([
+      "[kanji-story-length] kanji:上 (level 1): meaning mnemonic has 1 sentence, needs 2 to 4",
+    ]);
+    c.mnemonics.kanji["上"].meaningMnemonic =
+      "A plank. A fortune stick. It stands. It waits. It points above.";
+    expect(lines(c, "kanji-story-length")).toEqual([
+      "[kanji-story-length] kanji:上 (level 1): meaning mnemonic has 5 sentences, needs 2 to 4",
+    ]);
+    c.mnemonics.kanji["上"].meaningMnemonic = "A plank! Does the fortune stick point above?";
+    expect(lines(c, "kanji-story-length")).toEqual([]);
+  });
+
+  it("sentenceCount: splits at . ! or ? before a space or the end, after closing quotes", () => {
+    expect(sentenceCount("No ending at all")).toBe(1);
+    expect(sentenceCount(" One.  Two! Three? ")).toBe(3);
+    expect(sentenceCount('He said "stop." Then he left.')).toBe(2);
+    expect(sentenceCount("A 3.5 inch plank. It points up.")).toBe(2);
   });
 
   it("radical-name-shape: fails a name that is not 1 to 3 words with single spaces", () => {

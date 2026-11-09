@@ -194,6 +194,7 @@ Write original radical names and mnemonics for levels 4 to the last level, a few
    - [x] Wave 5: levels 16 to 18 written (252 items: 8 radicals, 75 kanji, 169 vocab) and enabled (2026-11-09)
    - [x] Wave 6: levels 19 to 21 written (257 items: 6 radicals, 75 kanji, 176 vocab) and enabled (2026-11-09)
    - [x] Wave 7: levels 22 to 25 written (259 items: 9 radicals, 87 kanji, 163 vocab) and enabled (2026-11-09); all 25 levels are now enabled
+   - [x] Verify fix: the 392 one sentence kanji meaning stories (levels 4 to 25) rewritten as 2 to 4 sentence stories, the rule restored in `pipeline/work/README.md`, and the new `kanji-story-length` validator rule added to spec 0005 (2026-11-09)
 - [ ] Verify it: `/check verify mnemonic waves`
 code in `content/mnemonics/`, `content/enabled-levels.json` · spec [0005](../specs/0005-content-pipeline/index.md), rules 0001 §5.4
 

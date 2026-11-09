@@ -20,6 +20,7 @@ export type ContentRuleName =
   | "has-meaning-reading"
   | "enabled-has-mnemonic"
   | "kanji-names-radicals"
+  | "kanji-story-length"
   | "radical-name-shape"
   | "unique-radical-names"
   | "hook-format"
@@ -51,6 +52,15 @@ export const formatLine = (f: Failure | Warning) =>
 
 const RADICAL_NAME = /^\S+( \S+){0,2}$/;
 const HOOK_WORD = /^[a-z]+$/;
+
+// A sentence ends at . ! or ? (closing quotes or brackets may follow), then a space or the end
+// of the text. Text with no such ending counts as one sentence.
+export function sentenceCount(text: string): number {
+  return text
+    .trim()
+    .split(/(?<=[.!?]["'’”)\]]*)\s+/)
+    .filter((part) => part.length > 0).length;
+}
 
 // "gets" uses the hook "get" and "forget" does not: the hook must start a word.
 export function usesHook(text: string, hook: string): boolean {
@@ -199,6 +209,17 @@ const RULES: Record<ContentRuleName, (c: Content, ix: Index) => Failure[]> = {
     }
     return out;
   },
+
+  // 0001 §5.4: a kanji meaning story is 2 to 4 sentences, not a list of radicals.
+  "kanji-story-length": (c) =>
+    c.subjects.flatMap((s) => {
+      const story = s.type === "kanji" ? c.mnemonics.kanji[s.characters]?.meaningMnemonic : null;
+      if (!filled(story)) return [];
+      const n = sentenceCount(story);
+      if (n >= 2 && n <= 4) return [];
+      const noun = n === 1 ? "sentence" : "sentences";
+      return [failure("kanji-story-length", s, `meaning mnemonic has ${n} ${noun}, needs 2 to 4`)];
+    }),
 
   "radical-name-shape": (c, ix) =>
     Object.entries(c.mnemonics.radicals)
@@ -425,6 +446,7 @@ const BATCH_CONTENT_RULES: ContentRuleName[] = [
   "radical-name-shape",
   "unique-radical-names",
   "kanji-names-radicals",
+  "kanji-story-length",
   "hook-format",
   "sound-hook",
   "unique-sound-hooks",

@@ -34,7 +34,7 @@ const radicals = (c: Content) =>
   });
 
 const below = {
-  meaningMnemonic: "A fortune stick hangs under a plank, pointing below.",
+  meaningMnemonic: "A fortune stick hangs under a plank. It points below.",
   readingMnemonic: "You park the car below the plank. Car sounds like か.",
   hook: "car",
 };
@@ -126,11 +126,11 @@ describe("mergeBatch", () => {
     expect(kanji.items.map((i) => i.characters)).toEqual(["中", "下"]);
     const batch = fill(kanji, {
       中: {
-        meaningMnemonic: "A pole goes through the hatch, right in the middle.",
+        meaningMnemonic: "A pole goes through the hatch. It sits right in the middle.",
         readingMnemonic: "You chew in the middle. Chew sounds like ちゅう.",
         hook: "chew",
       },
-      下: { ...below, meaningMnemonic: "A plank points below." },
+      下: { ...below, meaningMnemonic: "A plank points down. It points below." },
     });
     expect(mergeBatch(batch, c)).toEqual({
       status: "refused",
@@ -196,13 +196,13 @@ describe("mergeBatch", () => {
     );
     const batch = fill(plan(c)[0], {
       中: {
-        meaningMnemonic: "A pole goes through the hatch, right in the middle.",
+        meaningMnemonic: "A pole goes through the hatch. It sits right in the middle.",
         readingMnemonic: "You chew in the middle. Chew sounds like ちゅう.",
         hook: "chew",
       },
       下: below,
       沖: {
-        meaningMnemonic: "Past the hatch and the pole lies the open offing.",
+        meaningMnemonic: "You sail past the hatch and the pole. Beyond lies the open offing.",
         readingMnemonic: "Ride the chute out to the offing. Chute sounds like ちゅう.",
         hook: "chute",
       },

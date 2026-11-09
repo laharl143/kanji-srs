@@ -86,7 +86,7 @@ export function course(): Content {
       },
       kanji: {
         上: {
-          meaningMnemonic: "A fortune stick stands on a plank, pointing above.",
+          meaningMnemonic: "A fortune stick stands on a plank. It points above.",
           readingMnemonic: "A joker juggles up above. Joker sounds like じょう.",
         },
       },

@@ -1,6 +1,6 @@
 # 0005. Full content pipeline
 
-**Date**: 2026-10-13 (updated 2026-11-02)
+**Date**: 2026-10-13 (updated 2026-11-09)
 **Status**: Accepted
 
 ## Summary
@@ -135,7 +135,7 @@ Every printed failure and warning is one line: `[rule] subject (level N): messag
    - `batch-filled`: every required field is filled (radical `name` and `meaningMnemonic`; kanji both mnemonics and `soundHook.hook`; vocab `readingMnemonic`)
    - `no-overwrite`: the subject already has different text in its mnemonics file (the same text is a no op, so a rerun after a crash is safe)
    - `hook-consistent`: two kanji in the batch give the same reading different hooks, or a prefilled hook was changed
-   - `radical-name-shape`, `unique-radical-names`, `kanji-names-radicals`, `hook-format`, `sound-hook`, `unique-sound-hooks` (as in the table below)
+   - `radical-name-shape`, `unique-radical-names`, `kanji-names-radicals`, `kanji-story-length`, `hook-format`, `sound-hook`, `unique-sound-hooks` (as in the table below)
 3. Any failure refuses the whole batch: nothing from it is written, its failures print, the file stays to fix and rerun, and merge moves on to the next batch.
 4. On success it writes the mnemonics and sound hooks files and moves the batch to `pipeline/work/merged/`.
 
@@ -150,6 +150,7 @@ Merge never runs the level order, enabled level, or id rules, and never edits `e
 | `has-meaning-reading` | a kanji or vocab has no meaning, or no reading |
 | `enabled-has-mnemonic` | a subject in an enabled level has no mnemonic (radical: `name` and `meaningMnemonic`; kanji: both mnemonics; vocab: `readingMnemonic`) |
 | `kanji-names-radicals` | a kanji meaning mnemonic does not contain every component radical's name (case insensitive), or a component radical has no name |
+| `kanji-story-length` | a kanji meaning mnemonic is not 2 to 4 sentences (0001 §5.4). A sentence ends at `.`, `!` or `?` (closing quotes or brackets may follow) and then a space or the end of the text; text with no such ending counts as one sentence. Added 2026-11-09 |
 | `radical-name-shape` | a radical name is not 1 to 3 words separated by single spaces |
 | `unique-radical-names` | two radicals share a name (trimmed, case insensitive) |
 | `hook-format` | a hook is not one lowercase English word (`^[a-z]+$`) |
@@ -267,3 +268,4 @@ The AC-7 asserts come last on purpose: added earlier, they would fail every comm
 
 - [x] Spec 0001 §5.1, §5.3, §5.4, and §5.5 updated on 2026-11-02 to match (jmdict-simplified JSON, tanos via Internet Archive snapshots, retired ids, Claude Code as the writer, a pointer to the full rule set here), and its tanos license follow-up ticked.
 - [x] Cross checked by a second model on 2026-11-02; its nine findings are folded in above (id reuse, merge rule list and reruns, hook format and matching, the `Failure` and `Content` types, the orphan check after commit, batch field sources, fallback details, and the AC-7 checks).
+- [x] Rule `kanji-story-length` added on 2026-11-09 (feature 12 fix). `/check verify mnemonic waves` found 392 of 612 kanji meaning stories were one sentence, because `pipeline/work/README.md` step 2 had dropped the "2 to 4 sentences" part of 0001 §5.4. The stories were rewritten by editing `content/mnemonics/kanji.json` directly (merge refuses to overwrite), the README rule was restored, and this rule now runs in `pipeline:validate`, `pipeline:merge`, `pipeline:bundle`, and `npm test`, so the drift cannot come back. It counts sentences only; it does not judge whether a story is vivid.
