@@ -4222,5 +4222,681 @@
   "役割": {
     "meaningMnemonic": "Dividing up the duties: a role.",
     "readingMnemonic": "It reads やく from duty and わり from divide."
+  },
+  "収める": {
+    "meaningMnemonic": "To put away, to obtain.",
+    "readingMnemonic": "It uses the kun'yomi おさ plus める."
+  },
+  "収入": {
+    "meaningMnemonic": "Income that enters: earnings.",
+    "readingMnemonic": "Both kanji use on'yomi: しゅう from income and にゅう from enter."
+  },
+  "断る": {
+    "meaningMnemonic": "To refuse.",
+    "readingMnemonic": "It uses the kun'yomi ことわ plus る."
+  },
+  "判断": {
+    "meaningMnemonic": "Judging and cutting: a judgment.",
+    "readingMnemonic": "Both kanji use on'yomi: はん from judgement and だん from severance."
+  },
+  "石": {
+    "meaningMnemonic": "Stone.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi いし."
+  },
+  "消す": {
+    "meaningMnemonic": "To extinguish, to erase.",
+    "readingMnemonic": "It uses the kun'yomi け plus す."
+  },
+  "消える": {
+    "meaningMnemonic": "To be extinguished: to disappear.",
+    "readingMnemonic": "It uses the kun'yomi き plus える."
+  },
+  "消しゴム": {
+    "meaningMnemonic": "Rubber that erases: an eraser.",
+    "readingMnemonic": "It is け from extinguish plus し, then ゴム (rubber)."
+  },
+  "消費": {
+    "meaningMnemonic": "Using up expenses: consumption.",
+    "readingMnemonic": "Both kanji use on'yomi: しょう from extinguish and ひ from expense."
+  },
+  "神社": {
+    "meaningMnemonic": "A company of the gods: a Shinto shrine.",
+    "readingMnemonic": "Both kanji use on'yomi: じん from gods and しゃ from company, which turns to じゃ."
+  },
+  "神経": {
+    "meaningMnemonic": "Where the spirit passes through: nerves.",
+    "readingMnemonic": "Both kanji use on'yomi: しん from gods (here, spirit) and けい from pass through."
+  },
+  "神": {
+    "meaningMnemonic": "A god.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi かみ."
+  },
+  "手術": {
+    "meaningMnemonic": "A hand technique: surgery.",
+    "readingMnemonic": "Both kanji use on'yomi: しゅ from hand and じゅつ from technique."
+  },
+  "備える": {
+    "meaningMnemonic": "To equip, to prepare.",
+    "readingMnemonic": "It uses the kun'yomi そな plus える."
+  },
+  "お宅": {
+    "meaningMnemonic": "Your home.",
+    "readingMnemonic": "It is お plus 宅 (たく), read with its on'yomi."
+  },
+  "住宅": {
+    "meaningMnemonic": "A home to dwell in: housing.",
+    "readingMnemonic": "Both kanji use on'yomi: じゅう from dwell and たく from home."
+  },
+  "帰宅": {
+    "meaningMnemonic": "Coming back home.",
+    "readingMnemonic": "Both kanji use on'yomi: き from homecoming and たく from home."
+  },
+  "宅": {
+    "meaningMnemonic": "A home.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi たく."
+  },
+  "害": {
+    "meaningMnemonic": "Harm.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi がい."
+  },
+  "警官": {
+    "meaningMnemonic": "An official who admonishes: a police officer.",
+    "readingMnemonic": "Both kanji use on'yomi: けい from admonish and かん from bureaucrat."
+  },
+  "警告": {
+    "meaningMnemonic": "Admonishing and telling: a warning.",
+    "readingMnemonic": "Both kanji use on'yomi: けい from admonish and こく from tell."
+  },
+  "教育": {
+    "meaningMnemonic": "Teaching and bringing up: education.",
+    "readingMnemonic": "Both kanji use on'yomi: きょう from teach and いく from bring up."
+  },
+  "育てる": {
+    "meaningMnemonic": "To bring up, to raise.",
+    "readingMnemonic": "It uses the kun'yomi そだ plus てる."
+  },
+  "育つ": {
+    "meaningMnemonic": "To grow up.",
+    "readingMnemonic": "It uses the kun'yomi そだ plus つ."
+  },
+  "体育": {
+    "meaningMnemonic": "Bringing up the body: physical education.",
+    "readingMnemonic": "Both kanji use on'yomi: たい from body and いく from bring up."
+  },
+  "出席": {
+    "meaningMnemonic": "Coming out to your seat: attendance.",
+    "readingMnemonic": "Both kanji use on'yomi: しゅつ from exit, which shrinks to しゅっ, and せき from seat."
+  },
+  "席": {
+    "meaningMnemonic": "A seat.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi せき."
+  },
+  "訪ねる": {
+    "meaningMnemonic": "To visit.",
+    "readingMnemonic": "It uses the kun'yomi たず plus ねる."
+  },
+  "訪問": {
+    "meaningMnemonic": "Calling on someone: a visit.",
+    "readingMnemonic": "Both kanji use on'yomi: ほう from call on and もん from question."
+  },
+  "乗る": {
+    "meaningMnemonic": "To ride, to get on.",
+    "readingMnemonic": "It uses the kun'yomi の plus る."
+  },
+  "乗り物": {
+    "meaningMnemonic": "A thing to ride: a vehicle.",
+    "readingMnemonic": "It uses kun'yomi: の from ride plus り, and もの from thing."
+  },
+  "乗せる": {
+    "meaningMnemonic": "To give someone a ride, to put on.",
+    "readingMnemonic": "It uses the kun'yomi の plus せる."
+  },
+  "残る": {
+    "meaningMnemonic": "To remain.",
+    "readingMnemonic": "It uses the kun'yomi のこ plus る."
+  },
+  "残り": {
+    "meaningMnemonic": "The remainder.",
+    "readingMnemonic": "It uses the kun'yomi のこ plus り."
+  },
+  "残す": {
+    "meaningMnemonic": "To leave behind.",
+    "readingMnemonic": "It uses the kun'yomi のこ plus す."
+  },
+  "理想": {
+    "meaningMnemonic": "The logical idea: an ideal.",
+    "readingMnemonic": "Both kanji use on'yomi: り from logic and そう from idea."
+  },
+  "思想": {
+    "meaningMnemonic": "Thoughts and ideas: thought.",
+    "readingMnemonic": "Both kanji use on'yomi: し from think and そう from idea."
+  },
+  "連想": {
+    "meaningMnemonic": "An idea that takes another along: association.",
+    "readingMnemonic": "Both kanji use on'yomi: れん from take along and そう from idea."
+  },
+  "声": {
+    "meaningMnemonic": "Voice.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi こえ."
+  },
+  "残念": {
+    "meaningMnemonic": "A wish that remains: regrettable.",
+    "readingMnemonic": "Both kanji use on'yomi: ざん from remainder and ねん from wish."
+  },
+  "記念": {
+    "meaningMnemonic": "Writing down a memory: commemoration.",
+    "readingMnemonic": "Both kanji use on'yomi: き from scribe and ねん from sense (here, memory)."
+  },
+  "助ける": {
+    "meaningMnemonic": "To help, to rescue.",
+    "readingMnemonic": "It uses the kun'yomi たす plus ける."
+  },
+  "助手": {
+    "meaningMnemonic": "A helping hand: an assistant.",
+    "readingMnemonic": "Both kanji use on'yomi: じょ from help and しゅ from hand."
+  },
+  "例えば": {
+    "meaningMnemonic": "For example.",
+    "readingMnemonic": "It uses the kun'yomi たと plus えば."
+  },
+  "例": {
+    "meaningMnemonic": "An example.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi れい."
+  },
+  "天然": {
+    "meaningMnemonic": "As the heavens made it: natural.",
+    "readingMnemonic": "Both kanji use on'yomi: てん from heavens and ねん from so."
+  },
+  "全然": {
+    "meaningMnemonic": "Wholly so: not at all, with a negative.",
+    "readingMnemonic": "Both kanji use on'yomi: ぜん from whole and ぜん from so."
+  },
+  "自然": {
+    "meaningMnemonic": "So by itself: nature.",
+    "readingMnemonic": "Both kanji use on'yomi: し from oneself and ぜん from so."
+  },
+  "制限": {
+    "meaningMnemonic": "A limit set by a system: a restriction.",
+    "readingMnemonic": "Both kanji use on'yomi: せい from system and げん from limit."
+  },
+  "限る": {
+    "meaningMnemonic": "To limit.",
+    "readingMnemonic": "It uses the kun'yomi かぎ plus る."
+  },
+  "限界": {
+    "meaningMnemonic": "The limit of your world: a limit.",
+    "readingMnemonic": "Both kanji use on'yomi: げん from limit and かい from world."
+  },
+  "追う": {
+    "meaningMnemonic": "To chase.",
+    "readingMnemonic": "It uses the kun'yomi お plus う."
+  },
+  "追い付く": {
+    "meaningMnemonic": "To chase until you stick: to catch up.",
+    "readingMnemonic": "It uses kun'yomi: お from chase plus い, and つ from adhere plus く."
+  },
+  "商品": {
+    "meaningMnemonic": "Goods for dealing: merchandise.",
+    "readingMnemonic": "Both kanji use on'yomi: しょう from make a deal and ひん from goods."
+  },
+  "商人": {
+    "meaningMnemonic": "A person who deals: a merchant.",
+    "readingMnemonic": "Both kanji use on'yomi: しょう from make a deal and にん from person."
+  },
+  "商売": {
+    "meaningMnemonic": "Dealing and selling: business.",
+    "readingMnemonic": "Both kanji use on'yomi: しょう from make a deal and ばい from sell."
+  },
+  "葉書": {
+    "meaningMnemonic": "A leaf you write on: a postcard.",
+    "readingMnemonic": "It uses kun'yomi: は from leaf and か from write, which turns to が, plus き."
+  },
+  "言葉": {
+    "meaningMnemonic": "Leaves of speech: words.",
+    "readingMnemonic": "It uses kun'yomi: こと from say and は from leaf, which turns to ば (rendaku)."
+  },
+  "葉": {
+    "meaningMnemonic": "A leaf.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi は."
+  },
+  "手伝う": {
+    "meaningMnemonic": "To lend a hand: to help.",
+    "readingMnemonic": "It uses kun'yomi: て from hand and つだ from transmit, plus う."
+  },
+  "伝える": {
+    "meaningMnemonic": "To transmit, to convey.",
+    "readingMnemonic": "It uses the kun'yomi つた plus える."
+  },
+  "手伝い": {
+    "meaningMnemonic": "A helping hand: help, a helper.",
+    "readingMnemonic": "It uses kun'yomi: て from hand and つだ from transmit, plus い."
+  },
+  "働く": {
+    "meaningMnemonic": "To work.",
+    "readingMnemonic": "It uses the kun'yomi はたら plus く."
+  },
+  "働き": {
+    "meaningMnemonic": "Work.",
+    "readingMnemonic": "It uses the kun'yomi はたら plus き."
+  },
+  "労働": {
+    "meaningMnemonic": "Labor and work: labor.",
+    "readingMnemonic": "Both kanji use on'yomi: ろう from labor and どう from work."
+  },
+  "人形": {
+    "meaningMnemonic": "Something in a person's shape: a doll.",
+    "readingMnemonic": "Both kanji use on'yomi: にん from person and ぎょう from shape."
+  },
+  "形": {
+    "meaningMnemonic": "A shape.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi かたち."
+  },
+  "景色": {
+    "meaningMnemonic": "The colors of the scenery: a view.",
+    "readingMnemonic": "It is a special reading: けしき."
+  },
+  "風景": {
+    "meaningMnemonic": "Wind and scenery: a landscape.",
+    "readingMnemonic": "Both kanji use on'yomi: ふう from wind and けい from scenery."
+  },
+  "景気": {
+    "meaningMnemonic": "The spirit of the scene: business conditions.",
+    "readingMnemonic": "Both kanji use on'yomi: けい from scenery and き from spirit."
+  },
+  "落る": {
+    "meaningMnemonic": "To fall.",
+    "readingMnemonic": "It uses the kun'yomi お plus ちる, written here in an older short form."
+  },
+  "落す": {
+    "meaningMnemonic": "To drop.",
+    "readingMnemonic": "It uses the kun'yomi お plus とす, written here in an older short form."
+  },
+  "好き": {
+    "meaningMnemonic": "Fond of: liking.",
+    "readingMnemonic": "It uses the kun'yomi す plus き."
+  },
+  "大好き": {
+    "meaningMnemonic": "Very fond of: loving.",
+    "readingMnemonic": "It reads だい from large and す from fond, plus き."
+  },
+  "格好": {
+    "meaningMnemonic": "A pleasing status: appearance.",
+    "readingMnemonic": "Both kanji use on'yomi: かく from status, which shrinks to かっ, and こう from pleasing."
+  },
+  "好む": {
+    "meaningMnemonic": "To like, to prefer.",
+    "readingMnemonic": "It uses the kun'yomi この plus む."
+  },
+  "好み": {
+    "meaningMnemonic": "A liking, taste.",
+    "readingMnemonic": "It uses the kun'yomi この plus み."
+  },
+  "退院": {
+    "meaningMnemonic": "Retreating from the institution: leaving hospital.",
+    "readingMnemonic": "Both kanji use on'yomi: たい from retreat and いん from institution."
+  },
+  "引退": {
+    "meaningMnemonic": "Pulling back and retreating: retirement.",
+    "readingMnemonic": "Both kanji use on'yomi: いん from pull and たい from retreat."
+  },
+  "負ける": {
+    "meaningMnemonic": "To be defeated: to lose.",
+    "readingMnemonic": "It uses the kun'yomi ま plus ける."
+  },
+  "負け": {
+    "meaningMnemonic": "A defeat.",
+    "readingMnemonic": "It uses the kun'yomi ま plus け."
+  },
+  "渡る": {
+    "meaningMnemonic": "To cross over.",
+    "readingMnemonic": "It uses the kun'yomi わた plus る."
+  },
+  "渡す": {
+    "meaningMnemonic": "To carry across: to hand over.",
+    "readingMnemonic": "It uses the kun'yomi わた plus す."
+  },
+  "失う": {
+    "meaningMnemonic": "To lose.",
+    "readingMnemonic": "It uses the kun'yomi うしな plus う."
+  },
+  "失業": {
+    "meaningMnemonic": "Losing your business: unemployment.",
+    "readingMnemonic": "Both kanji use on'yomi: しつ from lose and ぎょう from business."
+  },
+  "交差点": {
+    "meaningMnemonic": "The spot where roads mingle and cross: an intersection.",
+    "readingMnemonic": "All three kanji use on'yomi: こう from mingle, さ from distinction, and てん from spot."
+  },
+  "差す": {
+    "meaningMnemonic": "To shine in, to hold up.",
+    "readingMnemonic": "It uses the kun'yomi さ plus す."
+  },
+  "差し上げる": {
+    "meaningMnemonic": "To hold up: to give, said humbly.",
+    "readingMnemonic": "It uses kun'yomi: さ plus し, and あ from above plus げる."
+  },
+  "差別": {
+    "meaningMnemonic": "Separating by distinction: discrimination.",
+    "readingMnemonic": "Both kanji use on'yomi: さ from distinction and べつ from separate."
+  },
+  "差": {
+    "meaningMnemonic": "A difference.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi さ."
+  },
+  "末": {
+    "meaningMnemonic": "The end, the tip.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi すえ."
+  },
+  "守る": {
+    "meaningMnemonic": "To guard, to protect.",
+    "readingMnemonic": "It uses the kun'yomi まも plus る."
+  },
+  "若い": {
+    "meaningMnemonic": "Young.",
+    "readingMnemonic": "It uses the kun'yomi わか plus い."
+  },
+  "人種": {
+    "meaningMnemonic": "A species of person: a race.",
+    "readingMnemonic": "Both kanji use on'yomi: じん from person and しゅ from species."
+  },
+  "種": {
+    "meaningMnemonic": "A seed.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi たね."
+  },
+  "一種": {
+    "meaningMnemonic": "One kind: a sort.",
+    "readingMnemonic": "Both kanji use on'yomi: いち from one, which shrinks to いっ, and しゅ from kind."
+  },
+  "美しい": {
+    "meaningMnemonic": "Beautiful.",
+    "readingMnemonic": "It uses the kun'yomi うつく plus しい."
+  },
+  "美術館": {
+    "meaningMnemonic": "A building for beautiful art: art museum.",
+    "readingMnemonic": "All three kanji use on'yomi: び from beauty, じゅつ from art, and かん from building."
+  },
+  "美人": {
+    "meaningMnemonic": "A beautiful person.",
+    "readingMnemonic": "Both kanji use on'yomi: び from beauty and じん from person."
+  },
+  "生命": {
+    "meaningMnemonic": "Life and fate: life.",
+    "readingMnemonic": "Both kanji use on'yomi: せい from life and めい from fate."
+  },
+  "命じる": {
+    "meaningMnemonic": "To command.",
+    "readingMnemonic": "It is 命 (めい) plus じる."
+  },
+  "命": {
+    "meaningMnemonic": "Life.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi いのち."
+  },
+  "警察": {
+    "meaningMnemonic": "Admonishing and investigating: the police.",
+    "readingMnemonic": "Both kanji use on'yomi: けい from admonish and さつ from guess."
+  },
+  "観察": {
+    "meaningMnemonic": "Looking and guessing: observation.",
+    "readingMnemonic": "Both kanji use on'yomi: かん from outlook and さつ from guess."
+  },
+  "手段": {
+    "meaningMnemonic": "The steps of the hand: a means.",
+    "readingMnemonic": "Both kanji use on'yomi: しゅ from hand and だん from steps."
+  },
+  "段": {
+    "meaningMnemonic": "A step, a stair.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi だん."
+  },
+  "深い": {
+    "meaningMnemonic": "Deep.",
+    "readingMnemonic": "It uses the kun'yomi ふか plus い."
+  },
+  "申し上げる": {
+    "meaningMnemonic": "To say, said humbly.",
+    "readingMnemonic": "It uses kun'yomi: もう plus し, and あ from above plus げる."
+  },
+  "申す": {
+    "meaningMnemonic": "To say, said humbly.",
+    "readingMnemonic": "It uses the kun'yomi もう plus す."
+  },
+  "同様": {
+    "meaningMnemonic": "The same manner: similar.",
+    "readingMnemonic": "Both kanji use on'yomi: どう from same and よう from manner."
+  },
+  "様": {
+    "meaningMnemonic": "A manner, looking like.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi よう."
+  },
+  "様子": {
+    "meaningMnemonic": "The manner of things: the situation.",
+    "readingMnemonic": "Both kanji use on'yomi: よう from manner and す from child, a rare reading."
+  },
+  "様々": {
+    "meaningMnemonic": "Manner after manner: various.",
+    "readingMnemonic": "It is 様 (さま) repeated by 々, with the second voiced: さまざま."
+  },
+  "財産": {
+    "meaningMnemonic": "Property and products: a fortune.",
+    "readingMnemonic": "Both kanji use on'yomi: ざい from property and さん from products."
+  },
+  "知識": {
+    "meaningMnemonic": "Knowing and discerning: knowledge.",
+    "readingMnemonic": "Both kanji use on'yomi: ち from know and しき from discriminating."
+  },
+  "意識": {
+    "meaningMnemonic": "Knowing your ideas: consciousness.",
+    "readingMnemonic": "Both kanji use on'yomi: い from idea and しき from know."
+  },
+  "常識": {
+    "meaningMnemonic": "Usual knowledge: common sense.",
+    "readingMnemonic": "Both kanji use on'yomi: じょう from usual and しき from know."
+  },
+  "呼ぶ": {
+    "meaningMnemonic": "To call.",
+    "readingMnemonic": "It uses the kun'yomi よ plus ぶ."
+  },
+  "友達": {
+    "meaningMnemonic": "Friends: a friend.",
+    "readingMnemonic": "It reads とも from friend and だち from accomplished (a plural marker)."
+  },
+  "発達": {
+    "meaningMnemonic": "Setting off and reaching: development.",
+    "readingMnemonic": "Both kanji use on'yomi: はつ from departure, which shrinks to はっ, and たつ from accomplished."
+  },
+  "達する": {
+    "meaningMnemonic": "To reach.",
+    "readingMnemonic": "It is 達 (たつ), shrunk to たっ, plus する."
+  },
+  "上達": {
+    "meaningMnemonic": "Reaching higher: improvement.",
+    "readingMnemonic": "Both kanji use on'yomi: じょう from above and たつ from reach."
+  },
+  "天候": {
+    "meaningMnemonic": "The climate of the heavens: weather.",
+    "readingMnemonic": "Both kanji use on'yomi: てん from heavens and こう from climate."
+  },
+  "気候": {
+    "meaningMnemonic": "Climate.",
+    "readingMnemonic": "Both kanji use on'yomi: き from spirit and こう from climate."
+  },
+  "程": {
+    "meaningMnemonic": "Extent, degree.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi ほど."
+  },
+  "程度": {
+    "meaningMnemonic": "Extent and degrees: a degree.",
+    "readingMnemonic": "Both kanji use on'yomi: てい from extent and ど from degrees."
+  },
+  "満ちる": {
+    "meaningMnemonic": "To become full.",
+    "readingMnemonic": "It uses the kun'yomi み plus ちる."
+  },
+  "満足": {
+    "meaningMnemonic": "Full and sufficient: satisfaction.",
+    "readingMnemonic": "Both kanji use on'yomi: まん from full and ぞく from sufficient, voiced from そく."
+  },
+  "不満": {
+    "meaningMnemonic": "Not full: dissatisfaction.",
+    "readingMnemonic": "Both kanji use on'yomi: ふ from negative and まん from full."
+  },
+  "失敗": {
+    "meaningMnemonic": "Losing and failing: a failure.",
+    "readingMnemonic": "Both kanji use on'yomi: しつ from lose, which shrinks to しっ, and はい from failure, which turns to ぱい."
+  },
+  "値": {
+    "meaningMnemonic": "A price.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi ね."
+  },
+  "値段": {
+    "meaningMnemonic": "The grade of a price: the price.",
+    "readingMnemonic": "It reads ね from price and だん from grade."
+  },
+  "突然": {
+    "meaningMnemonic": "Like a stab: suddenly.",
+    "readingMnemonic": "Both kanji use on'yomi: とつ from stab and ぜん from so."
+  },
+  "光る": {
+    "meaningMnemonic": "To shine.",
+    "readingMnemonic": "It uses the kun'yomi ひか plus る."
+  },
+  "光": {
+    "meaningMnemonic": "Light.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi ひかり."
+  },
+  "光景": {
+    "meaningMnemonic": "A lit scene: a spectacle.",
+    "readingMnemonic": "Both kanji use on'yomi: こう from light and けい from scenery."
+  },
+  "観光": {
+    "meaningMnemonic": "Looking at the sights: sightseeing.",
+    "readingMnemonic": "Both kanji use on'yomi: かん from look and こう from light."
+  },
+  "日光": {
+    "meaningMnemonic": "Daylight: sunshine.",
+    "readingMnemonic": "Both kanji use on'yomi: にち from day, which shrinks to にっ, and こう from light."
+  },
+  "道路": {
+    "meaningMnemonic": "Roads and paths: a road.",
+    "readingMnemonic": "Both kanji use on'yomi: どう from road and ろ from path."
+  },
+  "科学": {
+    "meaningMnemonic": "Study by department: science.",
+    "readingMnemonic": "Both kanji use on'yomi: か from department and がく from study."
+  },
+  "科目": {
+    "meaningMnemonic": "Items in a department: a school subject.",
+    "readingMnemonic": "Both kanji use on'yomi: か from department and もく from eye (here, item)."
+  },
+  "教科書": {
+    "meaningMnemonic": "A written book for a teaching course: a textbook.",
+    "readingMnemonic": "All three kanji use on'yomi: きょう from teach, か from course, and しょ from write."
+  },
+  "積もる": {
+    "meaningMnemonic": "To pile up.",
+    "readingMnemonic": "It uses the kun'yomi つ plus もる."
+  },
+  "他": {
+    "meaningMnemonic": "Other.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi た."
+  },
+  "他人": {
+    "meaningMnemonic": "Other people.",
+    "readingMnemonic": "Both kanji use on'yomi: た from other and にん from person."
+  },
+  "違う": {
+    "meaningMnemonic": "To differ, to be wrong.",
+    "readingMnemonic": "It uses the kun'yomi ちが plus う."
+  },
+  "間違える": {
+    "meaningMnemonic": "To make a mistake.",
+    "readingMnemonic": "It uses kun'yomi: ま from interval and ちが from difference, plus える."
+  },
+  "違い": {
+    "meaningMnemonic": "A difference.",
+    "readingMnemonic": "It uses the kun'yomi ちが plus い."
+  },
+  "違反": {
+    "meaningMnemonic": "Going against the rules: a violation.",
+    "readingMnemonic": "Both kanji use on'yomi: い from differ and はん from anti-."
+  },
+  "間違い": {
+    "meaningMnemonic": "A mistake.",
+    "readingMnemonic": "It uses kun'yomi: ま from interval and ちが from difference, plus い."
+  },
+  "違いない": {
+    "meaningMnemonic": "No difference: there is no mistaking it.",
+    "readingMnemonic": "It is 違い (ちがい) plus ない."
+  },
+  "交番": {
+    "meaningMnemonic": "Where officers take turns: a police box.",
+    "readingMnemonic": "Both kanji use on'yomi: こう from mingle and ばん from turn."
+  },
+  "番組": {
+    "meaningMnemonic": "Turns grouped together: a program.",
+    "readingMnemonic": "It reads ばん from turn and くみ from association, which turns to ぐみ (rendaku)."
+  },
+  "一番": {
+    "meaningMnemonic": "Number one: the first, the most.",
+    "readingMnemonic": "Both kanji use on'yomi: いち from one and ばん from number in a series."
+  },
+  "番": {
+    "meaningMnemonic": "A turn, a number.",
+    "readingMnemonic": "On its own the kanji is read with its on'yomi ばん."
+  },
+  "心配": {
+    "meaningMnemonic": "Your heart spread thin: worry.",
+    "readingMnemonic": "Both kanji use on'yomi: しん from heart and はい from distribute, which turns to ぱい."
+  },
+  "支配": {
+    "meaningMnemonic": "Branching out and distributing orders: rule.",
+    "readingMnemonic": "Both kanji use on'yomi: し from branch and はい from distribute."
+  },
+  "頭": {
+    "meaningMnemonic": "Head.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi あたま."
+  },
+  "望み": {
+    "meaningMnemonic": "A wish, a hope.",
+    "readingMnemonic": "It uses the kun'yomi のぞ plus み."
+  },
+  "失望": {
+    "meaningMnemonic": "Losing hope: disappointment.",
+    "readingMnemonic": "Both kanji use on'yomi: しつ from lose and ぼう from hope."
+  },
+  "望む": {
+    "meaningMnemonic": "To hope for, to want.",
+    "readingMnemonic": "It uses the kun'yomi のぞ plus む."
+  },
+  "非常に": {
+    "meaningMnemonic": "Unusually: very.",
+    "readingMnemonic": "It is 非常 (ひじょう) plus に."
+  },
+  "非常": {
+    "meaningMnemonic": "Unusual: an emergency.",
+    "readingMnemonic": "Both kanji use on'yomi: ひ from un- and じょう from usual."
+  },
+  "横": {
+    "meaningMnemonic": "The side, sideways.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi よこ."
+  },
+  "横切る": {
+    "meaningMnemonic": "To cut across sideways: to cross.",
+    "readingMnemonic": "It uses kun'yomi: よこ from sideways and き from cut, which turns to ぎ, plus る."
+  },
+  "横断": {
+    "meaningMnemonic": "Cutting across sideways: crossing.",
+    "readingMnemonic": "Both kanji use on'yomi: おう from sideways and だん from severance."
+  },
+  "港": {
+    "meaningMnemonic": "Harbor.",
+    "readingMnemonic": "On its own the kanji is read with its kun'yomi みなと."
+  },
+  "空港": {
+    "meaningMnemonic": "A harbor for the sky: an airport.",
+    "readingMnemonic": "Both kanji use on'yomi: くう from sky and こう from harbor."
+  },
+  "配達": {
+    "meaningMnemonic": "Distributing until it reaches you: delivery.",
+    "readingMnemonic": "Both kanji use on'yomi: はい from distribute and たつ from reach."
   }
 }

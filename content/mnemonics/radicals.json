@@ -714,5 +714,37 @@
   "谷": {
     "name": "canyon",
     "meaningMnemonic": "Two pairs of strokes spreading apart over an opening. It is a canyon between two cliffs."
+  },
+  "韋": {
+    "name": "rawhide",
+    "meaningMnemonic": "Strips stacked top and bottom with a tie through the middle. It is rawhide stretched to dry."
+  },
+  "釆": {
+    "name": "paw print",
+    "meaningMnemonic": "A dot of a heel with little toes spreading out below. It is a paw print in the mud."
+  },
+  "酉": {
+    "name": "wine jug",
+    "meaningMnemonic": "A lid on top of a round body with a line of liquid inside. It is a wine jug."
+  },
+  "豆": {
+    "name": "lentil",
+    "meaningMnemonic": "A lid, a little round box, and a stand. It is a lentil bowl on the table."
+  },
+  "亡": {
+    "name": "phantom",
+    "meaningMnemonic": "A thumbtack shape over a corner that fades away. It is a phantom slipping out of sight."
+  },
+  "非": {
+    "name": "zipper",
+    "meaningMnemonic": "Two rows of teeth facing each other down a center line. It is a zipper."
+  },
+  "黄": {
+    "name": "saffron",
+    "meaningMnemonic": "A field with sprouts on top and legs below. It is a field of saffron flowers."
+  },
+  "井": {
+    "name": "tic tac toe",
+    "meaningMnemonic": "Two lines across and two lines down. It is a tic tac toe board."
   }
 }
