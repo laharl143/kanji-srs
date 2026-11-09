@@ -618,5 +618,69 @@
   "卩": {
     "name": "kneeler",
     "meaningMnemonic": "A shape bent forward with one leg tucked under it. It is a kneeler, someone down on one knee."
+  },
+  "肉": {
+    "name": "steak",
+    "meaningMnemonic": "A frame with two little cuts marked inside it. It is a steak on the butcher's board."
+  },
+  "鳥": {
+    "name": "songbird",
+    "meaningMnemonic": "A head with a beak on top, a body, and a tail of embers underneath. It is a songbird ready to sing."
+  },
+  "厂": {
+    "name": "overhang",
+    "meaningMnemonic": "A flat top with a long side sweeping down to the left. It is an overhang of rock you can shelter under."
+  },
+  "免": {
+    "name": "loophole",
+    "meaningMnemonic": "A shape with a little gap and legs running out of the bottom. It is a loophole you slip right through."
+  },
+  "魚": {
+    "name": "trout",
+    "meaningMnemonic": "A pointed head, a scaly body, and a fanned tail below. It is a trout jumping out of the stream."
+  },
+  "犬": {
+    "name": "puppy",
+    "meaningMnemonic": "A starfish shape with one extra dot by its ear. It is a puppy with its ear flopped over."
+  },
+  "戈": {
+    "name": "pike",
+    "meaningMnemonic": "A long shaft with a blade crossing it and a tassel on top. It is a pike carried by a guard."
+  },
+  "邦": {
+    "name": "hamlet",
+    "meaningMnemonic": "A little bump on the right side, like a flag on a hill. It marks a hamlet out in the countryside."
+  },
+  "ユ": {
+    "name": "bracket",
+    "meaningMnemonic": "A square shape with one side left open. It is a bracket holding up a shelf."
+  },
+  "衣": {
+    "name": "robe",
+    "meaningMnemonic": "A collar on top and long folds that swing out below. It is a robe hanging on a hook."
+  },
+  "忙": {
+    "name": "heartbeat",
+    "meaningMnemonic": "A tall stroke with a flick on each side, like a line on a monitor. It is a heartbeat."
+  },
+  "甘": {
+    "name": "honey",
+    "meaningMnemonic": "A little box with two posts poking out of the top, like a jar. It is a jar of honey."
+  },
+  "爪": {
+    "name": "claws",
+    "meaningMnemonic": "Three sharp strokes curving down from a curved top. They are claws ready to scratch."
+  },
+  "初": {
+    "name": "debut",
+    "meaningMnemonic": "A robe next to a cleaver: you cut the cloth for your first outfit. It is your debut."
+  },
+  "支": {
+    "name": "twig",
+    "meaningMnemonic": "A small plus shape on top of crossed strokes. It is a twig snapped off a branch."
+  },
+  "斉": {
+    "name": "lineup",
+    "meaningMnemonic": "A neat shape with everything stacked in even rows. It is a lineup, all standing in order."
   }
 }
