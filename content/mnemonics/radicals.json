@@ -746,5 +746,29 @@
   "井": {
     "name": "tic tac toe",
     "meaningMnemonic": "Two lines across and two lines down. It is a tic tac toe board."
+  },
+  "飛": {
+    "name": "jet trail",
+    "meaningMnemonic": "Strokes sweep up and out like wings, with a long tail behind. It is a jet trail across the sky."
+  },
+  "皮": {
+    "name": "pelt",
+    "meaningMnemonic": "A hand on the right peels back a hanging flap. It is a pelt being skinned."
+  },
+  "舛": {
+    "name": "tap shoes",
+    "meaningMnemonic": "Two feet side by side, one pointing each way. They are tap shoes clicking."
+  },
+  "無": {
+    "name": "empty frame",
+    "meaningMnemonic": "A frame with rows of posts and embers below, but nothing hangs in it. It is an empty frame."
+  },
+  "滴": {
+    "name": "trickle",
+    "meaningMnemonic": "A small roof over a box with a little mark inside. It is a trickle of water dripping down."
+  },
+  "舟": {
+    "name": "canoe",
+    "meaningMnemonic": "A long hull with two dots for passengers and a pole. It is a canoe on the lake."
   }
 }
