@@ -294,5 +294,329 @@
   "又": {
     "name": "crossed fingers",
     "meaningMnemonic": "A stroke folds over and crosses itself, like two fingers twisted together. Keep your crossed fingers up and hope for luck."
+  },
+  "工": {
+    "name": "girder",
+    "meaningMnemonic": "A flat top, a flat bottom, and one post between them. It is a steel girder, the beam builders bolt into every frame."
+  },
+  "厶": {
+    "name": "arrowhead",
+    "meaningMnemonic": "A small bent stroke with a tail, pointed like a tiny triangle. It is a stone arrowhead you might dig up in a field."
+  },
+  "ヨ": {
+    "name": "rake",
+    "meaningMnemonic": "Three short teeth sticking out from one side of a bar. Drag this rake across the lawn and it gathers the leaves."
+  },
+  "自": {
+    "name": "self portrait",
+    "meaningMnemonic": "A frame with a little tick on top and lines inside like a face. It is a self portrait an artist painted while staring in a mirror."
+  },
+  "礼": {
+    "name": "altar",
+    "meaningMnemonic": "A small stand with a mark on top, like a table with an offering on it. People bow in front of this altar."
+  },
+  "癶": {
+    "name": "footprints",
+    "meaningMnemonic": "Two sets of marks splaying out left and right at the top. They are footprints in the snow, heading off in two directions."
+  },
+  "老": {
+    "name": "walking cane",
+    "meaningMnemonic": "Soil on top and a long slanting stroke cutting through it. That slant is a walking cane, leaning on the ground for support."
+  },
+  "也": {
+    "name": "whip",
+    "meaningMnemonic": "A curling stroke that loops and snaps back on itself. It is a whip, cracking through the air."
+  },
+  "羊": {
+    "name": "ram",
+    "meaningMnemonic": "Two horns on top and a body made of stacked lines. It is a ram, lowering its curled horns to charge."
+  },
+  "耒": {
+    "name": "plow",
+    "meaningMnemonic": "A post with many crossbars and two legs that dig into the dirt. It is an old wooden plow pulled across a field."
+  },
+  "方": {
+    "name": "signpost",
+    "meaningMnemonic": "A dot on top, a crossbar, and an arm pointing off to the side. It is a signpost showing travelers which way to go."
+  },
+  "斤": {
+    "name": "woodcutter axe",
+    "meaningMnemonic": "A blade on top and a long handle swinging down. It is a woodcutter axe, ready to split a log."
+  },
+  "辛": {
+    "name": "chili pepper",
+    "meaningMnemonic": "A tall shape that narrows to a sharp point at the bottom. It is a chili pepper, so hot it makes your eyes water."
+  },
+  "立": {
+    "name": "podium",
+    "meaningMnemonic": "A dot on top, a little stand, and a long base on the ground. It is a podium where a speaker steps up to talk."
+  },
+  "勿": {
+    "name": "banner",
+    "meaningMnemonic": "A bent pole with streaks hanging down from it. It is a banner flapping in the wind at a parade."
+  },
+  "貝": {
+    "name": "clam",
+    "meaningMnemonic": "An eyeball shape sitting on two small legs. It is a clam peeking out of its shell on the beach."
+  },
+  "廾": {
+    "name": "pliers",
+    "meaningMnemonic": "Two prongs joined by a crossbar, like the handles of a tool. They are pliers, gripping something tight."
+  },
+  "手": {
+    "name": "palm",
+    "meaningMnemonic": "A curved top and lines branching from a center stroke like fingers. It is an open palm, raised to wave hello."
+  },
+  "弋": {
+    "name": "stake",
+    "meaningMnemonic": "A stroke with a hook at the bottom and a dot at the top right. It is a tent stake hammered into the ground."
+  },
+  "里": {
+    "name": "farmstead",
+    "meaningMnemonic": "A paddy sitting on top of soil. Fields on good land make a farmstead, where a family lives and farms."
+  },
+  "込": {
+    "name": "conveyor belt",
+    "meaningMnemonic": "A long stroke that sweeps along the bottom and carries what sits on it. It is a conveyor belt moving things from one place to another."
+  },
+  "用": {
+    "name": "toolbox",
+    "meaningMnemonic": "A box with handles and bars across it. It is a toolbox you open whenever there is a job to do."
+  },
+  "マ": {
+    "name": "pennant",
+    "meaningMnemonic": "A small triangle with a tail hanging from it. It is a pennant flying from the top of a pole."
+  },
+  "疋": {
+    "name": "bolt of cloth",
+    "meaningMnemonic": "A shape that folds over and spreads out at the bottom. It is a bolt of cloth, unrolled across a table."
+  },
+  "頁": {
+    "name": "page",
+    "meaningMnemonic": "A flat line on top over a box that stands on legs. It is a page torn out of a book, standing up on its own."
+  },
+  "音": {
+    "name": "chime",
+    "meaningMnemonic": "A podium sitting on top of the sun. A chime hangs from that podium and rings every morning at sunrise."
+  },
+  "心": {
+    "name": "pulse",
+    "meaningMnemonic": "Three little beats and one curved stroke. It is a pulse, thumping in your chest and wrist."
+  },
+  "广": {
+    "name": "carport",
+    "meaningMnemonic": "A dot and a roof that slopes down only on one side. It is a carport, a roof with no walls where you park the car."
+  },
+  "弓": {
+    "name": "archer",
+    "meaningMnemonic": "A stroke that bends back and forth like a drawn bow. An archer holds it, ready to shoot."
+  },
+  "虫": {
+    "name": "beetle",
+    "meaningMnemonic": "A small body with legs and a tiny tail. It is a beetle crawling along a leaf."
+  },
+  "扎": {
+    "name": "grabber",
+    "meaningMnemonic": "A short hook with a crossbar on the left side. It is a grabber, the claw tool you use to pick things up."
+  },
+  "矛": {
+    "name": "halberd",
+    "meaningMnemonic": "A long shaft with a hooked blade at the top. It is a halberd, carried by a palace guard."
+  },
+  "宀": {
+    "name": "attic",
+    "meaningMnemonic": "A dot on top and a roof that covers everything below. It is the attic, the space right under the roof."
+  },
+  "豕": {
+    "name": "hog",
+    "meaningMnemonic": "A body with many short legs and a stroke like a snout. It is a hog snuffling around in the mud."
+  },
+  "世": {
+    "name": "trellis",
+    "meaningMnemonic": "Three upright posts joined by bars across the middle. It is a garden trellis with vines climbing it."
+  },
+  "止": {
+    "name": "stop sign",
+    "meaningMnemonic": "A post with a short arm and a long flat base. It is a stop sign planted at the corner."
+  },
+  "阡": {
+    "name": "staircase",
+    "meaningMnemonic": "A tall stroke with steps sticking out of the side. It is a staircase climbing up a wall."
+  },
+  "元": {
+    "name": "kickoff",
+    "meaningMnemonic": "Two lines on top and stilts underneath. It is the kickoff, the moment a game first begins."
+  },
+  "攵": {
+    "name": "baton",
+    "meaningMnemonic": "A short stroke and a long sweeping cross. It is a baton, swung by a conductor or passed in a relay race."
+  },
+  "文": {
+    "name": "calligraphy",
+    "meaningMnemonic": "A dot, a line, and two strokes that cross with style. It is calligraphy, written with a soft brush."
+  },
+  "勹": {
+    "name": "hood",
+    "meaningMnemonic": "A stroke that bends down and wraps around whatever is under it. It is a hood pulled over someone's head."
+  },
+  "汁": {
+    "name": "droplets",
+    "meaningMnemonic": "Three little marks running down the left side. They are droplets of water, dripping one after another."
+  },
+  "矢": {
+    "name": "dart",
+    "meaningMnemonic": "A short stroke on top, a crossbar, and two flights at the bottom. It is a dart flying toward the board."
+  },
+  "首": {
+    "name": "scarf",
+    "meaningMnemonic": "Two marks on top over a self portrait. The person in the portrait is wearing a scarf wrapped around the throat."
+  },
+  "隹": {
+    "name": "pigeon",
+    "meaningMnemonic": "A small body with many stacked feathers. It is a pigeon puffing up its chest in the park."
+  },
+  "牛": {
+    "name": "ox",
+    "meaningMnemonic": "Two horns and a body with a line straight through it. It is an ox, strong enough to pull a cart."
+  },
+  "品": {
+    "name": "crate stack",
+    "meaningMnemonic": "One hatch on top and two below. It is a crate stack in a warehouse, boxes piled on boxes."
+  },
+  "歹": {
+    "name": "bones",
+    "meaningMnemonic": "A plank on top and a bent shape underneath. They are dry bones left out in the desert."
+  },
+  "禾": {
+    "name": "wheat stalk",
+    "meaningMnemonic": "A timber shape with a little stroke drooping from the top. It is a wheat stalk, bending under the weight of its grain."
+  },
+  "糸": {
+    "name": "spool",
+    "meaningMnemonic": "Little loops twist down to a base with three tails. It is a spool, its thread winding round and round."
+  },
+  "斗": {
+    "name": "measuring scoop",
+    "meaningMnemonic": "Two dots lean on a long handle crossed by a bar. It is a measuring scoop, with grains spilling off the side."
+  },
+  "廴": {
+    "name": "slide",
+    "meaningMnemonic": "One stroke zigzags down and then runs long and flat along the bottom. It is a slide in the playground."
+  },
+  "穴": {
+    "name": "burrow",
+    "meaningMnemonic": "A roof with two little legs under it, an opening in the ground. It is a burrow where a rabbit hides."
+  },
+  "刀": {
+    "name": "cleaver",
+    "meaningMnemonic": "A bent stroke with a sharp edge hooking down. It is a cleaver hanging in the kitchen."
+  },
+  "石": {
+    "name": "pebble",
+    "meaningMnemonic": "A slanted cliff with a small square box at its foot. That box is a pebble that rolled down."
+  },
+  "足": {
+    "name": "sneaker",
+    "meaningMnemonic": "A box on top of a shape that kicks out to the side. It is a sneaker, ready to run."
+  },
+  "冫": {
+    "name": "icicles",
+    "meaningMnemonic": "Two short drops, one over the other, hanging on the left. They are icicles dripping from the eaves."
+  },
+  "走": {
+    "name": "sprinter",
+    "meaningMnemonic": "Soil on top and a leg stretching long underneath. It is a sprinter pushing off the ground."
+  },
+  "已": {
+    "name": "coil",
+    "meaningMnemonic": "A stroke that bends back on itself and curls up at the end. It is a coil of rope on a dock."
+  },
+  "疔": {
+    "name": "sickbed",
+    "meaningMnemonic": "A roof with little drops on its left side, like a fever sweat. It is a sickbed where someone rests."
+  },
+  "艮": {
+    "name": "glare",
+    "meaningMnemonic": "An eye shape on top, with legs kicking out below. It is a glare, a stubborn stare that will not move."
+  },
+  "馬": {
+    "name": "stallion",
+    "meaningMnemonic": "A mane on top, four legs below, and a swishing tail. It is a stallion galloping across the field."
+  },
+  "杰": {
+    "name": "embers",
+    "meaningMnemonic": "Four little dots in a row along the bottom. They are embers glowing under a pot."
+  },
+  "艾": {
+    "name": "sprouts",
+    "meaningMnemonic": "Two short stalks poke up through a line of earth. They are sprouts, the first green of the year."
+  },
+  "匚": {
+    "name": "tray",
+    "meaningMnemonic": "A flat top, a flat bottom, and one side to hold them together. It is a tray tipped on its side."
+  },
+  "竹": {
+    "name": "bamboo grove",
+    "meaningMnemonic": "Two stalks stand side by side with leaves fanning off the top. It is a bamboo grove."
+  },
+  "巾": {
+    "name": "napkin",
+    "meaningMnemonic": "A cloth hangs from a pole straight down the middle. It is a napkin tucked into a collar."
+  },
+  "欠": {
+    "name": "sneeze",
+    "meaningMnemonic": "A head tilted back and a wide open mouth spraying out below. It is a sneeze."
+  },
+  "買": {
+    "name": "fishing net",
+    "meaningMnemonic": "A wide box divided into little squares across the top. It is a fishing net spread out to dry."
+  },
+  "至": {
+    "name": "finish line",
+    "meaningMnemonic": "A line on top, an arrowhead pointing down, and soil below. The arrow lands right on the finish line."
+  },
+  "風": {
+    "name": "gale",
+    "meaningMnemonic": "A big frame with something swirling inside it. It is a gale blowing through an open door."
+  },
+  "几": {
+    "name": "stool",
+    "meaningMnemonic": "Two legs and a flat seat that curls at the end. It is a stool in the corner."
+  },
+  "氏": {
+    "name": "clan",
+    "meaningMnemonic": "A long stroke with branches hanging off it, like a family tree. It is a clan and all its relatives."
+  },
+  "黒": {
+    "name": "soot",
+    "meaningMnemonic": "A smoky window over embers that keep burning. Everything is covered in soot."
+  },
+  "赤": {
+    "name": "blush",
+    "meaningMnemonic": "Soil on top and flickering flames below. Your cheeks glow with a blush."
+  },
+  "青": {
+    "name": "clear sky",
+    "meaningMnemonic": "A sprout on top and a crescent moon below. You see it all under a clear sky."
+  },
+  "尸": {
+    "name": "awning",
+    "meaningMnemonic": "A flat top with a side that hangs down to the left. It is an awning over a shop door."
+  },
+  "色": {
+    "name": "palette",
+    "meaningMnemonic": "A shape with a curl on top and a swirl underneath. It is a palette with paint mixed on it."
+  },
+  "巴": {
+    "name": "whirlpool",
+    "meaningMnemonic": "A box with a tail that curls out and around at the bottom. It is a whirlpool spinning in the river."
+  },
+  "羽": {
+    "name": "wings",
+    "meaningMnemonic": "Two matching shapes, each with feathers tucked inside. They are a pair of wings."
+  },
+  "卩": {
+    "name": "kneeler",
+    "meaningMnemonic": "A shape bent forward with one leg tucked under it. It is a kneeler, someone down on one knee."
   }
 }

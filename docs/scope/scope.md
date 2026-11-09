@@ -27,7 +27,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 10 | Item pages & level browser | Slice 6 | done |
 | 11 | Settings & credits | Slice 7 | done |
 | 14 | Review reminders | Slice 8 | done |
-| 12 | Mnemonic waves | Slice 9 | planned |
+| 12 | Mnemonic waves | Slice 9 | in-progress |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
 
 ## Foundations
@@ -183,11 +183,15 @@ Spec 0001 §6.5 · code in `src/lib/reminders/`, `src/lib/notifications/`, `src/
 
 ## Slice 9: Mnemonic waves
 
-### 12. Mnemonic waves
+### 12. Mnemonic waves · in-progress
 Write original radical names and mnemonics for levels 4 to the last level, a few levels at a time, using the batch workflow and rules from 0001 §5.4 and 0005. Enable each wave once it passes validation.
 **Done when:** every level is enabled and `npm run pipeline:validate` passes.
 - [ ] Write and enable the next wave: `/develop mnemonic waves`
+   - [x] Wave 1: levels 4 to 6 written (352 items: 49 radicals, 75 kanji, 228 vocab) and enabled (2026-11-09)
+   - [x] Wave 2: levels 7 to 9 written (297 items: 32 radicals, 75 kanji, 190 vocab) and enabled (2026-11-09)
+   - [ ] Levels 10 to 25 (1,372 items left), a few levels per wave
 - [ ] Verify it: `/check verify mnemonic waves`
+code in `content/mnemonics/`, `content/enabled-levels.json` · spec [0005](../specs/0005-content-pipeline/index.md), rules 0001 §5.4
 
 ## Release build checks
 Run these once, on one `preview` APK, when the app is feature complete (see **Release builds** at the top). Add an item here whenever a check needs a release build.
