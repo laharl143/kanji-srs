@@ -900,15 +900,15 @@
     "readingMnemonic": "You hang your clothing on a hook. Hook sounds like ふく."
   },
   "借": {
-    "meaningMnemonic": "Your sidekick asks to borrow the pliers, the bunk beds, and even the sun.",
+    "meaningMnemonic": "Your sidekick knocks on your door with an empty bag. First the pliers, then the bunk beds, and finally even the sun: your sidekick always wants to borrow something.",
     "readingMnemonic": "You borrow a shack for the summer. Shack sounds like しゃく."
   },
   "曜": {
-    "meaningMnemonic": "Every sunny weekday, a pigeon sits on the rake.",
+    "meaningMnemonic": "A pigeon sits on a rake out in the sun, pecking at seeds. It shows up every single workday, so you use it to tell which weekday it is.",
     "readingMnemonic": "On weekdays you play with a yoyo. Yoyo sounds like よう."
   },
   "飲": {
-    "meaningMnemonic": "You open your lunchbox, sneeze, and then grab a drink.",
+    "meaningMnemonic": "You open your lunchbox, and the dust makes you sneeze. Your throat is dry now, so you reach for something to drink.",
     "readingMnemonic": "You stop for a drink at the inn. Inn sounds like いん."
   },
   "貸": {
@@ -932,15 +932,15 @@
     "readingMnemonic": "There is lots of chatter over tea. Chatter sounds like ちゃ."
   },
   "弟": {
-    "meaningMnemonic": "Wearing antlers, your younger brother plays archer, swinging a pole with a swoosh.",
+    "meaningMnemonic": "A little boy puts on toy antlers and pretends to be an archer. He swings a pole around with a swoosh, the way only a younger brother would.",
     "readingMnemonic": "Your younger brother wraps everything in tape. Tape sounds like てい."
   },
   "牛": {
-    "meaningMnemonic": "The ox on its own is a cow.",
+    "meaningMnemonic": "An ox stands in the field, chewing slowly. On the farm, that big gentle animal is a cow.",
     "readingMnemonic": "The cow steps in something gooey. Gooey sounds like ぎゅう."
   },
   "兄": {
-    "meaningMnemonic": "A big hatch of a head up on stilts: it is your elder brother, much taller than you.",
+    "meaningMnemonic": "Someone tall walks by on stilts, with a head as wide as a hatch. You have to look up at him, because he is your elder brother.",
     "readingMnemonic": "Your elder brother eats all the cake. Cake sounds like けい."
   },
   "妹": {
@@ -964,11 +964,11 @@
     "readingMnemonic": "The people love mint. Mint sounds like みん."
   },
   "連": {
-    "meaningMnemonic": "You hitch the wagon to the conveyor belt and take it along.",
+    "meaningMnemonic": "You hitch your wagon to the conveyor belt. Wherever the belt goes, the wagon comes too, and you take it along.",
     "readingMnemonic": "You take a friend along to pay the rent. Rent sounds like れん."
   },
   "対": {
-    "meaningMnemonic": "Calligraphy on one side, an inch away on the other: they sit opposite, vis-a-vis.",
+    "meaningMnemonic": "A sheet of calligraphy hangs on one wall, and an inch ruler hangs on the wall across. The two face each other, sitting vis-a-vis.",
     "readingMnemonic": "Opposite you sits someone in a tie. Tie sounds like たい."
   },
   "合": {
@@ -976,23 +976,23 @@
     "readingMnemonic": "The ball fits right in the goal. Goal sounds like ごう."
   },
   "市": {
-    "meaningMnemonic": "A napkin pinned up with a thumbtack is the stall sign at the market.",
+    "meaningMnemonic": "A napkin is pinned to a post with a thumbtack. It is the sign for a food stall, and there are rows of them at the market.",
     "readingMnemonic": "Sheep are sold at the market. Sheep sounds like し."
   },
   "内": {
-    "meaningMnemonic": "A walker steps inside the goalpost.",
+    "meaningMnemonic": "A walker steps between the two posts of a goalpost. Now the walker is no longer outside, but inside.",
     "readingMnemonic": "Inside, everything is made of nylon. Nylon sounds like ない."
   },
   "相": {
-    "meaningMnemonic": "The timber and the eyeball stare at each other, a mutual look.",
+    "meaningMnemonic": "A big eyeball peeks out from behind the timber. The timber seems to stare back, and the two share an inter- look, each watching the other.",
     "readingMnemonic": "You trade soap with each other, a mutual gift. Soap sounds like そう."
   },
   "定": {
-    "meaningMnemonic": "In the attic you unroll a bolt of cloth to determine how much to cut.",
+    "meaningMnemonic": "Up in the attic, you unroll a bolt of cloth across the floor. You measure it twice to determine exactly where to cut.",
     "readingMnemonic": "You determine the length with tape. Tape sounds like てい."
   },
   "回": {
-    "meaningMnemonic": "A hatch sits inside a corral, and you walk round and round it many times.",
+    "meaningMnemonic": "A hatch sits in the middle of a corral. You walk round and round it, counting how many times.",
     "readingMnemonic": "A kite goes round and round. Kite sounds like かい."
   },
   "選": {
@@ -1000,7 +1000,7 @@
     "readingMnemonic": "Each vote costs a cent. Cent sounds like せん."
   },
   "米": {
-    "meaningMnemonic": "The sparkler throws off grains like rice.",
+    "meaningMnemonic": "A sparkler fizzes and throws off tiny white bits in every direction. They pile up on the table like grains of rice.",
     "readingMnemonic": "Rice fields line the bay. Bay sounds like べい."
   },
   "実": {
@@ -1012,7 +1012,7 @@
     "readingMnemonic": "The connection runs through a tin can. Can sounds like かん."
   },
   "全": {
-    "meaningMnemonic": "The monarch with the mustache opens an umbrella over the whole kingdom.",
+    "meaningMnemonic": "The monarch with the big mustache opens a giant umbrella. It is so wide that it covers the whole kingdom.",
     "readingMnemonic": "The whole room feels zen. Zen sounds like ぜん."
   },
   "経": {
@@ -1020,11 +1020,11 @@
     "readingMnemonic": "The monks read the sutra over cake. Cake sounds like けい."
   },
   "最": {
-    "meaningMnemonic": "Under the sun, standing on a plank, you hold your earlobe with crossed fingers and try your utmost.",
+    "meaningMnemonic": "Under the hot sun, you balance on a plank, holding your earlobe with crossed fingers. You do not fall, because you try your utmost.",
     "readingMnemonic": "You cycle with the utmost effort. Cycle sounds like さい."
   },
   "現": {
-    "meaningMnemonic": "The watcher sees the monarch, who is present right now.",
+    "meaningMnemonic": "A watcher has waited all day for the monarch to arrive. Suddenly the monarch steps out, and the watcher can see that the monarch is now present.",
     "readingMnemonic": "A gent is present at the door. Gent sounds like げん."
   },
   "調": {
@@ -1036,7 +1036,7 @@
     "readingMnemonic": "You change your car. Car sounds like か."
   },
   "当": {
-    "meaningMnemonic": "Steam rises from the rake after it makes a hit.",
+    "meaningMnemonic": "You swing a rake hard at a target. Steam rises from it, because it was a direct hit.",
     "readingMnemonic": "It hit your toe. Toe sounds like とう."
   },
   "約": {
@@ -1044,11 +1044,11 @@
     "readingMnemonic": "Yuck, a broken promise. Yuck sounds like やく."
   },
   "首": {
-    "meaningMnemonic": "In your self portrait you wear antlers, one big eyeball, and a scarf around your neck.",
+    "meaningMnemonic": "You paint a self portrait with antlers and one big eyeball. To finish it, you wrap a scarf around your neck.",
     "readingMnemonic": "A shoe hangs around your neck. Shoe sounds like しゅ."
   },
   "法": {
-    "meaningMnemonic": "Droplets on the soil and an arrowhead in the ground: that is the method, and it is the law.",
+    "meaningMnemonic": "Droplets fall on the soil, and an arrowhead points where they must go. Every drop follows the same path, because that is the method.",
     "readingMnemonic": "You follow the method of the hoe. Hoe sounds like ほう."
   },
   "要": {
@@ -1068,19 +1068,19 @@
     "readingMnemonic": "Your task is to feed the moose. Moose sounds like む."
   },
   "取": {
-    "meaningMnemonic": "With crossed fingers, you take someone by the earlobe.",
+    "meaningMnemonic": "Someone with crossed fingers reaches out and pinches your earlobe. They pull it, as if it were theirs to take.",
     "readingMnemonic": "You take off your shoe. Shoe sounds like しゅ."
   },
   "和": {
-    "meaningMnemonic": "A wheat stalk grows by the hatch in harmony.",
+    "meaningMnemonic": "A single wheat stalk grows next to an old hatch. The two sway together in the breeze, in perfect harmony.",
     "readingMnemonic": "A waffle lives in harmony with syrup. Waffle sounds like わ."
   },
   "平": {
-    "meaningMnemonic": "Antlers lie on the drying rack, even and flat.",
+    "meaningMnemonic": "You set a pair of antlers on the drying rack. You push them flat until they lie perfectly even.",
     "readingMnemonic": "You stack flat bales of hay. Hay sounds like へい."
   },
   "加": {
-    "meaningMnemonic": "You add muscle to the hatch to push it open.",
+    "meaningMnemonic": "The hatch is stuck and will not open. You add a bit more muscle and finally it pops open, so you add more and more.",
     "readingMnemonic": "You add another car to the train. Car sounds like か."
   },
   "続": {
@@ -1088,7 +1088,7 @@
     "readingMnemonic": "Your zodiac sign continues all year. Zodiac sounds like ぞく."
   },
   "進": {
-    "meaningMnemonic": "A pigeon rides the conveyor belt and advances.",
+    "meaningMnemonic": "A pigeon hops onto a conveyor belt. Without flapping once, it moves forward and keeps going, to advance.",
     "readingMnemonic": "You advance and bump your shin. Shin sounds like しん."
   },
   "数": {
@@ -1096,11 +1096,11 @@
     "readingMnemonic": "You count the number of bowls of soup. Soup sounds like すう."
   },
   "記": {
-    "meaningMnemonic": "Words from the megaphone coil onto the page as you scribe them.",
+    "meaningMnemonic": "Someone reads a story aloud through a megaphone. The words coil out onto the page as you write them down like a scribe.",
     "readingMnemonic": "The scribe carries a key. Key sounds like き."
   },
   "指": {
-    "meaningMnemonic": "The grabber holds a ladle up to the sun and points one finger.",
+    "meaningMnemonic": "A grabber lifts a ladle up toward the sun. Then it lets go of the ladle and points with one finger.",
     "readingMnemonic": "You point your finger at the sheep. Sheep sounds like し."
   },
   "権": {
@@ -1108,11 +1108,11 @@
     "readingMnemonic": "The kennel has all the authority. Kennel sounds like けん."
   },
   "点": {
-    "meaningMnemonic": "A fortune stick over a hatch, with embers below, marks the spot.",
+    "meaningMnemonic": "A fortune stick stands above a hatch, with glowing embers below. Wherever the stick lands, it burns a small dot, marking the spot.",
     "readingMnemonic": "You pitch the tent on this spot. Tent sounds like てん."
   },
   "報": {
-    "meaningMnemonic": "At the podium, with a thumbtack, a chili pepper, a plus sign, soil, and crossed fingers, a kneeler gives the report.",
+    "meaningMnemonic": "A kneeler climbs to the podium holding a thumbtack, a chili pepper, a plus sign, a bag of soil, and crossed fingers. Each thing is a clue, and together they tell the story in the report.",
     "readingMnemonic": "You write a report on the hoe. Hoe sounds like ほう."
   },
   "肉": {
@@ -1124,7 +1124,7 @@
     "readingMnemonic": "The bird eats your chow. Chow sounds like ちょう."
   },
   "飯": {
-    "meaningMnemonic": "Under the overhang, you open your lunchbox with crossed fingers, hoping for a good meal.",
+    "meaningMnemonic": "You sit under an overhang to keep out of the rain. You open your lunchbox with crossed fingers, hoping for a good meal.",
     "readingMnemonic": "You eat the meal with your hand. Hand sounds like はん."
   },
   "勉": {
@@ -1144,7 +1144,7 @@
     "readingMnemonic": "The geese hold a deliberation. Geese sounds like ぎ."
   },
   "部": {
-    "meaningMnemonic": "The hamlet has a podium and a hatch for each section.",
+    "meaningMnemonic": "The hamlet hall has one podium and many hatches. Each hatch opens onto its own room, one for each section.",
     "readingMnemonic": "Each section has its own booth. Booth sounds like ぶ."
   },
   "決": {
@@ -1152,7 +1152,7 @@
     "readingMnemonic": "You decide on ketchup. Ketchup sounds like けつ."
   },
   "表": {
-    "meaningMnemonic": "The knight lays a robe over the soil, the bunk beds, and a thumbtack, covering the surface.",
+    "meaningMnemonic": "A knight drapes a robe over the soil, the bunk beds, and a thumbtack. You can no longer see what is underneath, only the surface.",
     "readingMnemonic": "Your hyoid bone sits near the surface of your throat. Hyoid sounds like ひょう."
   },
   "戦": {
@@ -1160,35 +1160,35 @@
     "readingMnemonic": "A war costs more than a cent. Cent sounds like せん."
   },
   "性": {
-    "meaningMnemonic": "A seedling with a heartbeat: that is its nature, its sex.",
+    "meaningMnemonic": "A seedling pushes up from the ground, and you can feel a heartbeat inside it. It has its own nature, and whether it will be male or female is its sex.",
     "readingMnemonic": "Say what your nature is. Say sounds like せい."
   },
   "成": {
-    "meaningMnemonic": "With a swoosh, the pike starts to turn into a plow.",
+    "meaningMnemonic": "A farmer swings an old pike with a swoosh. The blade bends and twists until it starts to turn into a plow.",
     "readingMnemonic": "Say what you will turn into. Say sounds like せい."
   },
   "期": {
-    "meaningMnemonic": "Honey drips from your mustache under a crescent moon for a long period.",
+    "meaningMnemonic": "Honey drips onto your mustache while you sit under a crescent moon. You stay there, sticky and still, for a long period.",
     "readingMnemonic": "For a period of time you lose your key. Key sounds like き."
   },
   "都": {
-    "meaningMnemonic": "Under the sun, a hamlet leaning on a walking cane grows into a metropolis.",
+    "meaningMnemonic": "A tiny hamlet leans on a walking cane, tired from growing old in the sun. It keeps growing and growing until it becomes a huge metropolis.",
     "readingMnemonic": "The metropolis sells the best tofu. Tofu sounds like と."
   },
   "機": {
-    "meaningMnemonic": "Timber, a pike, a tiny thread, a speck, and a swoosh: it is a loom.",
+    "meaningMnemonic": "A machine stands in the workshop, built from timber and a pike. A tiny thread runs through it, there is a speck of dust on top, and with every swoosh it weaves cloth. It is a loom.",
     "readingMnemonic": "The loom needs a key to start. Key sounds like き."
   },
   "受": {
-    "meaningMnemonic": "Claws reach down over a blanket, and with crossed fingers you accept the gift.",
+    "meaningMnemonic": "Claws reach down over a blanket, holding out a small gift. You hold your crossed fingers behind your back, then reach out to accept it.",
     "readingMnemonic": "You accept a glass of juice. Juice sounds like じゅ."
   },
   "初": {
-    "meaningMnemonic": "Your debut, cleaver in hand: it is the first time you cook.",
+    "meaningMnemonic": "It is your debut in the kitchen, and you hold a cleaver for the very first time. Your hands shake, because this is the first time.",
     "readingMnemonic": "It is your first time at the shore. Shore sounds like しょ."
   },
   "支": {
-    "meaningMnemonic": "A twig shaped like a plus sign, held in crossed fingers: it is a small branch.",
+    "meaningMnemonic": "A twig grows out in the shape of a plus sign. You hold it carefully in crossed fingers, because it is a small branch.",
     "readingMnemonic": "The sheep nibbles the branch. Sheep sounds like し."
   },
   "産": {
@@ -1200,35 +1200,35 @@
     "readingMnemonic": "You settle the bill for your cycle. Cycle sounds like さい."
   },
   "活": {
-    "meaningMnemonic": "Droplets splash a lollipop by the hatch, there is a plus sign, a swoosh: the party is lively.",
+    "meaningMnemonic": "Droplets of soda splash a lollipop as someone flings open the hatch. A plus sign of streamers whips past with a swoosh, and the party is lively.",
     "readingMnemonic": "The cats are lively tonight. Cats sounds like かつ."
   },
   "原": {
-    "meaningMnemonic": "Under the overhang, a milk carton tips over with a splash into the meadow.",
+    "meaningMnemonic": "A milk carton sits under an overhang at the edge of a field. It tips over with a splash, and the milk runs out into the meadow.",
     "readingMnemonic": "A gent strolls across the meadow. Gent sounds like げん."
   },
   "共": {
-    "meaningMnemonic": "A pole, a plank, bunk beds, and a mustache are all lashed together.",
+    "meaningMnemonic": "A pole, a plank, bunk beds, and a fake mustache are all tied up in one bundle. Nothing can fall off, because they are all together.",
     "readingMnemonic": "You meet together at the kiosk. Kiosk sounds like きょう."
   },
   "得": {
-    "meaningMnemonic": "On a side street in the sun, you gain one inch along a plank each day.",
+    "meaningMnemonic": "You walk down a side street in the sun, pushing a plank. Each day you push it a little farther, and you gain one inch.",
     "readingMnemonic": "A toucan gains weight. Toucan sounds like とく."
   },
   "交": {
-    "meaningMnemonic": "Scissors and a thumbtack mingle in the drawer.",
+    "meaningMnemonic": "A pair of scissors and a thumbtack sit in the same drawer. At night they talk and dance, getting to know each other as they mingle.",
     "readingMnemonic": "Coats mingle on the rack. Coat sounds like こう."
   },
   "資": {
-    "meaningMnemonic": "A clam full of pearls, an eyeball watching it, a twitching mustache, a sneeze, and icicles: your frozen assets.",
+    "meaningMnemonic": "You keep a clam full of pearls in the freezer, behind icicles. An eyeball watches over it, a mustache twitches, and then you sneeze. These are your assets.",
     "readingMnemonic": "Your assets are all sheep. Sheep sounds like し."
   },
   "予": {
-    "meaningMnemonic": "You hang the pennant from a plank with a fishhook beforehand.",
+    "meaningMnemonic": "Before the parade starts, you tie a pennant to a plank with a fishhook. You got everything ready beforehand.",
     "readingMnemonic": "You crack the yolk beforehand. Yolk sounds like よ."
   },
   "向": {
-    "meaningMnemonic": "Through the goalpost you see a hatch over yonder, facing you.",
+    "meaningMnemonic": "You stand at one goalpost and look across the field. Far away you see a hatch, way over yonder.",
     "readingMnemonic": "A coat hangs over yonder. Coat sounds like こう."
   },
   "勝": {
@@ -1236,23 +1236,23 @@
     "readingMnemonic": "You win victory at the show. Show sounds like しょう."
   },
   "告": {
-    "meaningMnemonic": "With a swoosh, the hatch in the soil opens: a revelation.",
+    "meaningMnemonic": "With a swoosh, a hatch in the soil flies open. A voice from below shares a secret that changes everything: a revelation.",
     "readingMnemonic": "The cook tells you the secret. Cook sounds like こく."
   },
   "反": {
-    "meaningMnemonic": "Under the overhang, someone holds up crossed fingers to say no: they are anti- everything.",
+    "meaningMnemonic": "Someone stands under the overhang with crossed fingers. Whatever you suggest, they say no, because they are anti-.",
     "readingMnemonic": "You raise your hand against it. Hand sounds like はん."
   },
   "判": {
-    "meaningMnemonic": "The judge sits on bunk beds holding a pole, a sickle, antlers, and a plus sign, and gives a judgement.",
+    "meaningMnemonic": "The judge sits on bunk beds, holding a pole, a sickle, and antlers. After adding up the evidence with a plus sign, the judge gives a judgement.",
     "readingMnemonic": "You raise your hand for the judgement. Hand sounds like はん."
   },
   "認": {
-    "meaningMnemonic": "Through the megaphone, holding a cleaver over a speck, your pulse racing, you acknowledge your mistake.",
+    "meaningMnemonic": "Your pulse races as you stand over a speck of mess with a cleaver in your hand. You pick up the megaphone and tell everyone that it was you, to acknowledge it.",
     "readingMnemonic": "The ninja acknowledges you with a nod. Ninja sounds like にん."
   },
   "利": {
-    "meaningMnemonic": "You cut the wheat stalk with a sickle and sell it for a profit.",
+    "meaningMnemonic": "You cut the wheat stalk with a sickle and take it to market. It sells for more than it cost to grow, so you make a profit.",
     "readingMnemonic": "You make a profit on the reef. Reef sounds like り."
   },
   "組": {
@@ -1260,27 +1260,27 @@
     "readingMnemonic": "The association meets on a sofa. Sofa sounds like そ."
   },
   "信": {
-    "meaningMnemonic": "Your sidekick shouts through the megaphone: have faith!",
+    "meaningMnemonic": "Your sidekick climbs on a chair with a megaphone. Everyone is scared, but your sidekick shouts that things will be okay, and you have faith.",
     "readingMnemonic": "You have faith in your shin. Shin sounds like しん."
   },
   "在": {
-    "meaningMnemonic": "A pole and a plank stand in the soil, swoosh: something does exist there.",
+    "meaningMnemonic": "A pole and a plank stick up out of the soil. Wind blows through them with a swoosh, proving that they really do exist.",
     "readingMnemonic": "A xylophone exists in the attic. Xylophone sounds like ざい."
   },
   "件": {
-    "meaningMnemonic": "Your sidekick and the ox: it is a strange affair.",
+    "meaningMnemonic": "Your sidekick wakes up to find an ox in the kitchen. Nobody knows how it got there, and it becomes a strange affair.",
     "readingMnemonic": "The affair happened at the kennel. Kennel sounds like けん."
   },
   "側": {
-    "meaningMnemonic": "Your sidekick stands to the side with a clam, an eyeball, a mustache, and a sickle.",
+    "meaningMnemonic": "Your sidekick stands next to you holding a clam, an eyeball, a mustache, and a sickle. Your sidekick never stands in front of you, always at your side.",
     "readingMnemonic": "You wear a sock on each side. Sock sounds like そく."
   },
   "任": {
-    "meaningMnemonic": "With a swoosh, the monarch hands the sidekick and the knight a responsibility.",
+    "meaningMnemonic": "With a swoosh of the cape, the monarch hands a sword to the sidekick and the knight. From now on, protecting the castle is their responsibility.",
     "readingMnemonic": "The ninja takes responsibility. Ninja sounds like にん."
   },
   "引": {
-    "meaningMnemonic": "The archer pulls a pole back like a bowstring.",
+    "meaningMnemonic": "The archer sets a pole on the string and draws it back. To shoot, the archer must pull.",
     "readingMnemonic": "You pull into the inn. Inn sounds like いん."
   },
   "求": {
@@ -1460,19 +1460,19 @@
     "readingMnemonic": "Your husband loves food. Food sounds like ふ."
   },
   "解": {
-    "meaningMnemonic": "The ox's tusk and a cleaver work together to unravel the knot.",
+    "meaningMnemonic": "There is a giant knot in the rope. The ox pulls at it with its tusk, and you slice with a cleaver until you finally unravel it.",
     "readingMnemonic": "The kite string starts to unravel. Kite sounds like かい."
   },
   "際": {
-    "meaningMnemonic": "On this occasion, footprints climb the staircase to the shrine, with a splash, a swoosh, and bunk beds at the edge.",
+    "meaningMnemonic": "Footprints climb the staircase up to a shrine. There is a splash, a swoosh, and bunk beds set out at the top, all ready for a special occasion.",
     "readingMnemonic": "On this occasion you ride a cycle. Cycle sounds like さい."
   },
   "面": {
-    "meaningMnemonic": "Pull the visor down: it is a mask over your face.",
+    "meaningMnemonic": "A knight pulls down the visor of the helmet. Now nobody can see the knight's face, only a mask.",
     "readingMnemonic": "You mend the torn mask. Mend sounds like めん."
   },
   "参": {
-    "meaningMnemonic": "An arrowhead lands on the plank and three hairs stand on end: you are nonplussed.",
+    "meaningMnemonic": "An arrowhead thunks into the plank right next to you. Three hairs on your head stand straight up, and you are completely nonplussed.",
     "readingMnemonic": "Nonplussed, you stare at the sand. Sand sounds like さん."
   },
   "所": {
