@@ -61,6 +61,11 @@ Changing the graphics mode does not help. A `-gpu swiftshader_indirect` attempt 
 - Open a deep link: `adb shell am start -a android.intent.action.VIEW -d kanjisrs://dev/ui`
 - Install an APK: `adb install -r path/to/app.apk`
 - Shut down: `adb -s emulator-5554 emu kill`
+- Fire a scheduled reminder now: find its time with `adb shell dumpsys alarm | grep -A3 kanjisrs`, then run `adb shell settings put global auto_time 0` and `adb shell cmd alarm set-time <ms>` with a time past the end of the alarm's window. Undo with `adb shell settings put global auto_time 1`.
+
+## Known quirks
+
+- The API 37 image draws some icons as solid black. This includes the Calendar icon in the app drawer and the app icon at the left of a notification in the shade, where Android 17 shows the app's launcher icon, not the notification icon. The status bar shows the real notification icon. Judge icons on a phone.
 
 ## Optional fixes
 
