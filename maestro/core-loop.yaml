@@ -26,11 +26,18 @@ appId: com.edduenas.kanjisrs
     id: "session-home"
 
 # Four hours later, all five are due.
+- scrollUntilVisible:
+    element:
+      id: "home-debug-clock"
 - tapOn:
     id: "home-debug-clock"
 - tapOn:
     id: "clock-add-4h"
 - back
+- scrollUntilVisible:
+    element:
+      id: "home-reviews-count"
+    direction: UP
 - assertVisible:
     id: "home-reviews-count"
     text: "5"
@@ -45,11 +52,18 @@ appId: com.edduenas.kanjisrs
     text: "0"
 
 # Stage 2 waits 8 hours, so the batch comes back after 8 more.
+- scrollUntilVisible:
+    element:
+      id: "home-debug-clock"
 - tapOn:
     id: "home-debug-clock"
 - tapOn:
     id: "clock-add-8h"
 - back
+- scrollUntilVisible:
+    element:
+      id: "home-reviews-count"
+    direction: UP
 - assertVisible:
     id: "home-reviews-count"
     text: "5"

@@ -35,7 +35,13 @@
       "expo-sqlite",
       "expo-font",
       "@react-native-community/datetimepicker",
-      "expo-notifications"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#d81b60"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
