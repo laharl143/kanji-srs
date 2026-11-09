@@ -25,7 +25,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 8 | Answer checking | Slice 4 | done |
 | 9 | Dashboard | Slice 5 | done |
 | 10 | Item pages & level browser | Slice 6 | done |
-| 11 | Settings & credits | Slice 7 | in-progress |
+| 11 | Settings & credits | Slice 7 | done |
 | 14 | Review reminders | Slice 8 | planned |
 | 12 | Mnemonic waves | Slice 9 | planned |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
@@ -160,16 +160,16 @@ Spec [0009](../specs/0009-item-pages-and-levels/index.md) · code in `src/app/su
 
 ## Slice 7: Settings & credits
 
-### 11. Settings & credits · in-progress
+### 11. Settings & credits · done
 Lesson batch size, reminder switches and times, skip ahead to a level, reset progress, and the credits page the data licenses require.
 **Done when:** skipping to level 3 retires levels 1 and 2 and opens level 3, and credits list every source.
 - [x] Design it (spec, updated 0010 for Android 2026-11-08): `/architect settings & credits`
 - [x] Build it: `/develop settings & credits` (built 2026-11-08)
    - [x] Settings screen, Lessons card, and the save path (AC-1, AC-2, AC-4) (built 2026-11-08)
    - [x] Reminders card with the time dialog (AC-3, AC-4) (built 2026-11-08)
-   - [x] Skip ahead and reset with their dialogs (AC-5, AC-6, AC-7, AC-8) (built 2026-11-08; skip and reset confirm not yet run on a device)
+   - [x] Skip ahead and reset with their dialogs (AC-5, AC-6, AC-7, AC-8) (built 2026-11-08; checked on the emulator 2026-11-09)
    - [x] About card and the Credits screen (AC-9, AC-10) (built 2026-11-08)
-- [ ] Verify it: `/check verify settings & credits`
+- [x] Verify it (passed 2026-11-09, see `verify.md`; skip timestamps need a dev build): `/check verify settings & credits`
 Spec [0010](../specs/0010-settings-and-credits/index.md) · code in `src/app/(tabs)/settings.tsx`, `src/app/credits.tsx`, `src/components/settings/`, `src/lib/study/settings.ts`, `src/lib/credits.ts`
 
 ## Slice 8: Review reminders

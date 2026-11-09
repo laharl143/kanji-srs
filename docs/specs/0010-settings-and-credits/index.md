@@ -1,7 +1,7 @@
 # 0010. Settings and credits
 
 **Date**: 2026-10-13 (updated 2026-11-08 for Expo Android)
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 

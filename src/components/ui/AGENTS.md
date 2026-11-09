@@ -14,7 +14,7 @@ Import from the barrel `@/components/ui` (`index.ts`): `Screen`, `AppBar`, `Butt
 - Every interactive component needs an accessibility role, label, and state, a touch target of at least 48dp, and a visible pressed state (AC-5). The labels are hooks for scripted checks (Android's screen dump reads them); TalkBack is not a target, so there are no TalkBack checks (dropped 2026-11-08).
 - Stage colors and group labels (Seed, Sprout, ...) come only from `stageGroup` in `@/theme/stage`. The fine names in the review summary ("Seed 4", "Sprout 1") come from `stageName` in `@/lib/study/summary`, which reads `STAGES` (spec 0006).
 - `ToastProvider` is mounted once in `src/app/_layout.tsx`. It shows one toast at a time (a new one replaces the old) and sits `bottomOffset` plus the bottom inset above the screen edge.
-- `ConfirmDialog` cancels on Android back and on a tap outside. With `requireText`, confirm stays disabled until the typed text matches exactly (case sensitive), and the field clears each time the dialog opens.
+- `ConfirmDialog` cancels on Android back and on a tap outside. With `requireText`, confirm stays disabled until the typed text matches exactly (case sensitive), and the field clears each time the dialog opens. `confirmDisabled` blocks confirm; `busy` shows confirm as busy and makes back, the scrim, and Cancel do nothing while a write runs (spec 0010 AC-8).
 - Screens pushed over the tabs get the `AppBar` with a back arrow from the root stack; tab screens get it without one.
 
 _Drafted by /sync from the introducing change, worth a quick human pass._

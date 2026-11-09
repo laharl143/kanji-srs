@@ -14,6 +14,7 @@ Private, offline kanji SRS Android app built with Expo, installed as a sideloade
 - **UI**: NativeWind 4.2 with Tailwind CSS 3.4 (`tailwind.config.js`, tokens in `src/global.css`), Reanimated 4.7, Noto Sans JP Regular and Bold via `expo-font`. See [src/theme/AGENTS.md](src/theme/AGENTS.md) and [src/components/ui/AGENTS.md](src/components/ui/AGENTS.md)
 - **Study and pipeline libraries** (spec 0004): `wanakana` (romaji to kana in the reading field), `expo-crypto` (`randomUUID` for review ids); dev only `tsx` (runs `pipeline/src`) and `undici` (proxy aware downloads)
 - **Speech** (spec 0009): `expo-speech` reads vocab readings aloud with an on device Japanese voice when one exists
+- **Settings** (spec 0010): `@react-native-community/datetimepicker` (Android time dialog, also an `app.json` plugin)
 - **Planned, not installed yet** (see 0001 `## Proposed stack`): `expo-notifications`, the Maestro CLI (flows are written in `maestro/`)
 - **Package manager**: npm
 - **Scripts that exist today**: `dev`, `android`, `lint`, `typecheck`, `format`, `format:check`, `test`, `doctor`, `db:generate`, `pipeline:download`, `pipeline:build`, `pipeline:bundle`, `pipeline:validate`, `pipeline:batch`, `pipeline:merge`
@@ -95,3 +96,4 @@ Declined: Agent Skill and MCP search for NativeWind and Reanimated (2026-11-02)
 - [src/components/study/AGENTS.md](src/components/study/AGENTS.md): shared quiz and lesson screen pieces, leave guard, Maestro testIDs
 - [src/components/home/AGENTS.md](src/components/home/AGENTS.md): Home dashboard cards (Next 24 hours, Level N, Stages) and forecast row labels
 - [src/components/subject/AGENTS.md](src/components/subject/AGENTS.md): item page and level page pieces, notes and synonym editors, next review text, the speak button
+- [src/components/settings/AGENTS.md](src/components/settings/AGENTS.md): Settings tab cards, stepper, time rows, skip ahead and reset dialogs, credit cards
