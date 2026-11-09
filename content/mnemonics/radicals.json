@@ -682,5 +682,37 @@
   "斉": {
     "name": "lineup",
     "meaningMnemonic": "A neat shape with everything stacked in even rows. It is a lineup, all standing in order."
+  },
+  "角": {
+    "name": "tusk",
+    "meaningMnemonic": "A curved point on top of a boxy body with lines inside. It is a tusk, sharp at the tip."
+  },
+  "示": {
+    "name": "shrine",
+    "meaningMnemonic": "Two lines on top of a small stand with feet. It is a shrine where people leave offerings."
+  },
+  "面": {
+    "name": "visor",
+    "meaningMnemonic": "A frame with an eye slot across the middle. It is a visor that covers your face."
+  },
+  "彡": {
+    "name": "three hairs",
+    "meaningMnemonic": "Three short strokes slanting side by side. They are three hairs sticking out."
+  },
+  "戸": {
+    "name": "screen door",
+    "meaningMnemonic": "A flat top over a frame that swings to the side. It is a screen door."
+  },
+  "冊": {
+    "name": "booklet",
+    "meaningMnemonic": "Upright strips tied together with one line across. It is a booklet bound with string."
+  },
+  "殳": {
+    "name": "cudgel",
+    "meaningMnemonic": "A little hand on top holding a weapon below. It is a cudgel ready to swing."
+  },
+  "谷": {
+    "name": "canyon",
+    "meaningMnemonic": "Two pairs of strokes spreading apart over an opening. It is a canyon between two cliffs."
   }
 }
