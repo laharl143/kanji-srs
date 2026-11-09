@@ -237,3 +237,22 @@ export async function raiseAssignmentsBelowLevel(
       });
   }
 }
+
+// Skip ahead preview (spec 0010 AC-5): subjects below `level` that a skip would retire, that is
+// with no assignment or one below stage 9.
+export async function countToRetire(db: Db, userId: string, level: number): Promise<number> {
+  const rows = await db
+    .select({ n: count() })
+    .from(subjects)
+    .leftJoin(
+      assignments,
+      and(eq(assignments.subjectId, subjects.id), eq(assignments.userId, userId)),
+    )
+    .where(
+      and(
+        lt(subjects.level, level),
+        sql`(${assignments.srsStage} is null or ${assignments.srsStage} < 9)`,
+      ),
+    );
+  return rows[0]?.n ?? 0;
+}

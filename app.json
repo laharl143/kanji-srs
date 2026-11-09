@@ -24,14 +24,17 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#fafaf9",
-          "dark": { "backgroundColor": "#1c1917" },
+          "dark": {
+            "backgroundColor": "#1c1917"
+          },
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
       ],
       "expo-status-bar",
       "expo-sqlite",
-      "expo-font"
+      "expo-font",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,

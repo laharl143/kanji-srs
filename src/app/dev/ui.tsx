@@ -42,7 +42,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 function DevUiScreen() {
   const toast = useToast();
-  const [dialog, setDialog] = useState<"none" | "default" | "danger">("none");
+  const [dialog, setDialog] = useState<"none" | "default" | "danger" | "disabled" | "busy">("none");
   const close = () => setDialog("none");
 
   return (
@@ -127,6 +127,12 @@ function DevUiScreen() {
       <Section title="Confirm dialogs">
         <Button label="Open default dialog" onPress={() => setDialog("default")} />
         <Button label="Open RESET dialog" variant="danger" onPress={() => setDialog("danger")} />
+        <Button
+          label="Open confirm disabled dialog"
+          variant="secondary"
+          onPress={() => setDialog("disabled")}
+        />
+        <Button label="Open busy dialog" variant="secondary" onPress={() => setDialog("busy")} />
       </Section>
 
       <ConfirmDialog
@@ -159,6 +165,41 @@ function DevUiScreen() {
           toast.show("Cancelled");
         }}
       />
+      <ConfirmDialog
+        visible={dialog === "disabled"}
+        title="Skip ahead"
+        message="Confirm stays disabled while the caller says so (confirmDisabled)."
+        confirmLabel="Skip to level 2"
+        confirmDisabled
+        onConfirm={close}
+        onCancel={close}
+      />
+      <BusyDialog visible={dialog === "busy"} onDone={close} />
     </Screen>
+  );
+}
+
+// Confirm runs a fake two second write: confirm shows busy and back, the scrim, and Cancel do
+// nothing until it ends; then the dialog closes before the toast (spec 0010 AC-8).
+function BusyDialog({ visible, onDone }: { visible: boolean; onDone: () => void }) {
+  const toast = useToast();
+  const [busy, setBusy] = useState(false);
+  return (
+    <ConfirmDialog
+      visible={visible}
+      title="Busy dialog"
+      message="Confirm starts a two second write."
+      confirmLabel="Run"
+      busy={busy}
+      onConfirm={() => {
+        setBusy(true);
+        setTimeout(() => {
+          setBusy(false);
+          onDone();
+          toast.show("Write finished", { tone: "success" });
+        }, 2000);
+      }}
+      onCancel={onDone}
+    />
   );
 }

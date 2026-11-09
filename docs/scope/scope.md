@@ -160,17 +160,17 @@ Spec [0009](../specs/0009-item-pages-and-levels/index.md) · code in `src/app/su
 
 ## Slice 7: Settings & credits
 
-### 11. Settings & credits · in-progress · spec stale for Android
-Lesson batch size, skip ahead to a level, reset progress, and the credits page the data licenses require.
+### 11. Settings & credits · in-progress
+Lesson batch size, reminder switches and times, skip ahead to a level, reset progress, and the credits page the data licenses require.
 **Done when:** skipping to level 3 retires levels 1 and 2 and opens level 3, and credits list every source.
-**Before building:** spec 0010 was written for Next.js. Update it for Android first with `/architect settings & credits` (0001 `## Follow-up`), then `/develop`.
-- [ ] Design it (spec, update 0010 for Android): `/architect settings & credits`
-- [ ] Build it: `/develop settings & credits`
-   - [ ] Batch size setting (AC-1)
-   - [ ] Skip ahead and reset (AC-2, AC-3)
-   - [ ] Credits page and footer link (AC-4, AC-5)
+- [x] Design it (spec, updated 0010 for Android 2026-11-08): `/architect settings & credits`
+- [x] Build it: `/develop settings & credits` (built 2026-11-08)
+   - [x] Settings screen, Lessons card, and the save path (AC-1, AC-2, AC-4) (built 2026-11-08)
+   - [x] Reminders card with the time dialog (AC-3, AC-4) (built 2026-11-08)
+   - [x] Skip ahead and reset with their dialogs (AC-5, AC-6, AC-7, AC-8) (built 2026-11-08; skip and reset confirm not yet run on a device)
+   - [x] About card and the Credits screen (AC-9, AC-10) (built 2026-11-08)
 - [ ] Verify it: `/check verify settings & credits`
-Spec 0010
+Spec [0010](../specs/0010-settings-and-credits/index.md) · code in `src/app/(tabs)/settings.tsx`, `src/app/credits.tsx`, `src/components/settings/`, `src/lib/study/settings.ts`, `src/lib/credits.ts`
 
 ## Slice 8: Review reminders
 

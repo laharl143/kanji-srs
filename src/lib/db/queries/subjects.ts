@@ -135,3 +135,9 @@ export async function upsertSubjects(db: Db, rows: readonly NewSubject[]): Promi
       });
   }
 }
+
+// The highest level that has content (0 when there are no subjects). Skip ahead stops here.
+export async function getMaxLevel(db: Db): Promise<number> {
+  const rows = await db.select({ max: sql<number | null>`max(${subjects.level})` }).from(subjects);
+  return rows[0]?.max ?? 0;
+}
