@@ -30,6 +30,7 @@ The content pipeline: turns free open data into `content/`, which the app bundle
 ## Rules
 
 - Write radical names for a level before its kanji stories (the bundle check needs them).
+- A kanji meaning story is 2 to 4 sentences (0001 §5.4), not a list of radicals. The `kanji-story-length` rule enforces it in validate, merge, bundle, and `npm test`; merge refuses to overwrite text, so fixing a story already written means editing `content/mnemonics/kanji.json` directly.
 - After any change to `subjects.json`, a mnemonics file, or `enabled-levels.json`, run `pipeline:bundle`, or `npm test` fails on the version check.
 - Every content rule lives in `src/validate.ts`. `pipeline:validate`, `pipeline:merge`, `pipeline:bundle`, and `npm test` (`src/content.test.ts`, over the committed content) all run it, so invalid content fails the pre commit hook. Add a new rule there, never inside one script.
 - A new source or license goes in `src/sources.ts`, then shows up in `SOURCES.json` (root ground rule 4).
