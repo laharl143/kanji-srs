@@ -1,7 +1,7 @@
 # 0012. Anki mode: reveal the answer and grade yourself
 
 **Date**: 2026-11-10
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 

@@ -30,7 +30,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 12 | Mnemonic waves | Slice 9 | done |
 | 15 | Kaizen Kanji name & emblem | Slice 10 | done |
 | 16 | Quick synonyms in lessons & reviews | Slice 11 | done |
-| 17 | Anki mode | Slice 12 | in-progress |
+| 17 | Anki mode | Slice 12 | done |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
 
 ## Foundations
@@ -228,7 +228,7 @@ code in `src/components/subject/SynonymSheet.tsx`, `src/components/study/` (`Syn
 
 ## Slice 12: Anki mode
 
-### 17. Anki mode · in-progress
+### 17. Anki mode · done
 A Study style switch in Settings: instead of typing, reviews and the lesson quiz show one card per item, you tap Show answer to see meaning and reading together, then grade yourself (Missed or Got it). The grade feeds the same SRS as typed answers.
 **Done when:** with Anki mode on, a review shows the reveal button, grading Missed drops the item a stage like a wrong typed answer, and turning it off brings back typing.
 - [x] Design it (spec): `/architect anki mode` (2026-11-10, picked from mockups, cross checked by another model)
@@ -236,7 +236,8 @@ A Study style switch in Settings: instead of typing, reviews and the lesson quiz
    - [x] Setting column, migration, and the Study style switch (AC-1, AC-2) (built 2026-11-10; the migration ran on the emulator's existing database and the switch shows off)
    - [x] Queue `card` kind and the session hook's reveal and grade (AC-5, AC-6, AC-7, AC-9) (built 2026-11-10)
    - [x] Anki card in reviews and the lesson quiz (AC-3, AC-4, AC-8, AC-10) (built 2026-11-10; checked in Expo Go on radicals, light and dark, 360dp, 1.3 font scale; not yet seen on device: a kanji or vocab card's readings and TalkBack)
-- [ ] Verify it: `/check verify anki mode`
+- [x] Verify it: `/check verify anki mode` (2026-11-10 in Expo Go: AC-1 switch and migration, AC-2 to AC-9 pass, including kanji cards with grouped readings, Missed requeue and stage drop, the summary, wrap up and the leave guard; AC-10 passes at 360dp, 1.3 font scale and dark mode after the dark danger button contrast fix in a78d6c6, now 6.32:1; accepted 2026-11-10: the forced save failure toast (AC-1) on its unit test, and the TalkBack pass (AC-10) is out of scope since TalkBack checks were dropped 2026-11-08)
+Marked done 2026-11-10.
 Spec [0012](../specs/0012-anki-mode.md)
 code in `src/lib/study/queue.ts`, `src/lib/study/settings.ts`, `src/lib/db/schema.ts` and `drizzle/0001_furry_calypso.sql`, `src/components/study/` (`AnkiCard.tsx`, `ShowDetails.tsx`, `quiz-details.ts`, `use-quiz-session.ts`, `QuizView.tsx`, `PromptBand.tsx`), `src/components/settings/SwitchRow.tsx`, `src/app/(tabs)/settings.tsx`, `src/app/lessons.tsx`, `src/app/reviews.tsx`
 
