@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import type { ComponentProps } from "react";
 import { ActivityIndicator, Pressable, Text } from "react-native";
 
-import { white, type Palette } from "@/theme/colors";
+import type { Palette } from "@/theme/colors";
 import { usePalette } from "@/theme/use-palette";
 
 type Variant = "primary" | "secondary" | "danger";
@@ -27,13 +27,13 @@ const containerClasses: Record<Variant, string> = {
 const labelClasses: Record<Variant, string> = {
   primary: "text-on-primary",
   secondary: "text-primary",
-  danger: "text-white",
+  danger: "text-on-wrong",
 };
 
 function tintFor(variant: Variant, palette: Palette): string {
   if (variant === "primary") return palette["on-primary"];
   if (variant === "secondary") return palette.primary;
-  return white;
+  return palette["on-wrong"];
 }
 
 export function Button({

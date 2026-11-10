@@ -13,6 +13,7 @@ const tokens = [
   "vocab",
   "correct",
   "wrong",
+  "on-wrong",
   "stage-locked",
   "stage-lesson",
   "stage-seed",

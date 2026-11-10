@@ -58,7 +58,7 @@ function pairs(): Pair[] {
     add("text on surface", p.text, p.surface, 4.5);
     add("muted on bg", p.muted, p.bg, 4.5);
     add("muted on surface", p.muted, p.surface, 4.5);
-    add("white on wrong (danger button label)", white, p.wrong, 4.5);
+    add("on-wrong on wrong (danger button label)", p["on-wrong"], p.wrong, 4.5);
     add("white on appbar (bold 20sp title)", white, p.appbar, 3);
     for (const type of ["radical", "kanji", "vocab"] as const) {
       add(`white on ${type} (chip characters)`, white, p[type], 3);
@@ -91,7 +91,6 @@ const KNOWN_GAPS = [
   "light: white on radical (chip characters)",
   "light: stage-locked on bg",
   "light: stage-sprout on bg",
-  "dark: white on wrong (danger button label)",
   "dark: white on radical (chip characters)",
   "dark: stage-locked on bg",
 ];

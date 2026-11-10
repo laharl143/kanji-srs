@@ -18,6 +18,7 @@
   --vocab: 170 0 255;
   --correct: 21 128 61;
   --wrong: 185 28 28;
+  --on-wrong: 255 255 255;
   --stage-locked: 214 211 209;
   --stage-lesson: 120 113 108;
   --stage-seed: 161 98 7;
@@ -42,6 +43,7 @@
     --vocab: 170 0 255;
     --correct: 74 222 128;
     --wrong: 248 113 113;
+    --on-wrong: 28 25 23;
     --stage-locked: 68 64 60;
     --stage-lesson: 168 162 158;
     --stage-seed: 202 138 4;
