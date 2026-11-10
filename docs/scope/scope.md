@@ -1,4 +1,4 @@
-# Scope: Kanji SRS
+# Scope: Kaizen Kanji
 
 A private Android app (Expo, React Native) that teaches Japanese kanji up to JLPT N3 with spaced repetition (radicals, then kanji, then vocabulary), built from free open data and original mnemonics. It is for you, studying on your phone: a sideloaded APK that works fully offline, keeps progress in SQLite on the phone, and sends local review reminders. Desktop and sync come later (see Deferred).
 
@@ -28,6 +28,9 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 11 | Settings & credits | Slice 7 | done |
 | 14 | Review reminders | Slice 8 | done |
 | 12 | Mnemonic waves | Slice 9 | done |
+| 15 | Kaizen Kanji name & emblem | Slice 10 | done |
+| 16 | Quick synonyms in lessons & reviews | Slice 11 | in-progress |
+| 17 | Anki mode | Slice 12 | in-progress |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
 
 ## Foundations
@@ -198,12 +201,51 @@ Write original radical names and mnemonics for levels 4 to the last level, a few
 - [x] Verify it: `/check verify mnemonic waves` (2026-11-09: validate passes with all 25 levels enabled, the story length scratch break fails as expected, bundle rebuild is unchanged, 486 tests pass, and in Expo Go a fresh build reseeds and shows the new 箱 story on level 25)
 code in `content/mnemonics/`, `content/enabled-levels.json` · spec [0005](../specs/0005-content-pipeline/index.md), rules 0001 §5.4
 
+## Slice 10: Kaizen Kanji name & emblem
+
+### 15. Kaizen Kanji name & emblem · done
+Rename the app to Kaizen Kanji everywhere you see a name (launcher label, splash, app bar, About card, notifications) and use your red seal (white brush kanji on a red stamp) as the launcher icon, adaptive icon, and splash emblem. The package id stays the same so the installed app updates in place and keeps your progress.
+**Done when:** the launcher shows Kaizen Kanji with the red seal icon, the splash shows the seal, and no screen still says the old name.
+- [x] Build it: `/develop kaizen kanji name & emblem` (built 2026-11-10: `app.json` name, Home title, and every icon made from the seal; package id, slug, and the `kanjisrs` scheme stay so the app updates in place)
+Seal source: `assets/kaizen-seal-source.webp` (the image you shared on 2026-11-10). The launcher icon only shows on an installed APK, see Release build checks.
+code in `app.json`, `assets/images/`, `src/app/(tabs)/_layout.tsx`
+Marked done 2026-11-10 after `/check verify` in Expo Go (Home title, no old name on any screen, every icon file is the seal). The launcher label, launcher and adaptive icons, and seal splash were not checked: they need the installed APK, so that check waits in Release build checks.
+
+## Slice 11: Quick synonyms in lessons & reviews
+
+### 16. Quick synonyms in lessons & reviews · in-progress
+Add your own meaning for an item right where you meet it, so a radical you already know under another name stops being marked wrong. A "+ Add synonym" link on the lesson page and an icon in the lesson quiz and review top bar open a sheet with the synonym editor the item page has (feature 10), without leaving the session.
+**Done when:** in a review you add "swoosh" for a radical named "speck" from the top bar sheet, and from then on in that session and later ones "swoosh" is accepted (an answer already marked wrong stays wrong).
+- [x] Design it (spec): `/architect quick synonyms in lessons & reviews` (2026-11-10, picked from mockups)
+- [x] Build it: `/develop quick synonyms in lessons & reviews` (2026-11-10)
+   - [x] Session synonyms update in place, verdict untouched (AC-4, AC-5) (built 2026-11-10)
+   - [x] Synonym sheet with save, toast, back, and keyboard handling (AC-1, AC-6, AC-7, AC-8, AC-9) (built 2026-11-10)
+   - [x] Lesson page link and the top bar icon in the lesson quiz and reviews (AC-1, AC-2, AC-3) (built 2026-11-10; checked in Expo Go on the emulator)
+- [ ] Verify it: `/check verify quick synonyms in lessons & reviews`
+Spec [0011](../specs/0011-quick-synonyms.md)
+code in `src/components/subject/SynonymSheet.tsx`, `src/components/study/` (`SynonymButton.tsx`, `session-synonyms.ts`, `use-quiz-session.ts`, `LessonPage.tsx`), `src/app/lessons.tsx`, `src/app/reviews.tsx`
+
+## Slice 12: Anki mode
+
+### 17. Anki mode · in-progress
+A Study style switch in Settings: instead of typing, reviews and the lesson quiz show one card per item, you tap Show answer to see meaning and reading together, then grade yourself (Missed or Got it). The grade feeds the same SRS as typed answers.
+**Done when:** with Anki mode on, a review shows the reveal button, grading Missed drops the item a stage like a wrong typed answer, and turning it off brings back typing.
+- [x] Design it (spec): `/architect anki mode` (2026-11-10, picked from mockups, cross checked by another model)
+- [ ] Build it: `/develop anki mode`
+   - [ ] Setting column, migration, and the Study style switch (AC-1, AC-2)
+   - [ ] Queue `card` kind and the session hook's reveal and grade (AC-5, AC-6, AC-7, AC-9)
+   - [ ] Anki card in reviews and the lesson quiz (AC-3, AC-4, AC-8, AC-10)
+- [ ] Verify it: `/check verify anki mode`
+Spec [0012](../specs/0012-anki-mode.md)
+
 ## Release build checks
 Run these once, on one `preview` APK, when the app is feature complete (see **Release builds** at the top). Add an item here whenever a check needs a release build.
 - [x] `kanjisrs://dev/ui` lands on Home with no Developer card (feature 4, AC-7; the `href="/"` fix is only checked in Expo Go so far) · passed 2026-11-09 on preview APK versionCode 7 (cold deep link, UI dump shows Home and no Developer card)
 - [x] Offline cold start shows the splash in the page color, light `#fafaf9` and dark `#1c1917`, then Home with no white flash (feature 4, AC-3; Expo Go shows its own splash) · passed 2026-11-09 on preview APK versionCode 7 in airplane mode (screen frames read `#fafaf9` and `#1c1917` full screen, then Home)
 - [x] Review reminders on the installed APK (feature 14) · passed 2026-11-09 on preview APK versionCode 7: "Reviews ready, 5 reviews are ready" arrives on the `review-reminders` channel (Android held it to the end of its 1 hour inexact window), tapping it opens Reviews, and a ping due at 23:00 moves to the 8:00 quiet end. The notification icon showed as a black square because none was configured; `app.json` now sets a white `notification-icon.png` and the `#d81b60` accent. On preview APK versionCode 9 (2026-11-09) the status bar shows the white glyph. The shade row still shows a black square on the emulator: Android 17 draws the app's launcher icon there, and this emulator image renders some icons black (the Calendar icon too). Confirm the shade icon on a phone
 - [x] `maestro/core-loop.yaml` passes on the `e2e` APK (feature 5, 0004 AC-15; feature 7, 0006 AC-9, now ending on the review summary) · passed 2026-11-09 on e2e APK versionCode 8, after the flow gained `scrollUntilVisible` before each debug clock tap and each count check (Home grew new cards, so `home-debug-clock` sits below the fold)
+- [ ] Kaizen Kanji launcher label, red seal launcher and adaptive icon, and the seal splash on the installed APK (feature 15)
+- [ ] `maestro/core-loop.yaml` gains an Anki mode run (feature 17, spec 0012 Follow-up)
 - [x] `kanjisrs://dev/clock` lands on Home, so the debug clock and the progress shortcut cannot run (feature 7, 0006 AC-11) · passed 2026-11-09 on preview APK versionCode 7
 
 ## Dropped

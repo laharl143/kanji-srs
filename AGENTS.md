@@ -27,7 +27,9 @@ Tracer Bullet: get one thin real thread working through every layer first, then 
 
 ## Tracker
 
-Jira project `KS` (kanji-srs) on `vital-stats.atlassian.net`, [board 169](https://vital-stats.atlassian.net/jira/software/projects/KS/boards/169). It mirrors the scope: one Epic per phase, one Story per feature, one Subtask per scope box. Workflow transitions: To Do `11`, In Progress `21`, Done `31`. When a feature or box changes status in the scope, move its Jira issue to match.
+Jira project `KS` (kanji-srs) on `vital-stats.atlassian.net`, [board 169](https://vital-stats.atlassian.net/jira/software/projects/KS/boards/169). It mirrors the scope: one Epic per phase, one Story per feature, one Subtask per scope box. Workflow transitions: To Do `11`, In Progress `21`, Done `31`. When a feature or box changes status in the scope, move its Jira issue to match. Epics are named `Slice N: <name>`, Stories take the feature name, and Subtasks take the box name plus its skill, e.g. `Verify it (/check verify)`.
+
+**Jira first:** before `/architect` or `/develop` starts on a feature, its Story must exist. If it does not, create the slice Epic (if missing), the Story, and one Subtask per scope box first, each in the status its scope box shows.
 
 ## Git
 
