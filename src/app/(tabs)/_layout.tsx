@@ -37,7 +37,7 @@ export default function TabsLayout() {
         tabBarStyle: { backgroundColor: palette.surface, borderTopColor: palette.border },
       }}
     >
-      <Tabs.Screen name="index" options={tab("Kanji SRS", "Home", "home")} />
+      <Tabs.Screen name="index" options={tab("Kaizen Kanji", "Home", "home")} />
       <Tabs.Screen name="levels" options={tab("Levels", "Levels", "view-grid")} />
       <Tabs.Screen name="settings" options={tab("Settings", "Settings", "cog")} />
     </Tabs>
