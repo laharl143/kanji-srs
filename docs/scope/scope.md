@@ -29,7 +29,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 14 | Review reminders | Slice 8 | done |
 | 12 | Mnemonic waves | Slice 9 | done |
 | 15 | Kaizen Kanji name & emblem | Slice 10 | done |
-| 16 | Quick synonyms in lessons & reviews | Slice 11 | in-progress |
+| 16 | Quick synonyms in lessons & reviews | Slice 11 | done |
 | 17 | Anki mode | Slice 12 | in-progress |
 | 13 | Patch Next.js security advisory | Dropped | dropped |
 
@@ -213,7 +213,7 @@ Marked done 2026-11-10 after `/check verify` in Expo Go (Home title, no old name
 
 ## Slice 11: Quick synonyms in lessons & reviews
 
-### 16. Quick synonyms in lessons & reviews · in-progress
+### 16. Quick synonyms in lessons & reviews · done
 Add your own meaning for an item right where you meet it, so a radical you already know under another name stops being marked wrong. A "+ Add synonym" link on the lesson page and an icon in the lesson quiz and review top bar open a sheet with the synonym editor the item page has (feature 10), without leaving the session.
 **Done when:** in a review you add "swoosh" for a radical named "speck" from the top bar sheet, and from then on in that session and later ones "swoosh" is accepted (an answer already marked wrong stays wrong).
 - [x] Design it (spec): `/architect quick synonyms in lessons & reviews` (2026-11-10, picked from mockups)
@@ -221,7 +221,8 @@ Add your own meaning for an item right where you meet it, so a radical you alrea
    - [x] Session synonyms update in place, verdict untouched (AC-4, AC-5) (built 2026-11-10)
    - [x] Synonym sheet with save, toast, back, and keyboard handling (AC-1, AC-6, AC-7, AC-8, AC-9) (built 2026-11-10)
    - [x] Lesson page link and the top bar icon in the lesson quiz and reviews (AC-1, AC-2, AC-3) (built 2026-11-10; checked in Expo Go on the emulator)
-- [ ] Verify it: `/check verify quick synonyms in lessons & reviews`
+- [x] Verify it: `/check verify quick synonyms in lessons & reviews` (2026-11-10 in Expo Go: AC-1 to AC-5, AC-7 and AC-8 pass, and AC-9 passes at 360dp, 1.3 font scale and dark mode with the keyboard up; skipped 2026-11-10: the forced save failure toast (AC-6) and the TalkBack pass (AC-9), neither could be exercised)
+Marked done 2026-11-10 with those two checks skipped.
 Spec [0011](../specs/0011-quick-synonyms.md)
 code in `src/components/subject/SynonymSheet.tsx`, `src/components/study/` (`SynonymButton.tsx`, `session-synonyms.ts`, `use-quiz-session.ts`, `LessonPage.tsx`), `src/app/lessons.tsx`, `src/app/reviews.tsx`
 

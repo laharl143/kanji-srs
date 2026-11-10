@@ -1,7 +1,7 @@
 # 0011. Add synonyms from lessons and reviews without leaving the session
 
 **Date**: 2026-11-10
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
