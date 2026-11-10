@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 import { Mnemonic, NoteText, Readings, Section } from "@/components/subject/Section";
 import { SpeakButton } from "@/components/subject/SpeakButton";
@@ -10,8 +10,15 @@ import { subjectBg, subjectLabel } from "./subject-style";
 
 // One lesson item (spec 0004 AC-6): characters, meanings, readings, components, and mnemonics,
 // with your notes under the mnemonics and your synonyms after "Also accepted" (spec 0009 AC-7),
-// and the speak button for vocab (spec 0009 AC-10).
-export function LessonPage({ item }: { item: LessonItem }) {
+// and the speak button for vocab (spec 0009 AC-10). "+ Add synonym" opens the synonym sheet
+// (spec 0011 AC-1); the screen owns the sheet and passes the saved list back in `item`.
+export function LessonPage({
+  item,
+  onAddSynonym,
+}: {
+  item: LessonItem;
+  onAddSynonym?: () => void;
+}) {
   const { subject, components, synonyms, details } = item;
   const meaning = primaryMeaning(subject.meanings);
   const others = [
@@ -44,7 +51,19 @@ export function LessonPage({ item }: { item: LessonItem }) {
       <Section title={subject.type === "radical" ? "Name" : "Meaning"}>
         <Text className="text-xl font-bold text-text">{meaning}</Text>
         {others.length > 0 && (
-          <Text className="text-base text-muted">Also accepted: {others.join(", ")}</Text>
+          <Text testID="lesson-also-accepted" className="text-base text-muted">
+            Also accepted: {others.join(", ")}
+          </Text>
+        )}
+        {onAddSynonym && (
+          <Pressable
+            accessibilityRole="button"
+            testID="lesson-add-synonym"
+            onPress={onAddSynonym}
+            className="min-h-12 justify-center self-start"
+          >
+            <Text className="text-base font-bold text-primary">+ Add synonym</Text>
+          </Pressable>
         )}
         <Mnemonic text={subject.meaningMnemonic} />
         <NoteText label="Your meaning note" text={details.meaningNote} />

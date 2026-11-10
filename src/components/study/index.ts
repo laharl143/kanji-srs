@@ -13,4 +13,6 @@ export {
   type SavedItem,
 } from "./use-quiz-session";
 export { HeaderCount } from "./HeaderCount";
+export { SynonymButton } from "./SynonymButton";
+export { synonymSheetTitle } from "./session-synonyms";
 export { LeaveDialog } from "./LeaveDialog";

@@ -27,9 +27,11 @@ import {
   type AnswerState,
   type QuizVerdict,
 } from "./answer-state";
+import { withSynonyms } from "./session-synonyms";
 
 // A subject in play, with your synonyms for it from `user_notes` (spec 0007 AC-12), and its
 // mnemonics and your notes for "Show details" (spec 0009 AC-7), all read once at session start.
+// Synonyms edited from the session's synonym sheet replace that list at once (spec 0011 AC-4).
 export type QuizSubject = Pick<
   SubjectSummary,
   "id" | "type" | "characters" | "meanings" | "readings"
@@ -73,6 +75,9 @@ export type QuizSession<R extends { ok: true } = { ok: true }> = {
   // Wrap up (or Keep going) is offered while items wait or wrap up is on.
   canWrapUp: boolean;
   toggleWrapUp: () => void;
+  // Replaces one subject's synonyms with the list a save returned (spec 0011 AC-4). The next
+  // check uses it; an answer already showing its verdict keeps it (AC-5).
+  setSynonyms: (subjectId: number, synonyms: string[]) => void;
   answeredAny: boolean;
   saving: boolean;
   done: boolean;
@@ -92,7 +97,9 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
   options: { windowSize?: number; courseForms: ReadonlySet<string> },
 ): QuizSession<R> {
   const toast = useToast();
-  const [byId] = useState(() => new Map(subjects.map((s) => [s.id, s])));
+  const [byId, setById] = useState<ReadonlyMap<number, QuizSubject>>(
+    () => new Map(subjects.map((s) => [s.id, s])),
+  );
   const [queue, setQueue] = useState(() =>
     createQueue(
       subjects.map((s) => ({ subjectId: s.id, questions: questionsFor(s.type) })),
@@ -156,6 +163,11 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
     setQueue((s) => setWrapUp(s, !s.wrappingUp));
   }
 
+  // Only the subject list changes: the answer state, and so a shown verdict, stays (AC-5).
+  function setSynonyms(subjectId: number, synonyms: string[]) {
+    setById((m) => withSynonyms(m, subjectId, synonyms));
+  }
+
   const waiting = waitingCount(queue);
   return {
     question,
@@ -175,6 +187,7 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
     wrappingUp: queue.wrappingUp,
     canWrapUp: waiting > 0 || queue.wrappingUp,
     toggleWrapUp,
+    setSynonyms,
     answeredAny,
     saving,
     done,

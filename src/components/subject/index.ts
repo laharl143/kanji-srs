@@ -5,6 +5,7 @@ export { NotFound } from "./NotFound";
 export { SpeakButton } from "./SpeakButton";
 export { StageLegend, SubjectTile } from "./SubjectTile";
 export { SynonymEditor, type AddOutcome } from "./SynonymEditor";
+export { SynonymSheet } from "./SynonymSheet";
 export { nextReviewLabel } from "./next-review-label";
 export { startJapaneseVoiceCheck, useJapaneseVoice } from "./use-japanese-voice";
 export { LoadError } from "./LoadError";

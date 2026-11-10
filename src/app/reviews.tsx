@@ -10,10 +10,13 @@ import {
   MessageCard,
   QuizView,
   ReviewSummary,
+  SynonymButton,
+  synonymSheetTitle,
   useLeaveGuard,
   useQuizSession,
   type NextCounts,
 } from "@/components/study";
+import { SynonymSheet } from "@/components/subject";
 import { Button, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
@@ -130,6 +133,9 @@ function ReviewSession({
   const guard = useLeaveGuard(session.answeredAny && !session.done);
   const next = useNextCounts(session.done);
   useSessionReminders(session.done, session.answeredAny);
+  // The synonym sheet for the current question's item (spec 0011 AC-3, AC-4).
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const subject = session.done ? undefined : session.subject;
 
   const header = (
     <Stack.Screen
@@ -138,11 +144,14 @@ function ReviewSession({
         headerRight: session.done
           ? undefined
           : () => (
-              <HeaderCount
-                remaining={session.remaining}
-                accuracy={session.accuracy}
-                testID="session-remaining"
-              />
+              <View className="flex-row items-center gap-1">
+                {subject && <SynonymButton onPress={() => setSheetOpen(true)} />}
+                <HeaderCount
+                  remaining={session.remaining}
+                  accuracy={session.accuracy}
+                  testID="session-remaining"
+                />
+              </View>
             ),
       }}
     />
@@ -176,6 +185,16 @@ function ReviewSession({
           onToggle={session.toggleWrapUp}
         />
       ) : null}
+      {subject && (
+        <SynonymSheet
+          visible={sheetOpen}
+          title={synonymSheetTitle(subject.characters)}
+          subjectId={subject.id}
+          synonyms={subject.synonyms}
+          onChange={(synonyms) => session.setSynonyms(subject.id, synonyms)}
+          onClose={() => setSheetOpen(false)}
+        />
+      )}
       <LeaveDialog guard={guard} />
     </Screen>
   );

@@ -11,9 +11,12 @@ import {
   LoadingState,
   MessageCard,
   QuizView,
+  SynonymButton,
+  synonymSheetTitle,
   useLeaveGuard,
   useQuizSession,
 } from "@/components/study";
+import { SynonymSheet } from "@/components/subject";
 import { Button, ProgressBar, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
@@ -82,47 +85,68 @@ export default function LessonsScreen() {
 
 type FlowProps = { items: LessonItem[]; courseForms: ReadonlySet<string>; onHome: () => void };
 
-function LessonFlow({ items, courseForms, onHome }: FlowProps) {
+function LessonFlow({ items: loaded, courseForms, onHome }: FlowProps) {
+  // The batch, with each item's synonyms replaced after a save from the sheet, so the page and
+  // the quiz built from it both use the saved list (spec 0011 AC-2).
+  const [items, setItems] = useState(loaded);
   const [page, setPage] = useState(0);
   const [quiz, setQuiz] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   if (quiz) return <LessonQuiz items={items} courseForms={courseForms} onHome={onHome} />;
 
   const last = page === items.length - 1;
+  const item = items[page];
+  const setSynonyms = (synonyms: string[]) =>
+    setItems((list) =>
+      list.map((i) => (i.subject.id === item.subject.id ? { ...i, synonyms } : i)),
+    );
+  // The sheet sits outside the page's ScrollView: a Modal's touches bubble through its React
+  // parents, and that ScrollView would close the keyboard and swallow the first tap on Add.
   return (
-    <PagedLayout
-      title="Lessons"
-      footer={
-        <>
-          <ProgressBar
-            label={`Item ${page + 1} of ${items.length}`}
-            value={page + 1}
-            max={items.length}
-          />
-          <View className="flex-row gap-3">
-            <View className="flex-1">
-              <Button
-                label="Back"
-                icon="arrow-left"
-                variant="secondary"
-                disabled={page === 0}
-                testID="lesson-back"
-                onPress={() => setPage((p) => p - 1)}
-              />
+    <>
+      <PagedLayout
+        title="Lessons"
+        footer={
+          <>
+            <ProgressBar
+              label={`Item ${page + 1} of ${items.length}`}
+              value={page + 1}
+              max={items.length}
+            />
+            <View className="flex-row gap-3">
+              <View className="flex-1">
+                <Button
+                  label="Back"
+                  icon="arrow-left"
+                  variant="secondary"
+                  disabled={page === 0}
+                  testID="lesson-back"
+                  onPress={() => setPage((p) => p - 1)}
+                />
+              </View>
+              <View className="flex-1">
+                <Button
+                  label={last ? "Start quiz" : "Next"}
+                  icon={last ? "pencil" : "arrow-right"}
+                  testID="lesson-next"
+                  onPress={() => (last ? setQuiz(true) : setPage((p) => p + 1))}
+                />
+              </View>
             </View>
-            <View className="flex-1">
-              <Button
-                label={last ? "Start quiz" : "Next"}
-                icon={last ? "pencil" : "arrow-right"}
-                testID="lesson-next"
-                onPress={() => (last ? setQuiz(true) : setPage((p) => p + 1))}
-              />
-            </View>
-          </View>
-        </>
-      }
-    >
-      <LessonPage item={items[page]} />
-    </PagedLayout>
+          </>
+        }
+      >
+        <LessonPage item={item} onAddSynonym={() => setSheetOpen(true)} />
+      </PagedLayout>
+      <SynonymSheet
+        visible={sheetOpen}
+        title={synonymSheetTitle(item.subject.characters)}
+        subjectId={item.subject.id}
+        synonyms={item.synonyms}
+        onChange={setSynonyms}
+        onClose={() => setSheetOpen(false)}
+      />
+    </>
   );
 }
 
@@ -136,6 +160,8 @@ function LessonQuiz({ items, courseForms, onHome }: FlowProps) {
   // New reviews from this batch change the reminders; the first finished batch asks once for the
   // notification permission (0001 §6.5).
   useSessionReminders(session.done, session.answeredAny, { askPermission: true });
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const subject = session.done ? undefined : session.subject;
 
   return (
     <Screen>
@@ -144,13 +170,28 @@ function LessonQuiz({ items, courseForms, onHome }: FlowProps) {
           title: "Lesson quiz",
           headerRight: session.done
             ? undefined
-            : () => <HeaderCount remaining={session.remaining} testID="session-remaining" />,
+            : () => (
+                <View className="flex-row items-center gap-1">
+                  {subject && <SynonymButton onPress={() => setSheetOpen(true)} />}
+                  <HeaderCount remaining={session.remaining} testID="session-remaining" />
+                </View>
+              ),
         }}
       />
       {session.done ? (
         <DoneCard count={session.saved} onHome={onHome} />
       ) : (
         <QuizView session={session} />
+      )}
+      {subject && (
+        <SynonymSheet
+          visible={sheetOpen}
+          title={synonymSheetTitle(subject.characters)}
+          subjectId={subject.id}
+          synonyms={subject.synonyms}
+          onChange={(synonyms) => session.setSynonyms(subject.id, synonyms)}
+          onClose={() => setSheetOpen(false)}
+        />
       )}
       <LeaveDialog guard={guard} />
     </Screen>
