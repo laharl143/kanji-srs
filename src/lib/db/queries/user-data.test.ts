@@ -64,6 +64,7 @@ describe("settings", () => {
       reminderDueEnabled: true,
       quietHoursStart: "22:00",
       quietHoursEnd: "08:00",
+      ankiMode: false,
       createdAt: 1000,
     });
     await updateSettings(db, U, { lessonBatchSize: 10, reminderDueEnabled: false });

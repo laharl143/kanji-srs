@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { newStage } from "@/lib/srs/schedule";
+
 import {
   REVIEW_WINDOW_SIZE,
   accuracy,
@@ -329,5 +331,67 @@ describe("accuracy (spec 0006 AC-8)", () => {
     const state = dropItem(result.state, result.completed!.subjectId);
     expect(accuracy(state)).toBe(100);
     expect(state.answered).toBe(1);
+  });
+});
+
+describe("Anki mode cards (spec 0012)", () => {
+  it("gives one card per item in Anki mode and the typed questions otherwise (AC-9)", () => {
+    expect(questionsFor("radical", "anki")).toEqual(["card"]);
+    expect(questionsFor("kanji", "anki")).toEqual(["card"]);
+    expect(questionsFor("vocab", "anki")).toEqual(["card"]);
+    expect(questionsFor("radical", "typed")).toEqual(["meaning"]);
+    expect(questionsFor("kanji", "typed")).toEqual(["meaning", "reading"]);
+    expect(questionsFor("kanji")).toEqual(["meaning", "reading"]);
+  });
+
+  const cards: QueueItem[] = [
+    { subjectId: 1, questions: questionsFor("kanji", "anki") },
+    { subjectId: 2, questions: questionsFor("vocab", "anki") },
+  ];
+
+  it("finishes a card on Got it with no misses (AC-5)", () => {
+    const state = createQueue(cards, noShuffle);
+    expect(state.pending).toEqual([
+      { subjectId: 1, kind: "card" },
+      { subjectId: 2, kind: "card" },
+    ]);
+    const result = answerCurrent(state, true);
+    expect(result.completed).toEqual({ subjectId: 1, wrongMeaning: 0, wrongReading: 0 });
+    expect(newStage(3, 0, 0)).toBe(4);
+  });
+
+  it("counts Missed as one wrong meaning answer and requeues the card (AC-6)", () => {
+    let state = createQueue(cards, noShuffle);
+    state = answerCurrent(state, false).state;
+    expect(state.pending).toEqual([
+      { subjectId: 2, kind: "card" },
+      { subjectId: 1, kind: "card" },
+    ]);
+    expect(state.items[1]).toMatchObject({ wrongMeaning: 1, wrongReading: 0 });
+    state = answerCurrent(state, true).state; // item 2
+    const once = answerCurrent(state, true);
+    expect(once.completed).toEqual({ subjectId: 1, wrongMeaning: 1, wrongReading: 0 });
+    // One miss drops a stage 3 item one step, like one wrong typed answer.
+    expect(newStage(3, 1, 0)).toBe(2);
+  });
+
+  it("counts two misses as two wrong answers, like two wrong typed answers (AC-6)", () => {
+    let state = createQueue([cards[0]], noShuffle);
+    state = answerCurrent(state, false).state;
+    state = answerCurrent(state, false).state;
+    const done = answerCurrent(state, true);
+    expect(done.completed).toEqual({ subjectId: 1, wrongMeaning: 2, wrongReading: 0 });
+    expect(newStage(3, 2, 0)).toBe(newStage(3, 1, 1));
+  });
+
+  it("counts a card once toward accuracy (AC-7)", () => {
+    let state = createQueue(cards, noShuffle);
+    state = answerCurrent(state, false).state; // 1 missed on first show
+    state = answerCurrent(state, true).state; // 2 right first try
+    state = answerCurrent(state, true).state; // 1 again, not a new try
+    expect(state.answered).toBe(2);
+    expect(state.firstTryRight).toBe(1);
+    expect(accuracy(state)).toBe(50);
+    expect(remainingItems(state)).toBe(0);
   });
 });

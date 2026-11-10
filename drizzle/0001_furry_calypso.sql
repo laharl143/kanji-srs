@@ -1,0 +1,1 @@
+ALTER TABLE `user_settings` ADD `anki_mode` integer DEFAULT false NOT NULL;

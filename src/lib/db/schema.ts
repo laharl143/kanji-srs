@@ -96,6 +96,8 @@ export const userSettings = sqliteTable("user_settings", {
   reminderDueEnabled: integer("reminder_due_enabled", { mode: "boolean" }).notNull().default(true),
   quietHoursStart: text("quiet_hours_start").notNull().default("22:00"),
   quietHoursEnd: text("quiet_hours_end").notNull().default("08:00"),
+  // Anki mode (spec 0012 AC-1): reveal and self grade instead of typing. Off by default.
+  ankiMode: integer("anki_mode", { mode: "boolean" }).notNull().default(false),
   createdAt: integer("created_at", { mode: "number" }).notNull(),
 });
 

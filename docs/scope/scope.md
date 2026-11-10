@@ -232,12 +232,13 @@ code in `src/components/subject/SynonymSheet.tsx`, `src/components/study/` (`Syn
 A Study style switch in Settings: instead of typing, reviews and the lesson quiz show one card per item, you tap Show answer to see meaning and reading together, then grade yourself (Missed or Got it). The grade feeds the same SRS as typed answers.
 **Done when:** with Anki mode on, a review shows the reveal button, grading Missed drops the item a stage like a wrong typed answer, and turning it off brings back typing.
 - [x] Design it (spec): `/architect anki mode` (2026-11-10, picked from mockups, cross checked by another model)
-- [ ] Build it: `/develop anki mode`
-   - [ ] Setting column, migration, and the Study style switch (AC-1, AC-2)
-   - [ ] Queue `card` kind and the session hook's reveal and grade (AC-5, AC-6, AC-7, AC-9)
-   - [ ] Anki card in reviews and the lesson quiz (AC-3, AC-4, AC-8, AC-10)
+- [x] Build it: `/develop anki mode` (2026-11-10)
+   - [x] Setting column, migration, and the Study style switch (AC-1, AC-2) (built 2026-11-10; the migration ran on the emulator's existing database and the switch shows off)
+   - [x] Queue `card` kind and the session hook's reveal and grade (AC-5, AC-6, AC-7, AC-9) (built 2026-11-10)
+   - [x] Anki card in reviews and the lesson quiz (AC-3, AC-4, AC-8, AC-10) (built 2026-11-10; checked in Expo Go on radicals, light and dark, 360dp, 1.3 font scale; not yet seen on device: a kanji or vocab card's readings and TalkBack)
 - [ ] Verify it: `/check verify anki mode`
 Spec [0012](../specs/0012-anki-mode.md)
+code in `src/lib/study/queue.ts`, `src/lib/study/settings.ts`, `src/lib/db/schema.ts` and `drizzle/0001_furry_calypso.sql`, `src/components/study/` (`AnkiCard.tsx`, `ShowDetails.tsx`, `quiz-details.ts`, `use-quiz-session.ts`, `QuizView.tsx`, `PromptBand.tsx`), `src/components/settings/SwitchRow.tsx`, `src/app/(tabs)/settings.tsx`, `src/app/lessons.tsx`, `src/app/reviews.tsx`
 
 ## Release build checks
 Run these once, on one `preview` APK, when the app is feature complete (see **Release builds** at the top). Add an item here whenever a check needs a release build.

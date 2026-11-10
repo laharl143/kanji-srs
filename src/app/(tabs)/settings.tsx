@@ -54,7 +54,7 @@ type Load =
 
 type Dialog = "none" | "skip" | "reset";
 
-// The Settings tab (spec 0010): Lessons, Reminders, Progress, and About cards on one scroll.
+// The Settings tab (spec 0010): Study style (spec 0012), Lessons, Reminders, Progress, and About cards on one scroll.
 // Loads on every focus. Each control saves at once; saves run one after another in tap order,
 // and a failed save puts the control back to the last value the database confirmed.
 export default function SettingsScreen() {
@@ -207,6 +207,16 @@ export default function SettingsScreen() {
 
   return (
     <Screen bottomInset={false}>
+      <SettingsCard title="Study style" testID="settings-study-style">
+        <SwitchRow
+          label="Anki mode"
+          subtitle="Reveal the answer and grade yourself instead of typing"
+          value={shown.ankiMode}
+          onChange={(v) => save({ ankiMode: v })}
+          testID="settings-anki"
+        />
+      </SettingsCard>
+
       <SettingsCard title="Lessons" testID="settings-lessons">
         <View className="flex-row flex-wrap items-center gap-3">
           <Text className="flex-1 text-base text-text">Lessons per batch</Text>

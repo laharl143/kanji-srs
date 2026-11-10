@@ -120,6 +120,17 @@ describe("saveSettings (AC-2, AC-4)", () => {
     expect((await getSettings(db, USER))?.lessonBatchSize).toBe(7);
   });
 
+  it("starts with Anki mode off and saves the switch (spec 0012 AC-1)", async () => {
+    expect((await getSettings(db, USER))?.ankiMode).toBe(false);
+    const on = await saveSettings(db, USER, { ankiMode: true });
+    expect(on.ok && on.settings.ankiMode).toBe(true);
+    expect((await getSettings(db, USER))?.ankiMode).toBe(true);
+    expect(await saveSettings(db, USER, { ankiMode: "yes" })).toEqual({
+      ok: false,
+      error: "invalid",
+    });
+  });
+
   it("returns invalid and writes nothing for a refused value", async () => {
     expect(await saveSettings(db, USER, { lessonBatchSize: 7, quietHoursEnd: "8:00" })).toEqual({
       ok: false,

@@ -1,3 +1,4 @@
+export { AnkiCard } from "./AnkiCard";
 export { AnswerInput } from "./AnswerInput";
 export { LessonPage } from "./LessonPage";
 export { PromptBand } from "./PromptBand";

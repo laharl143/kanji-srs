@@ -23,6 +23,7 @@ const h = vi.hoisted(() => ({
     reminderDueEnabled: true,
     quietHoursStart: "22:00",
     quietHoursEnd: "07:00",
+    ankiMode: false,
     currentLevel: 2,
   },
 }));

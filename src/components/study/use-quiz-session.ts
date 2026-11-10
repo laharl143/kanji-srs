@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Keyboard } from "react-native";
 
 import { useToast } from "@/components/ui";
@@ -16,6 +16,7 @@ import {
   waitingCount,
   type CompletedItem,
   type Question,
+  type StudyMode,
 } from "@/lib/study/queue";
 import type { ServiceError, ServiceResult } from "@/lib/study/result";
 
@@ -52,6 +53,8 @@ const errorMessages: Record<ServiceError, string> = {
 };
 
 export type QuizSession<R extends { ok: true } = { ok: true }> = {
+  // Typed answers, or Anki cards you reveal and grade (spec 0012), fixed for the session (AC-2).
+  mode: StudyMode;
   question: Question | undefined;
   subject: QuizSubject | undefined;
   input: string;
@@ -63,6 +66,11 @@ export type QuizSession<R extends { ok: true } = { ok: true }> = {
   // The nearest meaning's original text after a "Close enough" answer (spec 0007 AC-9).
   closeTo: string | null;
   submit: () => void;
+  // Anki mode: whether the current card shows its answer. Reveal does not count as an answer.
+  revealed: boolean;
+  reveal: () => void;
+  // Anki mode: Got it (true) or Missed (false) on the revealed card (spec 0012 AC-5, AC-6).
+  grade: (right: boolean) => void;
   // Items not yet completed: in play plus waiting, or in play only while wrapping up.
   remaining: number;
   saved: number;
@@ -94,15 +102,16 @@ export type QuizSession<R extends { ok: true } = { ok: true }> = {
 export function useQuizSession<R extends { ok: true } = { ok: true }>(
   subjects: QuizSubject[],
   save: SaveItem<R>,
-  options: { windowSize?: number; courseForms: ReadonlySet<string> },
+  options: { windowSize?: number; courseForms: ReadonlySet<string>; mode?: StudyMode },
 ): QuizSession<R> {
+  const mode = options.mode ?? "typed";
   const toast = useToast();
   const [byId, setById] = useState<ReadonlyMap<number, QuizSubject>>(
     () => new Map(subjects.map((s) => [s.id, s])),
   );
   const [queue, setQueue] = useState(() =>
     createQueue(
-      subjects.map((s) => ({ subjectId: s.id, questions: questionsFor(s.type) })),
+      subjects.map((s) => ({ subjectId: s.id, questions: questionsFor(s.type, mode) })),
       Math.random,
       { windowSize: options.windowSize },
     ),
@@ -111,6 +120,9 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
   const [results, setResults] = useState<SavedItem<R>[]>([]);
   const [answeredAny, setAnsweredAny] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  // Set by reveal and cleared by the first grade, synchronously, so a double tap grades once.
+  const gradable = useRef(false);
 
   const question = currentQuestion(queue);
   const done = !question && !saving;
@@ -146,7 +158,7 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
   }
 
   function submit() {
-    if (!question || !subject || saving) return;
+    if (!question || question.kind === "card" || !subject || saving) return;
     if (answer.verdict === null) {
       const checked = checkAnswer(answer, question.kind, subject, options.courseForms);
       setAnswer(checked.state);
@@ -156,6 +168,24 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
     const { state, completed } = answerCurrent(queue, answer.verdict !== "wrong");
     setQueue(state);
     setAnswer(clearAnswer(answer));
+    if (completed) void persist(completed);
+  }
+
+  function reveal() {
+    if (mode !== "anki" || !question || revealed) return;
+    gradable.current = true;
+    setRevealed(true);
+  }
+
+  // A grade counts as an answer: right finishes the card, wrong counts one meaning miss and
+  // sends it back into the queue (spec 0012 AC-6). Ignored while a finished item saves.
+  function grade(right: boolean) {
+    if (mode !== "anki" || !question || saving || !gradable.current) return;
+    gradable.current = false;
+    const { state, completed } = answerCurrent(queue, right);
+    setQueue(state);
+    setRevealed(false);
+    setAnsweredAny(true);
     if (completed) void persist(completed);
   }
 
@@ -170,6 +200,7 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
 
   const waiting = waitingCount(queue);
   return {
+    mode,
     question,
     subject,
     input: answer.input,
@@ -179,6 +210,9 @@ export function useQuizSession<R extends { ok: true } = { ok: true }>(
     shakeKey: answer.shakeKey,
     closeTo: answer.closeTo,
     submit,
+    revealed,
+    reveal,
+    grade,
     remaining: remainingItems(queue),
     saved: results.length,
     results,

@@ -278,3 +278,38 @@ describe("service errors (spec 0004 AC-9)", () => {
     ]);
   });
 });
+
+describe("Anki mode through the review service (spec 0012 AC-5, AC-6)", () => {
+  // Grades one kanji card with the given sequence (false = Missed, true = Got it) and saves it.
+  async function gradeKanjiCard(stage: number, grades: boolean[]) {
+    await insertAssignmentsIfMissing(db, USER, [{ subjectId: 4, srsStage: stage, unlockedAt: 0 }]);
+    const at = new Date(START.getTime() + HOUR);
+    await updateAssignment(db, USER, 4, { srsStage: stage, availableAt: START.getTime() });
+    let state = createQueue(
+      [{ subjectId: 4, questions: questionsFor("kanji", "anki") }],
+      Math.random,
+    );
+    let done: CompletedItem | undefined;
+    for (const right of grades) {
+      expect(currentQuestion(state)).toEqual({ subjectId: 4, kind: "card" });
+      const result = answerCurrent(state, right);
+      state = result.state;
+      done = result.completed;
+    }
+    return submitReview(db, USER, done!, at, randomUUID);
+  }
+
+  it("moves a stage 3 kanji to stage 4 on Got it", async () => {
+    expect(await gradeKanjiCard(3, [true])).toMatchObject({ ok: true, newStage: 4 });
+  });
+
+  it("drops a stage 3 kanji one step after one Missed, stored as a meaning miss", async () => {
+    expect(await gradeKanjiCard(3, [false, true])).toMatchObject({ ok: true, newStage: 2 });
+    const [row] = (await getReviews(db, USER)).filter((r) => r.subjectId === 4);
+    expect(row).toMatchObject({ incorrectMeaningCount: 1, incorrectReadingCount: 0 });
+  });
+
+  it("drops a stage 3 kanji one step after two misses, like two wrong typed answers", async () => {
+    expect(await gradeKanjiCard(3, [false, false, true])).toMatchObject({ newStage: 2 });
+  });
+});

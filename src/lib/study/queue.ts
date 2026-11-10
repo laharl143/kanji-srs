@@ -2,7 +2,11 @@
 // window, wrap up, and accuracy are spec 0006 AC-6 to AC-8). Pure: shuffles and joins take the
 // injected `random`, so tests are repeatable.
 
-export type QuestionKind = "meaning" | "reading";
+// A typed question asks for the meaning or the reading; an Anki card (spec 0012) asks for both at
+// once and is graded by you.
+export type TypedKind = "meaning" | "reading";
+export type QuestionKind = TypedKind | "card";
+export type StudyMode = "typed" | "anki";
 export type QueueItem = { subjectId: number; questions: QuestionKind[] };
 export type Question = { subjectId: number; kind: QuestionKind };
 export type CompletedItem = { subjectId: number; wrongMeaning: number; wrongReading: number };
@@ -146,7 +150,8 @@ export function answerCurrent(
     const updated: ItemProgress = {
       ...item,
       tried,
-      wrongMeaning: item.wrongMeaning + (question.kind === "meaning" ? 1 : 0),
+      // A missed card counts as one wrong meaning answer (spec 0012 AC-6).
+      wrongMeaning: item.wrongMeaning + (question.kind !== "reading" ? 1 : 0),
       wrongReading: item.wrongReading + (question.kind === "reading" ? 1 : 0),
     };
     return {
@@ -220,7 +225,12 @@ export function dropItem(state: QueueState, subjectId: number): QueueState {
   };
 }
 
-// Meaning for every type, reading for kanji and vocab (0001 §6.3).
-export function questionsFor(type: "radical" | "kanji" | "vocab"): QuestionKind[] {
+// Typed: meaning for every type, reading for kanji and vocab (0001 §6.3). Anki mode: one card per
+// item (spec 0012).
+export function questionsFor(
+  type: "radical" | "kanji" | "vocab",
+  mode: StudyMode = "typed",
+): QuestionKind[] {
+  if (mode === "anki") return ["card"];
   return type === "radical" ? ["meaning"] : ["meaning", "reading"];
 }

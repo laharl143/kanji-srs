@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
+import { readMigrationFiles } from "drizzle-orm/migrator";
 import { describe, expect, it } from "vitest";
 
 import * as schema from "@/lib/db/schema";
@@ -66,6 +67,19 @@ describe("migrations", () => {
 
     expect(sqlite.prepare("SELECT count(*) AS n FROM __drizzle_migrations").get()).toEqual(applied);
     expect(sqlite.prepare("SELECT count(*) AS n FROM subjects").get()).toEqual({ n: 1 });
+  });
+
+  it("add anki_mode as off to a settings row made before it existed (spec 0012 AC-1)", () => {
+    const { sqlite } = open();
+    const all = readMigrationFiles({ migrationsFolder: MIGRATIONS_FOLDER });
+    // Apply only the first migration, write a settings row, then upgrade.
+    const first = all[0].sql.join("\n");
+    for (const statement of first.split("--> statement-breakpoint")) {
+      if (statement.trim()) sqlite.exec(statement);
+    }
+    sqlite.prepare("INSERT INTO user_settings (user_id, created_at) VALUES (?, ?)").run("local", 1);
+    sqlite.exec(all[1].sql.join("\n"));
+    expect(sqlite.prepare("SELECT anki_mode FROM user_settings").get()).toEqual({ anki_mode: 0 });
   });
 
   it("define no foreign keys, so a reseed can never cascade into progress", async () => {

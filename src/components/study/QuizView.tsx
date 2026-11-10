@@ -1,30 +1,47 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-
-import { Mnemonic, NoteText } from "@/components/subject/Section";
 
 import { Button, Card } from "@/components/ui";
 import { acceptedAnswers } from "@/lib/answer/check";
 import { usePalette } from "@/theme/use-palette";
 
+import { AnkiCard } from "./AnkiCard";
 import { AnswerInput } from "./AnswerInput";
 import { PromptBand } from "./PromptBand";
-import { detailsFor } from "./quiz-details";
-import type { QuizSession, QuizSubject } from "./use-quiz-session";
+import { detailParts } from "./quiz-details";
+import { ShowDetails } from "./ShowDetails";
+import type { QuizSession } from "./use-quiz-session";
 
-// The question, the answer field, and the result under it. Rendered while questions remain.
+// The question, the answer field, and the result under it. Rendered while questions remain. An
+// Anki card (spec 0012) shows the reveal and grade buttons instead of the field.
 export function QuizView({ session }: { session: QuizSession }) {
   const palette = usePalette();
   const { question, subject, verdict } = session;
   if (!question || !subject) return null;
 
+  if (question.kind === "card") {
+    return (
+      <View className="gap-4">
+        <PromptBand type={subject.type} characters={subject.characters} kind="card" />
+        <AnkiCard
+          key={question.subjectId}
+          subject={subject}
+          revealed={session.revealed}
+          saving={session.saving}
+          onReveal={session.reveal}
+          onGrade={session.grade}
+        />
+      </View>
+    );
+  }
+  const kind = question.kind;
+
   return (
     <View className="gap-4">
-      <PromptBand type={subject.type} characters={subject.characters} kind={question.kind} />
+      <PromptBand type={subject.type} characters={subject.characters} kind={kind} />
 
       <AnswerInput
-        kind={question.kind}
+        kind={kind}
         value={session.input}
         onChangeText={session.setInput}
         onSubmit={session.submit}
@@ -57,15 +74,15 @@ export function QuizView({ session }: { session: QuizSession }) {
             <Text className="text-base font-bold text-wrong">Not quite</Text>
           </View>
           <Text className="text-sm text-muted">
-            {question.kind === "meaning" ? "Accepted meanings" : "Accepted readings"}
+            {kind === "meaning" ? "Accepted meanings" : "Accepted readings"}
           </Text>
           <Text
             testID="accepted-answers"
-            className={`text-lg text-text ${question.kind === "reading" ? "font-jp" : ""}`}
+            className={`text-lg text-text ${kind === "reading" ? "font-jp" : ""}`}
           >
-            {acceptedAnswers(question.kind, subject, subject.synonyms).join(", ")}
+            {acceptedAnswers(kind, subject, subject.synonyms).join(", ")}
           </Text>
-          <ShowDetails kind={question.kind} subject={subject} />
+          <ShowDetails parts={detailParts(kind, subject.details)} />
         </Card>
       )}
 
@@ -101,49 +118,10 @@ export function QuizView({ session }: { session: QuizSession }) {
       <Text className="text-center text-sm text-muted">
         {verdict !== null
           ? "Press enter again for the next question."
-          : question.kind === "reading"
+          : kind === "reading"
             ? "Romaji turns into kana as you type. Press enter to check."
             : "Press the keyboard's enter key to check."}
       </Text>
-    </View>
-  );
-}
-
-// "Show details" under a wrong answer (spec 0009 AC-7). Mounted with the Not quite card, so it
-// starts collapsed for every new question.
-function ShowDetails({ kind, subject }: { kind: "meaning" | "reading"; subject: QuizSubject }) {
-  const palette = usePalette();
-  const [open, setOpen] = useState(false);
-  const shown = detailsFor(kind, subject.details);
-  if (!shown) return null;
-  return (
-    <View className="gap-2">
-      <Pressable
-        testID="show-details"
-        accessibilityRole="button"
-        accessibilityLabel={open ? "Hide details" : "Show details"}
-        accessibilityState={{ expanded: open }}
-        onPress={() => setOpen((o) => !o)}
-        className="min-h-12 flex-row items-center gap-2 active:opacity-85"
-      >
-        <MaterialCommunityIcons
-          name={open ? "chevron-up" : "chevron-down"}
-          size={20}
-          color={palette.primary}
-        />
-        <Text className="text-base font-bold text-primary">
-          {open ? "Hide details" : "Show details"}
-        </Text>
-      </Pressable>
-      {open && (
-        <View testID="quiz-details" className="gap-2">
-          <Mnemonic text={shown.mnemonic} />
-          <NoteText
-            label={kind === "meaning" ? "Your meaning note" : "Your reading note"}
-            text={shown.note}
-          />
-        </View>
-      )}
     </View>
   );
 }

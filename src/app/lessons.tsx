@@ -21,14 +21,16 @@ import { Button, ProgressBar, Screen } from "@/components/ui";
 import { getCurrentUserId } from "@/lib/auth/current-user";
 import { now } from "@/lib/clock";
 import { getDb } from "@/lib/db/client";
+import { getSettings } from "@/lib/db/queries/settings";
 import { useSessionReminders } from "@/lib/notifications/use-reminders";
 import { loadCourseForms } from "@/lib/study/answers";
 import { completeLessonItem, loadLessonBatch, type LessonItem } from "@/lib/study/lessons";
+import type { StudyMode } from "@/lib/study/queue";
 
 type Load =
   | { status: "loading" }
   | { status: "error"; message: string }
-  | { status: "ready"; items: LessonItem[]; courseForms: ReadonlySet<string> };
+  | { status: "ready"; items: LessonItem[]; courseForms: ReadonlySet<string>; mode: StudyMode };
 
 // Lessons (spec 0004 AC-6, AC-7, AC-11): one page per item, then the quiz, then "Done".
 export default function LessonsScreen() {
@@ -37,8 +39,19 @@ export default function LessonsScreen() {
 
   const fetchBatch = useCallback(() => {
     // The course word forms load with the batch; either failing shows the error card (0007 AC-12).
-    Promise.all([loadLessonBatch(getDb(), getCurrentUserId()), loadCourseForms(getDb())]).then(
-      ([items, courseForms]) => setLoad({ status: "ready", items, courseForms }),
+    // The study style is read once here for the quiz (spec 0012 AC-2, AC-8).
+    Promise.all([
+      loadLessonBatch(getDb(), getCurrentUserId()),
+      loadCourseForms(getDb()),
+      getSettings(getDb(), getCurrentUserId()),
+    ]).then(
+      ([items, courseForms, settings]) =>
+        setLoad({
+          status: "ready",
+          items,
+          courseForms,
+          mode: settings?.ankiMode ? "anki" : "typed",
+        }),
       (e) => setLoad({ status: "error", message: e instanceof Error ? e.message : String(e) }),
     );
   }, []);
@@ -80,19 +93,28 @@ export default function LessonsScreen() {
       </Screen>
     );
   }
-  return <LessonFlow items={load.items} courseForms={load.courseForms} onHome={home} />;
+  return (
+    <LessonFlow items={load.items} courseForms={load.courseForms} mode={load.mode} onHome={home} />
+  );
 }
 
-type FlowProps = { items: LessonItem[]; courseForms: ReadonlySet<string>; onHome: () => void };
+type FlowProps = {
+  items: LessonItem[];
+  courseForms: ReadonlySet<string>;
+  mode: StudyMode;
+  onHome: () => void;
+};
 
-function LessonFlow({ items: loaded, courseForms, onHome }: FlowProps) {
+function LessonFlow({ items: loaded, courseForms, mode, onHome }: FlowProps) {
   // The batch, with each item's synonyms replaced after a save from the sheet, so the page and
   // the quiz built from it both use the saved list (spec 0011 AC-2).
   const [items, setItems] = useState(loaded);
   const [page, setPage] = useState(0);
   const [quiz, setQuiz] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
-  if (quiz) return <LessonQuiz items={items} courseForms={courseForms} onHome={onHome} />;
+  if (quiz) {
+    return <LessonQuiz items={items} courseForms={courseForms} mode={mode} onHome={onHome} />;
+  }
 
   const last = page === items.length - 1;
   const item = items[page];
@@ -150,11 +172,11 @@ function LessonFlow({ items: loaded, courseForms, onHome }: FlowProps) {
   );
 }
 
-function LessonQuiz({ items, courseForms, onHome }: FlowProps) {
+function LessonQuiz({ items, courseForms, mode, onHome }: FlowProps) {
   const session = useQuizSession(
     items.map((i) => ({ ...i.subject, synonyms: i.synonyms, details: i.details })),
     (item) => completeLessonItem(getDb(), getCurrentUserId(), item.subjectId, now()),
-    { courseForms },
+    { courseForms, mode },
   );
   const guard = useLeaveGuard(session.answeredAny && !session.done);
   // New reviews from this batch change the reminders; the first finished batch asks once for the

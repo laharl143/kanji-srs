@@ -28,11 +28,12 @@ export type SettingsPatch = Partial<
     | "reminderDueEnabled"
     | "quietHoursStart"
     | "quietHoursEnd"
+    | "ankiMode"
   >
 >;
 
 const TIME_KEYS = ["reminderDailyTime", "quietHoursStart", "quietHoursEnd"] as const;
-const SWITCH_KEYS = ["reminderDailyEnabled", "reminderDueEnabled"] as const;
+const SWITCH_KEYS = ["reminderDailyEnabled", "reminderDueEnabled", "ankiMode"] as const;
 const ALLOWED_KEYS = new Set<string>(["lessonBatchSize", ...TIME_KEYS, ...SWITCH_KEYS]);
 
 /**

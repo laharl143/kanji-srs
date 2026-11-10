@@ -13,10 +13,17 @@ type PromptBandProps = {
 
 // The question: the characters large on the subject color, the type badge, and a strip that
 // says Meaning or Reading (spec 0004 AC-10). The reading strip is inverted so the two never
-// look alike at a glance.
+// look alike at a glance. An Anki card asks for both (spec 0012 AC-3).
 export function PromptBand({ type, characters, kind }: PromptBandProps) {
   const reading = kind === "reading";
-  const label = reading ? "Reading" : type === "radical" ? "Meaning (radical name)" : "Meaning";
+  const label =
+    type === "radical"
+      ? "Meaning (radical name)"
+      : kind === "card"
+        ? "Meaning and reading"
+        : reading
+          ? "Reading"
+          : "Meaning";
 
   return (
     <View
